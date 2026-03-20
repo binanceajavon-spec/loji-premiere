@@ -1,0 +1,1338 @@
+<!DOCTYPE html>
+<html lang="fr">
+<style>
+    /* 1. FORCE LES VARIABLES (Le cœur du site) */
+    :root {
+        --primary-blue: #00A3FF !important;
+        --dark-blue: #0057FF !important;
+        --gradient-logi: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%) !important;
+    }
+
+    /* 2. ÉCRASE TOUTES LES CLASSES TAILWIND VERTES */
+    [class*="text-green-"], [class*="text-emerald-"] { color: #00A3FF !important; }
+    [class*="bg-green-"], [class*="bg-emerald-"] { background-color: #00A3FF !important; }
+    [class*="border-green-"] { border-color: #00A3FF !important; }
+
+    /* 3. CIBLE LES ÉLÉMENTS SPÉCIFIQUES QUI RÉSISTENT */
+    .green-bar, 
+    .title-underline,
+    .explorer-btn,
+    .explore-announcements-btn,
+    .login-btn {
+        background: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%) !important;
+        border: none !important;
+    }
+
+    /* Effet clic bleu néon pour les boutons Explorer */
+    .explorer-btn {
+        position: relative;
+        overflow: hidden;
+        transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .explorer-btn:active {
+        transform: scale(0.97);
+        box-shadow: 0 0 18px rgba(0, 163, 255, 0.7);
+    }
+
+    /* Icônes et petits textes */
+    .material-icons, i.fab, i.fas {
+        color: #00A3FF !important;
+    }
+    
+    /* Icône du filtre EN NOIR */
+    #filterToggle .material-icons {
+        color: #1F2937 !important;
+    }
+    
+    /* Supprimer le cercle bleu du bouton filtre */
+    #filterToggle {
+        background-color: transparent !important;
+        background: transparent !important;
+        box-shadow: none !important;
+    }
+    
+    /* Boutons secondaires */
+    .signup-btn {
+        border-color: #00A3FF !important;
+        color: #00A3FF !important;
+    }
+</style>
+<head>
+
+
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+
+<body style=" background-color: #ffffffee;">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Logi - Trouvez votre logement idéal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="styles - exo.css">
+
+    <!-- AJOUTEZ CETTE LIGNE -->
+    <script src="script.js" defer></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@800&display=swap');
+
+        /* FORCE la police sur les 3 zones */
+        .incentive-title,
+        body h1.text-5xl,
+        .faq-main-title h1 {
+            font-family: 'Montserrat', sans-serif !important;
+            font-weight: 800 !important;
+        }
+
+
+
+        /* ========== FEATURE SERVICES ========== */
+        .services-section {
+            padding: 5rem 0;
+        }
+
+        .service-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid #e5e7eb;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            height: 100%;
+        }
+
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            border-color: #10b981;
+        }
+
+        /* ========== TEXTE INCENTIVE ========== */
+        .incentive-section {
+            padding: 5rem 0;
+            background: transparent;
+        }
+
+        .content-left {
+            flex: 1;
+            padding-right: 20px;
+        }
+
+        .blue-text {
+            color: #3b82f6; /* Bleu plus vif comme sur l'image */
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .immobilier-wrapper {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 60px 5%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+        }
+
+        .text-content {
+            color: #fff;
+            width: 100%;
+        }
+
+        .text-content h1 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+            line-height: 1.2;
+            font-weight: 800;
+        }
+
+        .text-content span {
+            color: #00ff88;
+            font-weight: 900;
+        }
+
+        .text-content p {
+            font-size: 1.2rem;
+            color: #ccc;
+            margin-bottom: 35px;
+            line-height: 1.6;
+            max-width: 90%;
+            font-weight: 500;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: #fff;
+            color: #000;
+            padding: 16px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.3);
+        }
+
+        .cta-button:hover {
+            transform: translateY(-3px);
+            background: #00ff88;
+            box-shadow: 0 15px 40px rgba(0, 255, 136, 0.4);
+        }
+
+        .images-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            grid-template-rows: 1fr 1fr;
+            gap: 15px;
+            width: 100%;
+            max-width: 500px;
+            aspect-ratio: 1/1;
+            margin: 0 auto;
+        }
+
+        .image-item {
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0, 255, 136, 0.2);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .image-item:nth-child(1) {
+            border-top-left-radius: 50% 50%;
+            border-bottom-right-radius: 50% 50%;
+        }
+
+        .image-item:nth-child(2) {
+            border-top-right-radius: 50% 50%;
+            border-bottom-left-radius: 50% 50%;
+        }
+
+        .image-item:nth-child(3) {
+            border-bottom-left-radius: 50% 50%;
+            border-top-right-radius: 50% 50%;
+        }
+
+        .image-item:nth-child(4) {
+            border-bottom-right-radius: 50% 50%;
+            border-top-left-radius: 50% 50%;
+        }
+
+        .image-item:hover {
+            transform: scale(1.08);
+            box-shadow: 0 20px 50px rgba(0, 255, 136, 0.35);
+            z-index: 10;
+        }
+
+        .image-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            display: block;
+            transition: transform 0.4s ease;
+        }
+
+        .image-item:hover img {
+            transform: scale(1.1);
+        }
+
+        /* ========== CARROUSEL ICONES (FLECHES + COEURS) ========== */
+        .carousel-section .scroll-container .material-icons {
+            color: #000000 !important; /* flèches de navigation en noir */
+        }
+
+        .carousel-section .property-card .material-icons {
+            color: #000000 !important; /* icône de cœur en noir */
+        }
+
+
+        /* ========== FAQ ========== */
+        .faq-section {
+            padding: 5rem 0;
+        }
+
+        .faq-item {
+            background: transparent;
+            border: 1px solid #e5e7eb;
+            border-radius: 12px;
+            margin-bottom: 16px;
+            overflow: hidden;
+            transition: all 0.4s;
+        }
+
+        .faq-item:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            border-color: #286EF1;
+        }
+
+        .faq-item[open] {
+            border-color: #286EF1;
+        }
+
+        .faq-summary {
+            padding: 24px;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .faq-summary:hover {
+            padding-left: 32px;
+        }
+
+        .question-text {
+            font-weight: 600;
+            color: #1F2937;
+            transition: all 0.3s ease;
+            position: relative;
+            display: inline-block;
+        }
+
+        .faq-summary:hover .question-text {
+            transform: translateX(8px);
+            color: #286EF1;
+        }
+
+        .faq-item[open] .question-text {
+            color: #286EF1;
+        }
+
+        .arrow {
+            color: #6B7280;
+            transition: all 0.4s;
+            font-size: 1.5rem;
+        }
+
+        .faq-item[open] .arrow {
+            transform: rotate(90deg) scale(1.2);
+            color: #286EF1;
+        }
+
+        .faq-content {
+            padding: 0 24px 24px;
+            color: #6B7280;
+            line-height: 1.6;
+            animation: slideDown 0.4s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .faq-title {
+            color: #1F2937;
+            position: relative;
+            display: inline-block;
+        }
+
+        .faq-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: #00ff88;
+            border-radius: 2px;
+        }
+
+
+
+        /* ========== BOUTON TOP ========== */
+        #top-button {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            width: 40px;
+            height: 40px;
+            background-color: #286EF1;
+            color: #fff;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            box-shadow: 0 10px 15px -3px rgba(40, 110, 241, 0.35);
+            transition: all 0.3s;
+            z-index: 50;
+            display: none;
+        }
+
+        #top-button:hover {
+            background-color: #1746a4;
+            box-shadow: 0 20px 25px -5px rgba(40, 110, 241, 0.55);
+        }
+
+        /* ========== BOUTON WHATSAPP FLOTTANT ========== */
+        #whatsapp-button {
+            position: fixed;
+            bottom: 74px; /* juste au-dessus du bouton Top */
+            right: 24px;
+            width: 44px;
+            height: 44px;
+            border-radius: 50%;
+            background-color: #25D366;
+            color: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18);
+            z-index: 55;
+            transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;
+        }
+
+        #whatsapp-button i {
+            font-size: 22px;
+        }
+
+        #whatsapp-button:hover {
+            transform: translateY(-2px);
+            background-color: #1ebe57;
+            box-shadow: 0 16px 30px rgba(0, 0, 0, 0.22);
+        }
+
+        /* ========== RESPONSIVE ========== */
+        @media (min-width: 1024px) {
+            /* Aligne le filtre avec le texte sur desktop, avec un léger décalage vers le bas */
+            .hero-section .grid {
+                align-items: flex-start !important;
+            }
+
+            .hero-section .search-container {
+                margin-top: 1.5rem;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .nav-links {
+                gap: 20px;
+            }
+
+            .nav-links a {
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 5px 5%;
+                height: 70px;
+            }
+
+            .nav-links,
+            .auth-buttons {
+                display: none;
+            }
+
+            .hamburger-menu {
+                display: flex;
+            }
+
+            .logo img {
+                height: 160px;
+            }
+
+            .hero-section {
+                height: 70vh;
+                min-height: 500px;
+            }
+
+            .immobilier-wrapper {
+                grid-template-columns: 1fr;
+                gap: 50px;
+                padding: 50px 5%;
+            }
+
+            .text-content {
+                order: 2;
+            }
+
+            .images-content {
+                order: 1;
+            }
+
+            .text-content h1 {
+                font-size: 2.5rem;
+                text-align: center;
+            }
+
+            .text-content p {
+                font-size: 1.1rem;
+                text-align: center;
+                margin: 0 auto 30px;
+                max-width: 100%;
+            }
+
+            .cta-button {
+                display: block;
+                margin: 0 auto;
+                width: fit-content;
+            }
+
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .footer-social-contact {
+                flex-direction: row;
+                align-items: center;
+            }
+
+            .social-icons {
+                margin-bottom: 0;
+            }
+
+            .contact-info {
+                text-align: right;
+            }
+
+            .filters-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .logo img {
+                height: 140px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .logo img {
+                height: 110px;
+            }
+
+            .hamburger-menu {
+                width: 22px;
+                height: 18px;
+            }
+
+            .hero-section {
+                height: 60vh;
+                min-height: 400px;
+            }
+
+            .footer-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+    </head>
+
+    <body class="bg-gray-50 text-gray-800">
+
+        <!-- ========== HEADER (SERA MODIFIÉ PAR navbar.js) ========== -->
+        <header class="navbar" id="navbar">
+            <!-- Le contenu sera injecté par navbar.js -->
+        </header>
+
+
+
+        <!-- ========== HERO ========== -->
+        <section class="hero-section">
+            <div class="carousel-container">
+                <!-- VOTRE IMAGE EN PREMIER - ELLE APPARAÎTRA EN PREMIER -->
+        
+
+                </div>
+                <div class="carousel-slide"
+    style="background-image: url('images/hero.jpg')">
+</div>
+                <div class="carousel-overlay"></div>
+            </div>
+            <div class="hero-content">
+                <div class="max-w-7xl mx-auto px-6 w-full">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-6 text-white relative">
+                            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold leading-tight">
+                                Trouvez mieux <br>plus vite <br>
+                                <span class="text-green-400">Moins d'effort</span> <br>Plus de résultat
+                            </h1>
+                            <p class="text-lg text-gray-200">
+                                Des annonces claires, vérifiées et adaptées à vos besoins...
+                            </p>
+
+                            <!-- BOUTON EXPLORER MOBILE (MODIFIÉ) -->
+                            <div class="flex md:hidden justify-start mt-4">
+                                <a href="annonces.html" class="explorer-btn">
+                                    Explorer
+                                </a>
+                            </div>
+
+                            <!-- BOUTON EXPLORER DESKTOP -->
+                            <div class="hidden md:block desktop-explorer-btn">
+                                <a href="annonces.html" class="explorer-btn">
+                                    Explorer
+                                </a>
+                            </div>
+                        </div>
+                        <div class="search-container">
+
+                            <div class="search-bar relative flex items-center w-full">
+                                <div class="absolute inset-y-0 left-0 flex items-center pl-4 pointer-events-none">
+                                    <span class="material-icons text-3xl" style="color: #286EF1;">search</span>
+                                </div>
+                                <input
+                                    class="search-input block w-full h-16 pl-14 pr-20 py-3 text-gray-900 placeholder-gray-400 rounded-lg transition-all duration-200 ease-in-out"
+                                    placeholder="Recherchez une commune, une maison un magasin ici !" type="search" />
+                                <div class="absolute inset-y-0 right-0 flex items-center pr-4">
+                                    <div class="h-10 w-px bg-gray-200 mr-4"></div>
+                                    <button id="filterToggle"
+                                        class="filter-button flex items-center justify-center h-10 w-10 rounded-full transition-colors duration-200 ease-in-out focus:outline-none" style="border: 1px solid rgba(40, 110, 241, 0.35); color: #286EF1;">
+                                        <span class="material-icons">tune</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="filters-panel" id="filtersPanel">
+                                <div class="filters-grid">
+                                    <div class="filter-group"><label for="propertyType">Type de bien</label>
+                                        <select id="propertyType">
+                                            <option value="">Tous les types</option>
+                                            <option>Appartement</option>
+                                            <option>Studio</option>
+                                            <option>Maison</option>
+                                            <option>Villa</option>
+                                            <option>Magasin</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter-group"><label for="city">Ville</label>
+                                        <select id="city">
+                                            <option value="">Toutes les villes</option>
+                                            <option>Abidjan</option>
+                                            <option>Yamoussoukro</option>
+                                            <option>San-Pedro</option>
+                                            <option>Bouaké</option>
+                                            <option>Daloa</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter-group"><label for="neighborhood">Quartier</label>
+                                        <select id="neighborhood">
+                                            <option value="">Tous les quartiers</option>
+                                            <option>Cocody</option>
+                                            <option>Plateau</option>
+                                            <option>Yopougon</option>
+                                            <option>Adjamé</option>
+                                            <option>Marcory</option>
+                                        </select>
+                                    </div>
+                                    <div class="filter-group"><label for="priceRange">Budget (FCFA)</label>
+                                        <select id="priceRange">
+                                            <option value="">Tous les budgets</option>
+                                            <option>0 - 100.000</option>
+                                            <option>100.000 - 200.000</option>
+                                            <option>200.000 - 300.000</option>
+                                            <option>300.000 - 500.000</option>
+                                            <option>500.000+</option>
+                                        </select>
+                                    </div>
+                                    <button class="apply-filters" id="applyFilters">Appliquer les filtres</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- ========== FEATURE SERVICES - ACCORDÉON ========== -->
+        <style data-purpose="custom-transitions">
+            /* Custom transition for accordion content expansion */
+            .accordion-content {
+              max-height: 0;
+              overflow: hidden;
+              transition: max-height 0.3s ease-out, padding 0.3s ease;
+            }
+            .accordion-item.active .accordion-content {
+              max-height: 200px; /* Adjust based on content */
+              padding-bottom: 1rem;
+            }
+            /* Rotate plus icon when active */
+            .accordion-item.active .plus-icon {
+              transform: rotate(45deg);
+            }
+            .plus-icon {
+              transition: transform 0.3s ease;
+            }
+        </style>
+
+        <main class="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
+            <!-- BEGIN: HeaderSection -->
+            <header class="text-center mb-16" data-purpose="header-section">
+              <span class="inline-block px-6 py-1.5 mb-6 text-sm font-semibold text-white bg-blue-700 rounded-full" data-purpose="services-badge">
+                Services
+              </span>
+              <h1 class="text-4xl md:text-5xl font-extrabold tracking-tight text-slate-900">
+             Les Experts de l'Immobillier
+              </h1>
+            </header>
+            <!-- END: HeaderSection -->
+            
+            <!-- BEGIN: ServicesGrid -->
+            <section class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center" data-purpose="services-grid">
+              <!-- BEGIN: ImageContainer with blurred background effect -->
+              <div class="relative flex justify-center lg:justify-start" data-purpose="left-side-image">
+                <!-- Background blur effect -->
+                <div class="absolute inset-0 bg-blue-100/30 rounded-[3rem] blur-2xl -z-10 transform scale-95"></div>
+                
+                <!-- Main image container with thin border -->
+                <div class="rounded-[3rem] overflow-hidden border-2 border-blue-200/70 shadow-lg max-w-full backdrop-blur-sm bg-white/5">
+                  <img alt="Interior design visualization with LOGI branding" class="w-full h-auto object-cover block" src="images/services-card.jpg">
+                </div>
+              </div>
+              <!-- END: ImageContainer -->
+              
+              <!-- BEGIN: AccordionSection -->
+              <div class="space-y-2" data-purpose="accordion-container">
+                <!-- Accordion Item 1 -->
+                <div class="accordion-item border-b border-slate-200" data-purpose="service-item">
+                  <button class="w-full flex items-center justify-between py-6 group focus:outline-none" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                      <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-white text-xs font-bold">01</span>
+                      <span class="text-lg font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Location </span>
+                    </div>
+                    <div class="plus-icon flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="accordion-content">
+                    <p class="text-slate-600 leading-relaxed">
+                      profitez d'une large gaeme de divers offre de location (Maison villa duplex ) verifiez aupres de nos partenaire de confiance
+                    </p>
+                  </div>
+                </div>
+                <!-- Accordion Item 2 -->
+                <div class="accordion-item border-b border-slate-200" data-purpose="service-item">
+                  <button class="w-full flex items-center justify-between py-6 group focus:outline-none" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                      <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-white text-xs font-bold">02</span>
+                      <span class="text-lg font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Achat</span>
+                    </div>
+                    <div class="plus-icon flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="accordion-content">
+                    <p class="text-slate-600 leading-relaxed">
+                      Tous les bien lister sur Logi en termes de Vente sont verifier et analyser avec nos expert afin de vous evitez tout deboir lors et apres l'achat de votre bien que ce soit (TERRAIN ou Maison ) vous etes a la bonne enseigne , acheter en toute securité et profitez dun accompagnement special
+                    </p>
+                  </div>
+                </div>
+                <!-- Accordion Item 3 -->
+                <div class="accordion-item border-b border-slate-200" data-purpose="service-item">
+                  <button class="w-full flex items-center justify-between py-6 group focus:outline-none" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                      <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-white text-xs font-bold">03</span>
+                      <span class="text-lg font-bold text-slate-800 group-hover:text-blue-700 transition-colors"> Residence meublé </span>
+                    </div>
+                    <div class="plus-icon flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="accordion-content">
+                    <p class="text-slate-600 leading-relaxed">
+                     profitez de notre large gamme de residence meublé haute gamme vous  vous  sentirez comme chez vous ...
+                    </p>
+                  </div>
+                </div>
+                <!-- Accordion Item 4 -->
+                <div class="accordion-item border-b border-slate-200" data-purpose="service-item">
+                  <button class="w-full flex items-center justify-between py-6 group focus:outline-none" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                      <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-white text-xs font-bold">04</span>
+                      <span class="text-lg font-bold text-slate-800 group-hover:text-blue-700 transition-colors">demenagement </span>
+                    </div>
+                    <div class="plus-icon flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="accordion-content">
+                    <p class="text-slate-600 leading-relaxed">
+                      Logi en plus de vous accompagné dans la recherche de votre bien vos aide en fonction de vos besoin pour le demenagement de vos differente affaire dans votre nous loement ou local avec Logi gagnez du temps faites moins d'effort 
+                    </p>
+                  </div>
+                </div>
+                <!-- Accordion Item 5 -->
+                <div class="accordion-item border-b border-slate-200" data-purpose="service-item">
+                  <button class="w-full flex items-center justify-between py-6 group focus:outline-none" onclick="toggleAccordion(this)">
+                    <div class="flex items-center gap-4">
+                      <span class="flex items-center justify-center w-8 h-8 rounded-full bg-slate-800 text-white text-xs font-bold">05</span>
+                      <span class="text-lg font-bold text-slate-800 group-hover:text-blue-700 transition-colors">Experience agent </span>
+                    </div>
+                    <div class="plus-icon flex items-center justify-center w-8 h-8 rounded-full bg-blue-700 text-white">
+                      <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2.5" viewbox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M12 4.5v15m7.5-7.5h-15" stroke-linecap="round" stroke-linejoin="round"></path>
+                      </svg>
+                    </div>
+                  </button>
+                  <div class="accordion-content">
+                    <p class="text-slate-600 leading-relaxed">
+                     la plateforme logi en plus de repondre au probleme des client a une vision plus etendu , elle a été concu et pour les client et pour les agent ou agence immobilliere dans l'optique de proposez un services  de qualité nous croyons que l'immobilier ne peut exister sans les agent et agnce voila pourquoi nous avon develloper en interne ds sollution pour vou s faire gagnez du temps t de largent 
+                     (Agent Ia -CRM ERP ) oui nous vous aidons a mieux vous structuré en interne afin de vous concentrez sur le lus imporant ...
+                     </p>
+                  </div>
+                </div>
+              </div>
+              <!-- END: AccordionSection -->
+            </section>
+            <!-- END: ServicesGrid -->
+          </main>
+
+        <!-- Ligne de démarcation entre la partie description et le carrousel -->
+        <hr class="border-t border-gray-200" style="border-color: #e5e7eb; margin: 2rem auto; max-width: 80%; border-top-width: 1px;">
+
+        <script data-purpose="accordion-logic">
+          /**
+           * Toggles the active state of an accordion item
+           * @param {HTMLElement} element - The button that was clicked
+           */
+          function toggleAccordion(element) {
+            const parent = element.parentElement;
+            const isActive = parent.classList.contains('active');
+            
+            // Optional: Close other accordion items (accordion behavior)
+            // document.querySelectorAll('.accordion-item').forEach(item => {
+            //   item.classList.remove('active');
+            // });
+
+            // Toggle current item
+            if (isActive) {
+              parent.classList.remove('active');
+            } else {
+              parent.classList.add('active');
+            }
+          }
+        </script>
+
+
+
+
+
+
+
+
+
+
+
+<!-- ========== CARROUSEL ========== -->
+
+<section class="carousel-section">
+    <!-- PREMIER CARROUSEL - LOGEMENTS POPULAIRES -->
+    <div class="mb-16">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl sm:text-3xl font-bold">Logements populaires · Abidjan ›</h2>
+            <div class="flex items-center space-x-2">
+                <button id="prevTop"
+                    class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:shadow-md transition-all duration-300 hover:bg-gray-50">
+                    <span class="material-icons text-lg">chevron_left</span>
+                </button>
+                <button id="nextTop"
+                    class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:shadow-md transition-all duration-300 hover:bg-gray-50">
+                    <span class="material-icons text-lg">chevron_right</span>
+                </button>
+            </div>
+        </div>
+        <div class="scroll-container" id="topScrollContainer">
+            <div class="scroll-content">
+                <div class="property-card space-y-2">
+                    <div class="relative">
+                        <img alt="Appartement moderne à Cocody" class="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+                        <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors"><span
+                                class="material-icons">favorite_border</span></button>
+                        <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">
+                            Coup de coeur</div>
+                    </div>
+                    <h3 class="font-semibold">Appartement · Cocody</h3>
+                    <p class="text-sm text-gray-600">2–4 janv. · Hôte particulier</p>
+                    <p class="text-sm"><span class="font-semibold">250.000 Fcfa</span> par mois · ★ 4,93</p>
+                </div>
+                <div class="property-card space-y-2">
+                    <div class="relative">
+                        <img alt="Studio à Angré" class="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+                        <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors"><span
+                                class="material-icons">favorite_border</span></button>
+                        <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">
+                            Coup de coeur</div>
+                    </div>
+                    <h3 class="font-semibold">Studio · Angré</h3>
+                    <p class="text-sm text-gray-600">19–21 déc. · Hôte particulier</p>
+                    <p class="text-sm"><span class="font-semibold">150.000 Fcfa</span> par mois · ★ 4,94</p>
+                </div>
+                <div class="property-card space-y-2">
+                    <div class="relative">
+                        <img alt="Villa à Riviera" class="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+                        <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors"><span
+                                class="material-icons">favorite_border</span></button>
+                        <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">
+                            Coup de coeur</div>
+                    </div>
+                    <h3 class="font-semibold">Villa · Riviera</h3>
+                    <p class="text-sm text-gray-600">9–11 janv. · Agence immobilière</p>
+                    <p class="text-sm"><span class="font-semibold">500.000 Fcfa</span> par mois · ★ 4,96</p>
+                </div>
+                <div class="property-card space-y-2">
+                    <div class="relative">
+                        <img alt="Appartement à Marcory" class="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+                        <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors"><span
+                                class="material-icons">favorite_border</span></button>
+                        <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">
+                            Coup de coeur</div>
+                    </div>
+                    <h3 class="font-semibold">Appartement · Marcory</h3>
+                    <p class="text-sm text-gray-600">23–25 janv. · Hôte particulier</p>
+                    <p class="text-sm"><span class="font-semibold">180.000 Fcfa</span> par mois · ★ 4,86</p>
+                </div>
+                <div class="property-card space-y-2">
+                    <div class="relative">
+                        <img alt="Studio à Treichville" class="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+                        <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors"><span
+                                class="material-icons">favorite_border</span></button>
+                        <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">
+                            Coup de coeur</div>
+                    </div>
+                    <h3 class="font-semibold">Studio · Treichville</h3>
+                    <p class="text-sm text-gray-600">23–25 janv. · Hôte particulier</p>
+                    <p class="text-sm"><span class="font-semibold">120.000 Fcfa</span> par mois · ★ 4,95</p>
+                </div>
+                <div class="property-card space-y-2">
+                    <div class="relative">
+                        <img alt="Appartement à Plateau" class="w-full h-48 object-cover rounded-lg"
+                            src="https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80" />
+                        <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors"><span
+                                class="material-icons">favorite_border</span></button>
+                        <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">
+                            Coup de coeur</div>
+                    </div>
+                    <h3 class="font-semibold">Appartement · Plateau</h3>
+                    <p class="text-sm text-gray-600">23–25 janv. · Hôte particulier</p>
+                    <p class="text-sm"><span class="font-semibold">300.000 Fcfa</span> par mois · ★ 4,90</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- DEUXIÈME CARROUSEL - LOGEMENTS DISPONIBLES -->
+    <div>
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl sm:text-3xl font-bold">Logements disponibles le mois prochain · San-Pedro ›</h2>
+            <div class="flex items-center space-x-2">
+                <button id="prevBottom"
+                    class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:shadow-md transition-all duration-300 hover:bg-gray-50">
+                    <span class="material-icons text-lg">chevron_left</span>
+                </button>
+                <button id="nextBottom"
+                    class="w-10 h-10 rounded-full border border-gray-300 flex items-center justify-center text-gray-500 hover:shadow-md transition-all duration-300 hover:bg-gray-50">
+                    <span class="material-icons text-lg">chevron_right</span>
+                </button>
+            </div>
+        </div>
+        <div class="scroll-container" id="bottomScrollContainer">
+            <div class="scroll-content" id="bottomProperties">
+                <!-- Les propriétés seront générées par JavaScript -->
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Ligne de démarcation entre le carrousel et la dream section -->
+<hr class="border-t border-gray-200" style="border-color: #e5e7eb; margin: 2rem auto; max-width: 80%; border-top-width: 2px;">
+
+<!-- ========== BLOCK IMAGE+TEXTE ========== -->
+<section class="image-text-section dream-section-wrapper">
+    <div class="dream-section">
+        <div class="content-left">
+            <h1 class="title">
+                <span class="blue-text">Trouvez</span> Votre<br>lieux de Rêve
+            </h1>
+            <p class="description">
+                Découvrez une sélection exclusive de biens (maison, terrain, résidence,
+                magasin, bureau). Nous vous accompagnons dans votre recherche du logement parfait.
+            </p>
+            <a class="btn-discover" href="#">Découvrir</a>
+        </div>
+
+        <!-- DYNAMIC IMAGE GRID -->
+        <div class="gallery-right">
+            <!-- Column A — scrolls UP (bottom → top) -->
+            <div class="column scroll-up">
+                <div class="track">
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0dNYo9PCSf3eZ-4tenGjQeJCRqLqjWlAWUXITVxjDXDnXY1kL6dp_2l9H1HF0EbXrdySVEcpA2seSgAa0g8qOSJKRkIZHcIciBT9uTt-m13PkLeQWOKWDRxVnk54FzZ5U7tfL-L6bnkHANxuKFpfr2C1HNUEEhPJPvvidVGAXR5Vq4MIQDkUCc2tAQ5WTbpa6T7Yzop5BaPzn9dGKdIHwJYFY-PlVajnK0pOpDhGl9aXoM6PUh7Y69Wf4fMHhoHmmUqriRuKG33ZQ" alt="Architecture moderne">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsen-Pbg_8YKleePwHiYvAkT0m08tVABrNV9TbAnYn4yPu75y1BYRXJaKCL2B4KHAGo6IhdVs04l3QexdwlTarvyQ5cI-uwajePeV3ph_XTJ-gRZMrsTTgxmOPvkYBr8c1dwKzd4eJfQdOH6ETqg0adEeT8F2zf9GLR63hnpb7W0HO4sGWA2FBD66AhFkgu5eLJjM_1xnhNTRtt4XEQiqxjNSDj8WOiIg-q6XOVdCwETSgLWQdaEiomWCBCoxBZW9pPLsN3euOO7C_" alt="Vue urbaine">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                    <!-- Duplication pour l'effet infini -->
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0dNYo9PCSf3eZ-4tenGjQeJCRqLqjWlAWUXITVxjDXDnXY1kL6dp_2l9H1HF0EbXrdySVEcpA2seSgAa0g8qOSJKRkIZHcIciBT9uTt-m13PkLeQWOKWDRxVnk54FzZ5U7tfL-L6bnkHANxuKFpfr2C1HNUEEhPJPvvidVGAXR5Vq4MIQDkUCc2tAQ5WTbpa6T7Yzop5BaPzn9dGKdIHwJYFY-PlVajnK0pOpDhGl9aXoM6PUh7Y69Wf4fMHhoHmmUqriRuKG33ZQ" alt="Architecture moderne">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsen-Pbg_8YKleePwHiYvAkT0m08tVABrNV9TbAnYn4yPu75y1BYRXJaKCL2B4KHAGo6IhdVs04l3QexdwlTarvyQ5cI-uwajePeV3ph_XTJ-gRZMrsTTgxmOPvkYBr8c1dwKzd4eJfQdOH6ETqg0adEeT8F2zf9GLR63hnpb7W0HO4sGWA2FBD66AhFkgu5eLJjM_1xnhNTRtt4XEQiqxjNSDj8WOiIg-q6XOVdCwETSgLWQdaEiomWCBCoxBZW9pPLsN3euOO7C_" alt="Vue urbaine">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                </div>
+            </div>
+
+            <!-- Column B — scrolls DOWN (top → bottom) -->
+            <div class="column scroll-down">
+                <div class="track">
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBisYTSvgV-mRnfRwFf7pRRRULnKEZz2O4TM2qgdHHJdX0ehWHUQC6XS4xIO77oyhlo2gxJY2rGK7jJgX--L70H5C2Pvzif988MJSje1oZ91lTewVcKlbdHHZbyTCTiC_tqBu3gM3B1pQqN05XUSrYEIOx0HWGkLlrJ9pcZvJ_kcPMJkWtv-VDXh5eVpkFrFiAUUAnOQu8aZQ3H0wTIsQG6CTiefYsnVQd74YE4jaZIzE5BCs6aesLSSCTls863H-DWUsvMtCMSOrtU" alt="Villa de luxe">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbq3Onq4w3eiOLxY25fV5rkPA3KAHhDMbiLRRmZfvjfSC82RerqUEw7CFESrimJeXRzUvC9CJ8WkpCyGLhHbDqgsX6lEbKCsAdxphdzbNN0V3mywqhWnjsGoeCIPwhD93Ecthk35SPM71ALzVPkqqgJCOcuQgHWk19NKMji53dQJuYhSfY7KljNuyECablZ5aw3-w5ZQ1kgsjGPIO0ZBQb09J42MM14ADDEYmVE9VTYQr3ky8LembgGOVtHkKeWRQHC0o0DM6Y1Ngi" alt="Pont moderne">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                    <!-- Duplication pour l'effet infini -->
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBisYTSvgV-mRnfRwFf7pRRRULnKEZz2O4TM2qgdHHJdX0ehWHUQC6XS4xIO77oyhlo2gxJY2rGK7jJgX--L70H5C2Pvzif988MJSje1oZ91lTewVcKlbdHHZbyTCTiC_tqBu3gM3B1pQqN05XUSrYEIOx0HWGkLlrJ9pcZvJ_kcPMJkWtv-VDXh5eVpkFrFiAUUAnOQu8aZQ3H0wTIsQG6CTiefYsnVQd74YE4jaZIzE5BCs6aesLSSCTls863H-DWUsvMtCMSOrtU" alt="Villa de luxe">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbq3Onq4w3eiOLxY25fV5rkPA3KAHhDMbiLRRmZfvjfSC82RerqUEw7CFESrimJeXRzUvC9CJ8WkpCyGLhHbDqgsX6lEbKCsAdxphdzbNN0V3mywqhWnjsGoeCIPwhD93Ecthk35SPM71ALzVPkqqgJCOcuQgHWk19NKMji53dQJuYhSfY7KljNuyECablZ5aw3-w5ZQ1kgsjGPIO0ZBQb09J42MM14ADDEYmVE9VTYQr3ky8LembgGOVtHkKeWRQHC0o0DM6Y1Ngi" alt="Pont moderne">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ========== FAQ ========== -->
+<section class="faq-section">
+    <div class="container">
+        <div class="faq-main-title">
+            <h1>Foire aux Questions</h1>
+            <div class="title-underline"></div>
+        </div>
+
+        <div class="faq-items-container">
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span class="question-text">À quoi sert Logi ?</span>
+                    <span class="material-icons faq-arrow">chevron_right</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Logi est une plateforme innovante qui vous aide à trouver et réserver des logements exceptionnels
+                        pour vos vacances ou déplacements professionnels, avec une expérience utilisateur simplifiée.
+                    </p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span class="question-text">Comment réserver une maison sur Logi est-ce possible ?</span>
+                    <span class="material-icons faq-arrow">chevron_right</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Oui, c'est tout à fait possible et simple. Il vous suffit de rechercher une destination, de
+                        choisir la maison qui vous convient, de sélectionner vos dates et de suivre les instructions
+                        pour finaliser votre réservation en toute sécurité.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span class="question-text">Est-il possible de poster des annonces sur Logi ?</span>
+                    <span class="material-icons faq-arrow">chevron_right</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Absolument. Si vous êtes propriétaire, vous pouvez créer un compte et poster une annonce pour
+                        votre logement en quelques étapes simples. Notre équipe vous accompagne pour optimiser votre
+                        annonce.</p>
+                </div>
+            </details>
+
+            <details class="faq-item">
+                <summary class="faq-question">
+                    <span class="question-text">Quels sont les avantages de Logi par rapport aux autres plateformes
+                        ?</span>
+                    <span class="material-icons faq-arrow">chevron_right</span>
+                </summary>
+                <div class="faq-answer">
+                    <p>Logi se distingue par son interface intuitive, ses fonctionnalités avancées de recherche, son
+                        système de réservation sécurisé et son service client dédié disponible 7j/7.</p>
+                </div>
+            </details>
+        </div>
+    </div>
+</section>
+
+
+<!-- ========== FOOTER ========== -->
+<footer class="full-width-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>MAISONS À LOUER Abidjan</h3>
+                <div class="links">
+                    <div>Cocody</div>
+                    <div>Adjame</div>
+                    <div>Marcory</div>
+                    <div>Bingerville</div>
+                    <div>Bassam</div>
+                    <div>Koumassi</div>
+                    <div>attecoube</div>
+                    <div>treichville</div>
+                    <div>Abobo</div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>MAISONS À LOUER Yamoussoukro</h3>
+                <div class="links">
+                    <div>Daloa</div>
+                    <div>Gagnoa</div>
+                    <div> korhogo</div>
+                    <div>San Pedro</div>
+                    <div>Sassandra</div>
+                    <div>Divo</div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>QUI SOMMES-NOUS</h3>
+                <div class="links">
+                    <div>Bloq</div>
+                    <div>Services</div>
+                    <div>Contact</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-social-contact">
+            <div class="social-icons">
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="contact-info">
+                <div> loji-ci@gmail.com</div>
+                <div>+225 01 52 25 38 35 </div>
+            </div>
+        </div>
+        <div class="footer-logo">
+            <img src="images/footer.png" alt="Logi">
+        </div>
+    </div>
+</footer>
+<!-- ========== BOUTON WHATSAPP + TOP ========== -->
+<a id="whatsapp-button" href="https://wa.me/2250152253835" target="_blank" rel="noopener">
+    <i class="fab fa-whatsapp"></i>
+</a>
+
+<button id="top-button">↑</button>
+
+<script>
+    // ========== HEADER SCROLL ==========
+    let lastScrollY = window.scrollY;
+    const navbar = document.getElementById('navbar');
+    const navbarHeight = navbar.offsetHeight;
+
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.scrollY;
+
+        // SEULEMENT si on scroll VERS LE BAS et qu'on est assez bas
+        if (currentScrollY > lastScrollY && currentScrollY > navbarHeight) {
+            navbar.style.transform = 'translateY(-100%)';
+        }
+        // SEULEMENT si on scroll VERS LE HAUT
+        else if (currentScrollY < lastScrollY) {
+            navbar.style.transform = 'translateY(0)';
+        }
+
+        lastScrollY = currentScrollY;
+    });
+
+    // Montre la navbar quand la souris passe dessus
+    navbar.addEventListener('mouseenter', () => {
+        navbar.style.transform = 'translateY(0)';
+    });
+    // ========== FILTRES RECHERCHE ==========
+    const filterToggle = document.getElementById('filterToggle');
+    const filtersPanel = document.getElementById('filtersPanel');
+    const applyFilters = document.getElementById('applyFilters');
+
+    filterToggle.addEventListener('click', (e) => {
+        e.stopPropagation();
+        filtersPanel.classList.toggle('active');
+        filterToggle.classList.toggle('active');
+    });
+
+    applyFilters.addEventListener('click', () => {
+        filtersPanel.classList.remove('active');
+        filterToggle.classList.remove('active');
+        console.log('Filtres appliqués');
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!filtersPanel.contains(e.target) && !filterToggle.contains(e.target)) {
+            filtersPanel.classList.remove('active');
+            filterToggle.classList.remove('active');
+        }
+    });
+
+    // ========== CARROUSEL LOGEMENTS ==========
+    const topScrollContainer = document.getElementById('topScrollContainer');
+    const bottomScrollContainer = document.getElementById('bottomScrollContainer');
+    const scrollStep = 300;
+
+    // Boutons pour le premier carrousel
+    document.getElementById('prevTop').addEventListener('click', () => {
+        topScrollContainer.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+    });
+
+    document.getElementById('nextTop').addEventListener('click', () => {
+        topScrollContainer.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    });
+
+    // Boutons pour le deuxième carrousel
+    document.getElementById('prevBottom').addEventListener('click', () => {
+        bottomScrollContainer.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+    });
+
+    document.getElementById('nextBottom').addEventListener('click', () => {
+        bottomScrollContainer.scrollBy({ left: scrollStep, behavior: 'smooth' });
+    });
+
+    // Scroll avec molette pour les deux carrousels
+    [topScrollContainer, bottomScrollContainer].forEach(container => {
+        container.addEventListener('wheel', (e) => {
+            e.preventDefault();
+            container.scrollBy({ left: e.deltaY, behavior: 'smooth' });
+        });
+    });
+
+    // Génération des propriétés pour le deuxième carrousel
+    document.addEventListener('DOMContentLoaded', function () {
+        const quartiers = ['Zone Industrielle', 'Résidentiel', 'Centre-ville', 'Bord de mer', 'Quartier administratif', 'Quartier calme', 'Proche université'];
+        const types = ['Appartement', 'Studio', 'Villa', 'Chambre', 'Duplex', 'Maison', 'Loft'];
+        const prix = ['80.000', '120.000', '150.000', '200.000', '250.000', '300.000', '350.000', '400.000'];
+        const notes = ['4,80', '4,85', '4,90', '4,95', '5,0'];
+
+        const images = [
+            'https://images.unsplash.com/photo-1564013799919-ab600027ffc6?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1522708323590-d24dbb6b0267?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1513584684374-8bab748fbf90?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1545324418-cc1a3fa10c00?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1554995207-c18c203602cb?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1560448204-e02f11c3d0e2?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80',
+            'https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=500&q=80'
+        ];
+
+        const bottomPropertiesContainer = document.getElementById('bottomProperties');
+
+        for (let i = 0; i < 12; i++) {
+            const type = types[Math.floor(Math.random() * types.length)];
+            const quartier = quartiers[Math.floor(Math.random() * quartiers.length)];
+            const prixValue = prix[Math.floor(Math.random() * prix.length)];
+            const note = notes[Math.floor(Math.random() * notes.length)];
+            const image = images[Math.floor(Math.random() * images.length)];
+            const hasBadge = Math.random() > 0.3;
+            const isAgency = Math.random() > 0.5;
+            const startDay = Math.floor(Math.random() * 28) + 1;
+            const endDay = Math.min(startDay + 2, 30);
+
+            const propertyCard = document.createElement('div');
+            propertyCard.className = 'property-card space-y-2';
+            propertyCard.innerHTML = `
+                <div class="relative">
+                    <img alt="${type} à San-Pedro" class="w-full h-48 object-cover rounded-lg" src="${image}"/>
+                    <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors">
+                        <span class="material-icons">favorite_border</span>
+                    </button>
+                    ${hasBadge ? '<div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded">Coup de coeur</div>' : ''}
+                </div>
+                <h3 class="font-semibold">${type} · ${quartier}</h3>
+                <p class="text-sm text-gray-600">${startDay}–${endDay} oct. · ${isAgency ? 'Agence immobilière' : 'Hôte particulier'}</p>
+                <p class="text-sm"><span class="font-semibold">${prixValue} Fcfa</span> par mois · ★ ${note}</p>
+            `;
+
+            bottomPropertiesContainer.appendChild(propertyCard);
+        }
+    });
+
+    // ========== BOUTON TOP ==========
+    document.getElementById('top-button').addEventListener('click', function () {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    });
+
+    window.onscroll = function () {
+        const topButton = document.getElementById('top-button');
+        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+            topButton.style.display = 'block';
+        } else {
+            topButton.style.display = 'none';
+        }
+    };
+
+    // Amélioration du menu déroulant
+    document.addEventListener('DOMContentLoaded', function () {
+        const dropdowns = document.querySelectorAll('.dropdown');
+
+        dropdowns.forEach(dropdown => {
+            // Fermer les menus déroulants en cliquant ailleurs
+            document.addEventListener('click', (e) => {
+                if (!dropdown.contains(e.target)) {
+                    const content = dropdown.querySelector('.dropdown-content');
+                    if (content) {
+                        content.style.opacity = '0';
+                        content.style.visibility = 'hidden';
+                        content.style.transform = 'translateY(-15px)';
+                    }
+                }
+            });
+
+            // Animation fluide à l'ouverture
+            const trigger = dropdown.querySelector('a');
+            const content = dropdown.querySelector('.dropdown-content');
+
+            if (trigger && content) {
+                trigger.addEventListener('mouseenter', () => {
+                    content.style.opacity = '1';
+                    content.style.visibility = 'visible';
+                    content.style.transform = 'translateY(0)';
+                });
+
+                dropdown.addEventListener('mouseleave', () => {
+                    content.style.opacity = '0';
+                    content.style.visibility = 'hidden';
+                    content.style.transform = 'translateY(-15px)';
+                });
+            }
+        });
+    });
+
+
+</script>
+
+<script src="auth.js"></script>
+<script src="navbar.js"></script>
+<script src="navbar-component.js"></script>
+
+
+
+
+
+
+</body>
+
+
+
+
+</html>

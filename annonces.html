@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loji - Annonces</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="style-annonces - 2.css">
+    <style>
+        #nav-container {
+            min-height: 80px;
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: white;
+        }
+
+        #main-content {
+            margin-top: 100px;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <div id="nav-container"></div>
+
+    <main id="main-content" class="container mx-auto px-4">
+        <div id="annoncesContainer">
+            <div class="text-center p-10 text-gray-500">
+                <i class="fas fa-spinner fa-spin text-2xl mr-2"></i> Chargement des annonces...
+            </div>
+        </div>
+    </main>
+
+    <script src="auth.js"></script>
+    <script>
+        (function () {
+            const loadScript = (src, callback) => {
+                const s = document.createElement('script');
+                s.src = src;
+                s.onload = callback;
+                document.head.appendChild(s);
+            };
+
+            console.log("🚀 Lancement de l'initialisation sécurisée...");
+
+            // 1. Charger la navigation
+            loadScript('nav-multifunction.js', function () {
+                if (window.renderNavMultifunction) {
+                    window.renderNavMultifunction();
+                    console.log("✅ Navbar connectée et affichée");
+
+                    // 2. Charger la logique Strapi SEULEMENT après la navbar
+                    setTimeout(() => {
+                        loadScript('app.js', function () {
+                            if (window.fetchAnnonces) {
+                                window.fetchAnnonces();
+                                console.log("✅ Annonces Strapi chargées");
+                            }
+                        });
+                    }, 200); // Petit délai pour laisser la navbar se stabiliser
+                }
+            });
+        })();
+    </script>
+</body>
+
+</html>

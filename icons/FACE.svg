@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 viewBox="0 0 32 32" style="enable-background:new 0 0 32 32;" xml:space="preserve">
+<g id="Layer_32">
+	<path style="fill:#95CC29;" d="M15.999,20.172c0.259-0.001,0.509-0.096,0.707-0.293l5.78-5.78L21.999,14h-12l-0.487,0.098
+		l5.78,5.78C15.489,20.076,15.739,20.17,15.999,20.172z"/>
+	<path style="fill:#95CC29;" d="M18.12,21.293c-0.583,0.584-1.357,0.88-2.121,0.879c-0.764,0.001-1.538-0.295-2.121-0.879
+		l-5.78-5.78L8,16v8c0,1.104,0.894,2,1.999,2h12C23.103,26,24,25.104,24,24v-8l-0.099-0.488L18.12,21.293z"/>
+	<path style="fill:#666666;" d="M29,0H3C1.343,0,0,1.343,0,3v26c0,1.657,1.343,3,3,3h26c1.657,0,3-1.343,3-3V3
+		C32,1.343,30.657,0,29,0z M30,29c0,0.552-0.45,0.999-1.001,1h-26C2.447,29.999,2,29.552,2,29V10h28V29z M30,8H2V3
+		c0-0.552,0.447-0.999,0.999-1h26C29.55,2.001,30,2.448,30,3V8z"/>
+	<circle style="fill:#666666;" cx="26.998" cy="5" r="1"/>
+	<circle style="fill:#666666;" cx="22.998" cy="5" r="1"/>
+	<circle style="fill:#666666;" cx="18.998" cy="5" r="1"/>
+	<rect style="fill:none;" width="32" height="32"/>
+</g>
+<g id="Layer_1">
+</g>
+</svg>

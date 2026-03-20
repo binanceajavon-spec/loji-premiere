@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Loji - Détails de l'annonce</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="style-annonces.css">
+
+    <style>
+        /* STYLES MINIMALISTES */
+        body {
+            padding-top: 0;
+            margin: 0;
+            background-color: #ffffffee;
+        }
+
+        /* Navbar fixe */
+        #nav-multifunction-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            background: white;
+        }
+
+        /* Contenu décalé */
+        #annonceContent {
+            margin-top: 80px;
+            /* Desktop */
+            min-height: calc(100vh - 80px);
+        }
+
+        @media (max-width: 768px) {
+            #annonceContent {
+                margin-top: 7px;
+                /* Mobile */
+            }
+        }
+
+        /* Lightbox au-dessus de tout */
+        #lightboxModal {
+            z-index: 99999 !important;
+        }
+
+        /* ========== STYLES FOOTER (copiés de index.html) ========== */
+        .full-width-footer {
+            width: 100%;
+            background: #1a1a1a;
+            color: #fff;
+            padding: 40px 5% 20px;
+            margin-top: 60px;
+            font-family: Arial, sans-serif;
+        }
+
+        .footer-container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            color: #fff;
+            font-size: 1rem;
+            margin-bottom: 20px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            padding-bottom: 8px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 30px;
+            height: 2px;
+            background: #00A3FF;
+        }
+
+        .footer-column .links {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .footer-column .links div {
+            color: #b0b0b0;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 0.9rem;
+        }
+
+        .footer-column .links div:hover {
+            color: #00A3FF;
+            transform: translateX(5px);
+        }
+
+        .footer-social-contact {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-top: 1px solid #333;
+            border-bottom: 1px solid #333;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #333;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            font-size: 1.1rem;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 15px #00A3FF;
+        }
+
+        .social-icon.facebook:hover { background: #1877f2; }
+        .social-icon.instagram:hover { background: #e4405f; }
+        .social-icon.tiktok:hover { background: #000000; }
+
+        .contact-info {
+            color: #b0b0b0;
+            font-size: 0.95rem;
+            display: flex;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+
+        .contact-info div {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .contact-info div i {
+            color: #00A3FF;
+            font-size: 1rem;
+        }
+
+        .footer-logo {
+            text-align: center;
+            padding-top: 10px;
+        }
+
+        .footer-logo img {
+            max-width: 100px;
+            opacity: 0.8;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 0 auto;
+        }
+
+        .footer-logo img:hover {
+            opacity: 1;
+            filter: drop-shadow(0 0 8px #00A3FF);
+        }
+
+        @media (max-width: 768px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            .footer-social-contact {
+                flex-direction: row;
+                align-items: center;
+                padding: 15px 0;
+            }
+            .contact-info {
+                text-align: right;
+                gap: 15px;
+            }
+            .full-width-footer {
+                padding: 30px 5% 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .footer-social-contact {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .contact-info {
+                text-align: left;
+            }
+            .footer-logo img {
+                max-width: 80px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- NAVBAR -->
+    <div id="nav-multifunction-container"></div>
+
+    <!-- CONTENU -->
+    <div id="annonceContent">
+        <div id="annonceDetailContainer" class="max-w-7xl mx-auto px-4 py-8">
+            <div class="text-center py-12">
+                <div class="animate-pulse">
+                    <div class="text-6xl mb-4">🏠</div>
+                    <p class="text-gray-500">Chargement...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+   <!-- ========== FOOTER ========== -->
+<footer class="full-width-footer">
+    <div class="footer-container">
+        <div class="footer-grid">
+            <div class="footer-column">
+                <h3>MAISONS À LOUER Abidjan</h3>
+                <div class="links">
+                    <div>Cocody</div>
+                    <div>Adjame</div>
+                    <div>Marcory</div>
+                    <div>Bingerville</div>
+                    <div>Bassam</div>
+                    <div>Koumassi</div>
+                    <div>attecoube</div>
+                    <div>treichville</div>
+                    <div>Abobo</div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>MAISONS À LOUER Yamoussoukro</h3>
+                <div class="links">
+                    <div>Daloa</div>
+                    <div>Gagnoa</div>
+                    <div> korhogo</div>
+                    <div>San Pedro</div>
+                    <div>Sassandra</div>
+                    <div>Divo</div>
+                </div>
+            </div>
+            <div class="footer-column">
+                <h3>QUI SOMMES-NOUS</h3>
+                <div class="links">
+                    <div>Bloq</div>
+                    <div>Services</div>
+                    <div>Contact</div>
+                </div>
+            </div>
+        </div>
+        <div class="footer-social-contact">
+            <div class="social-icons">
+                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+            </div>
+            <div class="contact-info">
+                <div> loji-ci@gmail.com</div>
+                <div>+225 01 52 25 38 35 </div>
+            </div>
+        </div>
+        <div class="footer-logo">
+            <img src="images/footer.png" alt="Logi">
+        </div>
+    </div>
+</footer>
+<!-- ========== BOUTON WHATSAPP + TOP ========== -->
+    <!-- ========== BOUTON WHATSAPP + TOP ========== -->
+    <a id="whatsapp-button" href="https://wa.me/2250152253835" target="_blank" rel="noopener" style="position: fixed; bottom: 74px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background-color: #25D366; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18); z-index: 55; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;">
+        <i class="fab fa-whatsapp" style="font-size: 22px;"></i>
+    </a>
+
+    <button id="top-button" style="position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; background-color: #286EF1; color: #fff; border: none; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(40, 110, 241, 0.35); transition: all 0.3s; z-index: 50; display: none;">↑</button>
+
+    <!-- SCRIPT DE CHARGEMENT SÉQUENTIEL -->
+    <script>
+        (function () {
+            console.log('🚀 Démarrage sécurisé');
+
+            // Étape 1: Charger navbar
+            const loadScript = (src, callback) => {
+                const script = document.createElement('script');
+                script.src = src;
+                script.onload = callback;
+                script.onerror = () => console.error('❌ Erreur chargement:', src);
+                document.head.appendChild(script);
+            };
+
+            // Charger navbar d'abord
+            loadScript('nav-multifunction.js', function () {
+                console.log('✅ Navbar chargée');
+
+                // Initialiser navbar après un délai
+                setTimeout(() => {
+                    if (window.renderNavMultifunction) {
+                        window.renderNavMultifunction();
+                        console.log('✅ Navbar initialisée');
+
+                        // Attendre que le DOM se stabilise
+                        setTimeout(() => {
+                            // Étape 2: Charger app-details-clean
+                            loadScript('app-details-clean.js', function () {
+                                console.log('✅ App-details propre chargé');
+
+                                // Étape 3: Initialiser les détails
+                                setTimeout(() => {
+                                    if (window.initAnnonceDetails) {
+                                        window.initAnnonceDetails();
+                                        console.log('✅ Détails annonce initialisés');
+                                    }
+                                }, 100);
+                            });
+                        }, 200);
+                    }
+                }, 150);
+            });
+
+            // ========== BOUTON TOP ==========
+            document.addEventListener('DOMContentLoaded', function() {
+                const topButton = document.getElementById('top-button');
+                if (topButton) {
+                    topButton.addEventListener('click', function () {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    });
+
+                    window.onscroll = function () {
+                        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
+                            topButton.style.display = 'block';
+                        } else {
+                            topButton.style.display = 'none';
+                        }
+                    };
+                }
+            });
+        })();
+    </script>
+
+    <script src="auth.js"></script>
+</body>
+
+</html>
+

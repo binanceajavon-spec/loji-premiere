@@ -1,0 +1,79 @@
+{
+  "kind": "collectionType",
+  "collectionName": "annonces",
+  "info": {
+    "singularName": "annonce",
+    "pluralName": "annonces",
+    "displayName": "annonce"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "Titre": {
+      "type": "string"
+    },
+    "Prix": {
+      "type": "biginteger"
+    },
+    "Typedebien": {
+      "type": "string"
+    },
+    "Ville": {
+      "type": "string"
+    },
+    "Quartier": {
+      "type": "string"
+    },
+    "Surface": {
+      "type": "biginteger"
+    },
+    "Nombredepieces": {
+      "type": "biginteger"
+    },
+    "Meuble": {
+      "type": "boolean"
+    },
+    "Climatisation": {
+      "type": "boolean"
+    },
+    "Parking": {
+      "type": "boolean"
+    },
+    "Galeriephotos": {
+      "type": "media",
+      "multiple": true,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "Balcon": {
+      "type": "boolean"
+    },
+    "Securite": {
+      "type": "boolean"
+    },
+    "Internet": {
+      "type": "boolean"
+    },
+    "Nombredechambres": {
+      "type": "integer"
+    },
+    "Nombresalledebain": {
+      "type": "integer"
+    },
+    "Description": {
+      "type": "text"
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "annonces"
+    }
+  }
+}

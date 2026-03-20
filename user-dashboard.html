@@ -1,0 +1,1656 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
+    <title>Tableau de bord - Loji</title>
+
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
+
+    <style>
+        :root {
+            --blue:       #3b82f6;
+            --blue-dark:  #2563eb;
+            --blue-deep:  #1d4ed8;
+            --blue-pale:  #eff6ff;
+            --blue-mid:   #dbeafe;
+            --ink:        #0f172a;
+            --ink-2:      #1e293b;
+            --ink-3:      #334155;
+            --muted:      #64748b;
+            --soft:       #94a3b8;
+            --line:       #e2e8f0;
+            --surface:    #f8fafc;
+            --white:      #ffffff;
+            --green:      #10b981;
+            --red:        #ef4444;
+            --sidebar-w:  280px;
+            --radius-lg:  20px;
+            --radius-xl:  28px;
+            --radius-pill:9999px;
+            --shadow-sm:  0 1px 3px rgba(15,23,42,.06), 0 1px 2px rgba(15,23,42,.04);
+            --shadow-md:  0 4px 16px rgba(15,23,42,.08), 0 1px 4px rgba(15,23,42,.04);
+            --shadow-lg:  0 12px 40px rgba(15,23,42,.12), 0 4px 12px rgba(15,23,42,.06);
+            --shadow-blue:0 8px 24px rgba(59,130,246,.22);
+        }
+
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+
+        html { height: 100%; }
+
+        body {
+            font-family: 'DM Sans', sans-serif;
+            background: #f0f5ff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            color: var(--ink-2);
+            -webkit-font-smoothing: antialiased;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background:
+                radial-gradient(ellipse 900px 600px at 0% 0%, rgba(59,130,246,.13) 0%, transparent 60%),
+                radial-gradient(ellipse 600px 500px at 100% 100%, rgba(37,99,235,.09) 0%, transparent 55%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .app-shell {
+            display: grid;
+            grid-template-rows: 80px 1fr;
+            grid-template-columns: var(--sidebar-w) 1fr;
+            grid-template-areas:
+                "topbar topbar"
+                "sidebar main";
+            min-height: 100vh;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        /* ══════════════════════════════════════
+           TOP BAR - CORRECTION LOGO ET BOUTONS
+        ══════════════════════════════════════ */
+        .topbar {
+            grid-area: topbar;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 2rem;
+            background: rgba(255,255,255,.82);
+            backdrop-filter: blur(20px) saturate(160%);
+            -webkit-backdrop-filter: blur(20px) saturate(160%);
+            border-bottom: 1px solid rgba(226,232,240,.7);
+            box-shadow: 0 1px 0 rgba(255,255,255,.6), var(--shadow-sm);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            width: 100%;
+            height: 80px;
+        }
+
+        .topbar-left {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            flex: 0 0 auto;
+        }
+
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--ink-3);
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.2s;
+        }
+
+        .menu-toggle:hover {
+            background: var(--blue-pale);
+            color: var(--blue);
+        }
+
+        .logo-wrap {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            margin-left: 0.5rem; /* Léger décalage vers la droite */
+        }
+
+        .logo-wrap img {
+            height: 100px; /* Taille normale pour desktop */
+            width: auto;
+            object-fit: contain;
+        }
+
+        .topbar-divider {
+            width: 1px;
+            height: 30px;
+            background: var(--line);
+            margin-left: 0.5rem;
+        }
+
+        .topbar-page-label {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: .02em;
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 1.2rem;
+            flex: 1;
+            margin-left: auto;
+        }
+
+        .topbar-user {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.4rem 0.8rem 0.4rem 0.5rem;
+            border-radius: var(--radius-pill);
+            background: var(--surface);
+            border: 1px solid var(--line);
+            cursor: default;
+        }
+
+        .topbar-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.8rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-family: 'DM Mono', monospace;
+        }
+
+        .topbar-username {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: var(--ink-2);
+            white-space: nowrap;
+            max-width: 120px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .topbar-logout {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.5rem 1.2rem;
+            border-radius: var(--radius-pill);
+            border: 1px solid var(--line);
+            background: var(--white);
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            font-family: 'DM Sans', sans-serif;
+            cursor: pointer;
+            transition: all .2s;
+        }
+
+        .topbar-logout:hover {
+            border-color: var(--red);
+            color: var(--red);
+            background: #fff5f5;
+        }
+
+        .topbar-logout .material-icons {
+            font-size: 1.1rem;
+        }
+
+        /* ══════════════════════════════════════
+           SIDEBAR
+        ══════════════════════════════════════ */
+        .sidebar {
+            grid-area: sidebar;
+            width: var(--sidebar-w);
+            background: var(--white);
+            border-right: 1px solid rgba(226,232,240,.7);
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1rem;
+            gap: 0.25rem;
+            position: sticky;
+            top: 80px;
+            height: calc(100vh - 80px);
+            overflow-y: auto;
+            transition: transform 0.3s ease;
+        }
+
+        .profile-card {
+            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
+            border-radius: var(--radius-lg);
+            padding: 1.5rem 1rem;
+            color: #fff;
+            margin-bottom: 1.5rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -30px; right: -30px;
+            width: 100px; height: 100px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.08);
+        }
+
+        .profile-card::after {
+            content: '';
+            position: absolute;
+            bottom: -20px; left: 20px;
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            background: rgba(255,255,255,.05);
+        }
+
+        .profile-avatar-wrap {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 1rem;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-avatar {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: rgba(255,255,255,.2);
+            border: 2px solid rgba(255,255,255,.35);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            font-weight: 700;
+            flex-shrink: 0;
+            font-family: 'DM Mono', monospace;
+            letter-spacing: -1px;
+        }
+
+        .profile-info { flex: 1; min-width: 0; }
+
+        .profile-name {
+            font-size: 1rem;
+            font-weight: 700;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .profile-email {
+            font-size: 0.8rem;
+            opacity: .7;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 1px;
+        }
+
+        .phone-chip {
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+            background: rgba(255,255,255,.15);
+            border: 1px solid rgba(255,255,255,.2);
+            border-radius: var(--radius-pill);
+            padding: 0.5rem 1rem;
+            font-size: 0.8rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background .2s;
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            justify-content: center;
+            color: #fff;
+        }
+
+        .phone-chip:hover { background: rgba(255,255,255,.25); }
+
+        .phone-chip .material-icons {
+            font-size: 1rem;
+        }
+
+        .nav-label {
+            font-size: 0.72rem;
+            font-weight: 600;
+            letter-spacing: .09em;
+            text-transform: uppercase;
+            color: var(--soft);
+            padding: 1rem 0.75rem 0.35rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.7rem 0.75rem;
+            border-radius: 12px;
+            color: var(--muted);
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all .18s;
+            position: relative;
+        }
+
+        .nav-item:hover {
+            background: var(--blue-pale);
+            color: var(--blue-dark);
+        }
+
+        .nav-item.active {
+            background: var(--blue-pale);
+            color: var(--blue);
+            font-weight: 600;
+        }
+
+        .nav-item.active::before {
+            content: '';
+            position: absolute;
+            left: 0; top: 50%;
+            transform: translateY(-50%);
+            width: 3px; height: 60%;
+            border-radius: 0 3px 3px 0;
+            background: var(--blue);
+        }
+
+        .nav-item .material-symbols-outlined {
+            font-size: 1.3rem;
+            flex-shrink: 0;
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .nav-item.active .material-symbols-outlined {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* ══════════════════════════════════════
+           MAIN CONTENT
+        ══════════════════════════════════════ */
+        .main {
+            grid-area: main;
+            padding: 2rem 2rem 3rem;
+            min-width: 0;
+            max-width: 1400px;
+            margin: 0 auto;
+            width: 100%;
+        }
+
+        .page-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 2.5rem;
+            gap: 1rem;
+            flex-wrap: wrap;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .page-title-group { }
+
+        .page-eyebrow {
+            font-size: 0.75rem;
+            font-weight: 600;
+            letter-spacing: .1em;
+            text-transform: uppercase;
+            color: var(--blue);
+            margin-bottom: 0.25rem;
+        }
+
+        .page-title {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+
+        .btn-new {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: var(--blue);
+            color: #fff;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-pill);
+            border: none;
+            cursor: pointer;
+            text-decoration: none;
+            box-shadow: var(--shadow-blue);
+            transition: all .2s;
+            white-space: nowrap;
+            letter-spacing: .01em;
+        }
+
+        .btn-new:hover {
+            background: var(--blue-dark);
+            transform: translateY(-1px);
+            box-shadow: 0 12px 28px rgba(59,130,246,.3);
+        }
+
+        .btn-new .material-icons {
+            font-size: 1.2rem;
+        }
+
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .stat-tile {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            padding: 1.25rem 1.25rem 1rem;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+            transition: all .22s;
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+        }
+
+        .stat-tile::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(135deg, transparent 60%, rgba(59,130,246,.04));
+            pointer-events: none;
+        }
+
+        .stat-tile:hover {
+            border-color: rgba(59,130,246,.25);
+            box-shadow: var(--shadow-md), 0 0 0 3px rgba(59,130,246,.06);
+            transform: translateY(-2px);
+        }
+
+        .stat-tile-top {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+        }
+
+        .stat-tile-label {
+            font-size: 0.8rem;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: .01em;
+        }
+
+        .stat-tile-icon {
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
+            background: var(--blue-pale);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--blue);
+        }
+
+        .stat-tile-icon .material-symbols-outlined {
+            font-size: 1.2rem;
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .stat-tile-value {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--ink);
+            letter-spacing: -1px;
+            font-family: 'DM Mono', monospace;
+            line-height: 1.2;
+            margin-bottom: 0.25rem;
+        }
+
+        .stat-tile-sub {
+            font-size: 0.75rem;
+            color: var(--soft);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .section-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--ink-2);
+        }
+
+        .section-count {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--blue);
+            background: var(--blue-pale);
+            padding: 0.25rem 0.75rem;
+            border-radius: var(--radius-pill);
+        }
+
+        .annonces-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .annonce-card {
+            background: var(--white);
+            border-radius: var(--radius-lg);
+            overflow: hidden;
+            border: 1px solid var(--line);
+            box-shadow: var(--shadow-sm);
+            transition: all .22s;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .annonce-card:hover {
+            border-color: rgba(59,130,246,.25);
+            box-shadow: var(--shadow-md), 0 0 0 3px rgba(59,130,246,.06);
+            transform: translateY(-3px);
+        }
+
+        .card-image {
+            position: relative;
+            height: 160px;
+            background: var(--blue-mid);
+            overflow: hidden;
+            flex-shrink: 0;
+        }
+
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform .5s ease;
+        }
+
+        .annonce-card:hover .card-image img {
+            transform: scale(1.06);
+        }
+
+        .card-img-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to top, rgba(15,23,42,.35) 0%, transparent 50%);
+            pointer-events: none;
+        }
+
+        .card-body {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--ink-2);
+            margin-bottom: 0.3rem;
+            overflow: hidden;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+        }
+
+        .card-price {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--blue);
+            font-family: 'DM Mono', monospace;
+            letter-spacing: -0.5px;
+            margin-bottom: 0.3rem;
+            line-height: 1.2;
+        }
+
+        .card-location {
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+            font-size: 0.8rem;
+            color: var(--soft);
+            margin-bottom: 0.8rem;
+        }
+
+        .card-location .material-symbols-outlined {
+            font-size: 0.9rem;
+        }
+
+        .card-metrics {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid var(--surface);
+        }
+
+        .metric {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.2rem;
+        }
+
+        .metric-val {
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--ink-2);
+            font-family: 'DM Mono', monospace;
+        }
+
+        .metric-label {
+            font-size: 0.65rem;
+            color: var(--soft);
+            font-weight: 500;
+            letter-spacing: .02em;
+        }
+
+        .card-actions-bottom {
+            display: flex;
+            gap: 0.5rem;
+            margin-top: auto;
+        }
+
+        .card-action-btn {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.3rem;
+            padding: 0.5rem 0;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .2s;
+            border: none;
+            background: var(--surface);
+            color: var(--ink-3);
+        }
+
+        .card-action-btn.edit:hover {
+            background: var(--blue);
+            color: #fff;
+        }
+
+        .card-action-btn.delete:hover {
+            background: var(--red);
+            color: #fff;
+        }
+
+        .card-action-btn .material-symbols-outlined {
+            font-size: 1rem;
+        }
+
+        .loading-state {
+            text-align: center;
+            padding: 4rem 1.5rem;
+            color: var(--muted);
+            width: 100%;
+            max-width: 1300px;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 36px;
+            height: 36px;
+            border: 2.5px solid var(--line);
+            border-top-color: var(--blue);
+            border-radius: 50%;
+            animation: spin 0.8s linear infinite;
+            margin-bottom: 1rem;
+        }
+
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        .empty-state {
+            background: var(--white);
+            border: 1px dashed var(--line);
+            border-radius: var(--radius-xl);
+            padding: 4rem 2rem;
+            text-align: center;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .empty-icon {
+            width: 60px;
+            height: 60px;
+            background: var(--blue-pale);
+            border-radius: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+        }
+
+        .empty-icon .material-symbols-outlined {
+            font-size: 1.8rem;
+            color: var(--blue);
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 48;
+        }
+
+        .empty-state h3 {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--ink-2);
+            margin-bottom: 0.5rem;
+        }
+
+        .empty-state p {
+            font-size: 0.9rem;
+            color: var(--muted);
+            max-width: 340px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.6;
+        }
+
+        .btn-outline {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.7rem 1.5rem;
+            border-radius: var(--radius-pill);
+            border: 1.5px solid var(--blue);
+            color: var(--blue);
+            background: transparent;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all .2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--blue);
+            color: #fff;
+        }
+
+        .modal {
+            position: fixed;
+            inset: 0;
+            background: rgba(15,23,42,.45);
+            backdrop-filter: blur(6px);
+            -webkit-backdrop-filter: blur(6px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            padding: 1rem;
+        }
+
+        .modal-box {
+            background: var(--white);
+            border-radius: var(--radius-xl);
+            max-width: 380px;
+            width: 100%;
+            padding: 1.75rem;
+            box-shadow: var(--shadow-lg);
+            animation: modalIn .25s cubic-bezier(.22,1,.36,1);
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(.96) translateY(12px); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        .modal-icon {
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .modal-icon.danger { background: #fef2f2; color: var(--red); }
+        .modal-icon.primary { background: var(--blue-pale); color: var(--blue); }
+        .modal-icon .material-icons { font-size: 1.3rem; }
+
+        .modal-box h3 {
+            font-size: 1.05rem;
+            font-weight: 700;
+            color: var(--ink);
+            margin-bottom: 0.4rem;
+        }
+
+        .modal-box p {
+            font-size: 0.85rem;
+            color: var(--muted);
+            line-height: 1.55;
+            margin-bottom: 1.25rem;
+        }
+
+        .modal-input {
+            width: 100%;
+            padding: 0.7rem 1rem;
+            border: 1.5px solid var(--line);
+            border-radius: 12px;
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.9rem;
+            color: var(--ink-2);
+            background: var(--surface);
+            margin-bottom: 1.25rem;
+            transition: border-color .2s;
+        }
+
+        .modal-input:focus {
+            outline: none;
+            border-color: var(--blue);
+            background: var(--white);
+        }
+
+        .modal-actions {
+            display: flex;
+            gap: 0.6rem;
+        }
+
+        .modal-btn {
+            flex: 1;
+            padding: 0.65rem;
+            border: none;
+            border-radius: var(--radius-pill);
+            font-family: 'DM Sans', sans-serif;
+            font-size: 0.875rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all .18s;
+        }
+
+        .modal-btn.danger { background: var(--red); color: #fff; }
+        .modal-btn.danger:hover { background: #dc2626; }
+        .modal-btn.primary { background: var(--blue); color: #fff; }
+        .modal-btn.primary:hover { background: var(--blue-dark); }
+        .modal-btn.ghost { background: var(--surface); color: var(--ink-3); border: 1px solid var(--line); }
+        .modal-btn.ghost:hover { background: var(--line); }
+
+        .toast {
+            position: fixed;
+            bottom: 1.5rem;
+            right: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            padding: 0.7rem 1.1rem;
+            border-radius: var(--radius-pill);
+            font-size: 0.875rem;
+            font-weight: 500;
+            box-shadow: var(--shadow-lg);
+            z-index: 1100;
+            animation: toastIn .3s cubic-bezier(.22,1,.36,1);
+            max-width: 340px;
+        }
+
+        @keyframes toastIn {
+            from { opacity: 0; transform: translateY(12px) scale(.96); }
+            to   { opacity: 1; transform: none; }
+        }
+
+        .toast.success { background: var(--green); color: #fff; }
+        .toast.error   { background: var(--red); color: #fff; }
+        .toast.info    { background: var(--blue); color: #fff; }
+        .toast .material-icons { font-size: 1.1rem; }
+
+        .hidden { display: none !important; }
+
+        /* ══════════════════════════════════════
+           RESPONSIVE - CORRECTIONS MOBILE
+        ══════════════════════════════════════ */
+        @media (max-width: 1300px) {
+            .main { max-width: 1000px; }
+            .page-header { max-width: 1000px; }
+            .stats-row { max-width: 1000px; gap: 1rem; }
+            .section-header { max-width: 1000px; }
+            .annonces-grid { max-width: 1000px; grid-template-columns: repeat(3, 1fr); gap: 1rem; }
+        }
+
+        @media (max-width: 1100px) {
+            .main { max-width: 800px; }
+            .page-header { max-width: 800px; }
+            .stats-row { max-width: 800px; grid-template-columns: repeat(2, 1fr); }
+            .section-header { max-width: 800px; }
+            .annonces-grid { max-width: 800px; grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 840px) {
+            :root { --sidebar-w: 0px; }
+
+            .app-shell {
+                grid-template-columns: 1fr;
+                grid-template-areas:
+                    "topbar"
+                    "main";
+            }
+
+            .menu-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .sidebar {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 280px;
+                transform: translateX(-100%);
+                z-index: 90;
+                box-shadow: var(--shadow-lg);
+                height: calc(100vh - 80px);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main { padding: 1.5rem 1rem 2rem; }
+        }
+
+        @media (max-width: 640px) {
+            :root {
+                --radius-lg: 16px;
+            }
+            
+            .topbar {
+                padding: 0 1rem;
+                height: 70px;
+            }
+            
+            .topbar-left {
+                gap: 0.5rem;
+            }
+            
+            .logo-wrap {
+                margin-left: 0;
+            }
+            
+            .logo-wrap img {
+                height: 48px; /* Taille normale pour mobile */
+            }
+            
+            .topbar-divider {
+                height: 24px;
+            }
+            
+            .topbar-page-label {
+                font-size: 0.8rem;
+            }
+            
+            .topbar-right {
+                gap: 0.8rem;
+            }
+            
+            .topbar-user {
+                padding: 0.3rem 0.6rem 0.3rem 0.4rem;
+            }
+            
+            .topbar-avatar {
+                width: 28px;
+                height: 28px;
+                font-size: 0.7rem;
+            }
+            
+            .topbar-username {
+                max-width: 80px;
+                font-size: 0.8rem;
+            }
+            
+            .topbar-logout {
+                padding: 0.4rem 0.8rem;
+            }
+            
+            .topbar-logout span:last-child {
+                display: inline; /* Garder le texte sur mobile aussi */
+            }
+            
+            .main { 
+                max-width: 100%; 
+                padding: 1rem; 
+            }
+            
+            .page-header { 
+                max-width: 100%; 
+                flex-direction: column; 
+                align-items: stretch; 
+                margin-bottom: 1.5rem;
+            }
+            
+            .page-title {
+                font-size: 1.5rem;
+            }
+            
+            .btn-new { 
+                width: 100%; 
+                justify-content: center;
+                padding: 0.6rem 1rem;
+                font-size: 0.85rem;
+            }
+            
+            .stats-row { 
+                max-width: 100%; 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 0.75rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .stat-tile {
+                padding: 0.9rem 0.9rem 0.7rem;
+            }
+            
+            .stat-tile-value {
+                font-size: 1.4rem;
+            }
+            
+            .stat-tile-sub {
+                font-size: 0.65rem;
+            }
+            
+            .section-header { 
+                max-width: 100%;
+                margin-bottom: 1rem;
+            }
+            
+            .section-title {
+                font-size: 1rem;
+            }
+            
+            .annonces-grid { 
+                max-width: 100%; 
+                grid-template-columns: repeat(2, 1fr); 
+                gap: 0.75rem;
+            }
+            
+            .card-image {
+                height: 120px;
+            }
+            
+            .card-body {
+                padding: 0.8rem;
+            }
+            
+            .card-title {
+                font-size: 0.85rem;
+            }
+            
+            .card-price {
+                font-size: 1.1rem;
+            }
+            
+            .card-location {
+                font-size: 0.7rem;
+                margin-bottom: 0.6rem;
+            }
+            
+            .card-metrics {
+                margin-bottom: 0.75rem;
+                padding-top: 0.5rem;
+            }
+            
+            .metric-val {
+                font-size: 0.85rem;
+            }
+            
+            .card-action-btn {
+                padding: 0.4rem 0;
+                font-size: 0.7rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .topbar {
+                padding: 0 0.75rem;
+                height: 65px;
+            }
+            
+            .logo-wrap img {
+                height: 42px; /* Légèrement plus petit sur très petit écran */
+            }
+            
+            .topbar-left {
+                gap: 0.4rem;
+            }
+            
+            .topbar-divider {
+                height: 20px;
+            }
+            
+            .topbar-page-label {
+                display: none; /* Cacher le label sur très petit écran */
+            }
+            
+            .topbar-right {
+                gap: 0.5rem;
+            }
+            
+            .topbar-user {
+                padding: 0.25rem 0.5rem 0.25rem 0.3rem;
+            }
+            
+            .topbar-avatar {
+                width: 26px;
+                height: 26px;
+            }
+            
+            .topbar-username {
+                display: none; /* Cacher le nom sur très petit */
+            }
+            
+            .topbar-logout {
+                padding: 0.35rem 0.6rem;
+            }
+            
+            .topbar-logout span:last-child {
+                display: none; /* Cacher le texte sur très petit */
+            }
+            
+            .stats-row { 
+                grid-template-columns: 1fr; 
+                gap: 0.5rem;
+            }
+            
+            .annonces-grid { 
+                grid-template-columns: 1fr; 
+                gap: 0.75rem;
+            }
+
+            .toast { 
+                left: 1rem; 
+                right: 1rem; 
+                bottom: 1rem; 
+                max-width: none; 
+            }
+            
+            .card-image {
+                height: 140px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="app-shell">
+
+    <!-- ── TOP BAR CORRIGÉE ── -->
+    <header class="topbar">
+        <div class="topbar-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <span class="material-icons">menu</span>
+            </button>
+            <a href="index.html" class="logo-wrap">
+                <img src="images/loji.png" alt="Loji">
+            </a>
+            <div class="topbar-divider"></div>
+            <span class="topbar-page-label">Tableau de bord</span>
+        </div>
+        <div class="topbar-right">
+            <div class="topbar-user">
+                <div class="topbar-avatar" id="topbarAvatar">LO</div>
+                <span class="topbar-username" id="headerUserName">...</span>
+            </div>
+            <button onclick="auth.logout()" class="topbar-logout">
+                <span class="material-icons">logout</span>
+                <span>Déconnexion</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar" id="sidebar">
+        <!-- Profile card -->
+        <div class="profile-card">
+            <div class="profile-avatar-wrap">
+                <div class="profile-avatar" id="userInitials">LO</div>
+                <div class="profile-info">
+                    <div class="profile-name" id="userNameDisplay">Chargement...</div>
+                    <div class="profile-email" id="userEmailDisplay">—</div>
+                </div>
+            </div>
+            <button id="userPhoneDisplay" onclick="openPhoneModal()" class="phone-chip">
+                <span class="material-icons">phone</span>
+                <span>AJOUTER UN NUMÉRO</span>
+            </button>
+        </div>
+
+        <!-- Nav -->
+        <span class="nav-label">Menu</span>
+
+        <ul style="list-style:none; display:flex; flex-direction:column; gap:.1rem;">
+            <li class="nav-item active" data-page="annonces">
+                <span class="material-symbols-outlined">home</span>
+                <span>Mes annonces</span>
+            </li>
+            <li class="nav-item" data-page="dashboard">
+                <span class="material-symbols-outlined">dashboard</span>
+                <span>Tableau de bord</span>
+            </li>
+            <li class="nav-item" data-page="abonnes">
+                <span class="material-symbols-outlined">group</span>
+                <span>Abonnés</span>
+            </li>
+            <li class="nav-item" data-page="avis">
+                <span class="material-symbols-outlined">reviews</span>
+                <span>Avis</span>
+            </li>
+            <li class="nav-item" data-page="favoris">
+                <span class="material-symbols-outlined">favorite</span>
+                <span>Favoris</span>
+            </li>
+            <li class="nav-item" data-page="faq">
+                <span class="material-symbols-outlined">help</span>
+                <span>Foire aux questions</span>
+            </li>
+        </ul>
+    </aside>
+
+    <!-- ── MAIN ── -->
+    <main class="main">
+
+        <!-- Page header -->
+        <div class="page-header">
+            <div class="page-title-group">
+                <div class="page-eyebrow">Espace vendeur</div>
+                <h1 class="page-title">Mes annonces</h1>
+            </div>
+            <a href="depot-annonces.html" class="btn-new">
+                <span class="material-icons">add</span>
+                Nouvelle annonce
+            </a>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-row">
+            <div class="stat-tile">
+                <div class="stat-tile-top">
+                    <span class="stat-tile-label">Annonces actives</span>
+                    <div class="stat-tile-icon">
+                        <span class="material-symbols-outlined">ads_click</span>
+                    </div>
+                </div>
+                <div class="stat-tile-value" id="activeAdsCount">0</div>
+                <div class="stat-tile-sub">publications en ligne</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-tile-top">
+                    <span class="stat-tile-label">Vues totales</span>
+                    <div class="stat-tile-icon">
+                        <span class="material-symbols-outlined">visibility</span>
+                    </div>
+                </div>
+                <div class="stat-tile-value" id="totalViews">0</div>
+                <div class="stat-tile-sub">impressions cumulées</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-tile-top">
+                    <span class="stat-tile-label">Messages</span>
+                    <div class="stat-tile-icon">
+                        <span class="material-symbols-outlined">chat</span>
+                    </div>
+                </div>
+                <div class="stat-tile-value" id="totalMessages">0</div>
+                <div class="stat-tile-sub">contacts reçus</div>
+            </div>
+            <div class="stat-tile">
+                <div class="stat-tile-top">
+                    <span class="stat-tile-label">Visites</span>
+                    <div class="stat-tile-icon">
+                        <span class="material-symbols-outlined">event</span>
+                    </div>
+                </div>
+                <div class="stat-tile-value" id="totalVisits">0</div>
+                <div class="stat-tile-sub">visites planifiées</div>
+            </div>
+        </div>
+
+        <!-- Section header -->
+        <div class="section-header">
+            <span class="section-title">Publications récentes</span>
+            <span class="section-count hidden" id="adsCountBadge">0 annonces</span>
+        </div>
+
+        <!-- Loading -->
+        <div id="loadingState" class="loading-state hidden">
+            <div class="spinner"></div>
+            <p style="font-size:.875rem">Chargement de vos annonces...</p>
+        </div>
+
+        <!-- Empty -->
+        <div id="emptyState" class="empty-state">
+            <div class="empty-icon">
+                <span class="material-symbols-outlined">post_add</span>
+            </div>
+            <h3>Aucune annonce pour le moment</h3>
+            <p>Publiez vos premières annonces et atteignez des milliers d'acheteurs potentiels en Côte d'Ivoire.</p>
+            <a href="depot-annonces.html" class="btn-outline">
+                <span class="material-icons">add</span>
+                Créer ma première annonce
+            </a>
+        </div>
+
+        <!-- Grid -->
+        <div id="annoncesGrid" class="annonces-grid hidden"></div>
+
+    </main>
+</div>
+
+<!-- Delete Modal -->
+<div id="deleteModal" class="modal hidden">
+    <div class="modal-box">
+        <div class="modal-icon danger">
+            <span class="material-icons">delete_outline</span>
+        </div>
+        <h3>Supprimer l'annonce ?</h3>
+        <p>Cette action est irréversible. L'annonce sera définitivement retirée de la plateforme.</p>
+        <div class="modal-actions">
+            <button onclick="confirmDelete()" class="modal-btn danger">Supprimer</button>
+            <button onclick="closeDeleteModal()" class="modal-btn ghost">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<!-- Phone Modal -->
+<div id="phoneModal" class="modal hidden">
+    <div class="modal-box">
+        <div class="modal-icon primary">
+            <span class="material-icons">phone</span>
+        </div>
+        <h3>Numéro de téléphone</h3>
+        <p>Ce numéro sera visible par les acheteurs pour vous contacter directement.</p>
+        <input type="tel" id="phoneInput" class="modal-input" placeholder="+225 07 00 00 00 00">
+        <div class="modal-actions">
+            <button onclick="savePhoneNumber()" class="modal-btn primary">Enregistrer</button>
+            <button onclick="closePhoneModal()" class="modal-btn ghost">Annuler</button>
+        </div>
+    </div>
+</div>
+
+<script src="auth.js"></script>
+<script src="api.js"></script>
+
+<script>
+    // ── STATE ──
+    const dashboardState = { user: null, ads: [], stats: {} };
+    let currentDeleteId = null;
+
+    // ── INIT ──
+    document.addEventListener('DOMContentLoaded', () => {
+        if (!window.auth || !auth.isLoggedIn()) {
+            window.location.href = 'connexion.html';
+            return;
+        }
+        initNav();
+        loadUserData();
+        loadUserAnnonces();
+        
+        // Menu mobile toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => {
+                sidebar.classList.toggle('open');
+            });
+            
+            // Fermer le menu quand on clique en dehors
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 840) {
+                    if (!sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                        sidebar.classList.remove('open');
+                    }
+                }
+            });
+        }
+    });
+
+    function initNav() {
+        document.querySelectorAll('[data-page]').forEach(item => {
+            item.addEventListener('click', e => {
+                e.preventDefault();
+                navigateTo(item.getAttribute('data-page'));
+            });
+        });
+    }
+
+    // ── USER ──
+    function loadUserData() {
+        const user = auth.getUser();
+        if (!user) { auth.logout(); return; }
+        dashboardState.user = user;
+        const phone = localStorage.getItem('userPhone') || auth.getPhone?.() || '';
+        updateUserDisplay(user, phone);
+    }
+
+    function updateUserDisplay(user, phone) {
+        if (!user) return;
+        const name = user.username || user.name || 'Utilisateur';
+        const initials = name.substring(0, 2).toUpperCase();
+        const shortName = name.length > 12 ? name.substring(0, 12) + '…' : name;
+
+        document.getElementById('userNameDisplay').textContent = name;
+        document.getElementById('userEmailDisplay').textContent = user.email || '—';
+        document.getElementById('userInitials').textContent = initials;
+        document.getElementById('topbarAvatar').textContent = initials;
+        document.getElementById('headerUserName').textContent = shortName;
+
+        const phoneBadge = document.getElementById('userPhoneDisplay');
+        if (phone) {
+            phoneBadge.innerHTML = `<span class="material-icons" style="font-size:.9rem">phone</span><span>${phone}</span>`;
+            phoneBadge.onclick = null;
+            phoneBadge.style.cursor = 'default';
+        }
+    }
+
+    // ── SANITIZE (XSS) ──
+    function s(str) {
+        const d = document.createElement('div');
+        d.textContent = str ?? '';
+        return d.innerHTML;
+    }
+
+    // ── ANNONCES ──
+    async function loadUserAnnonces() {
+        if (!window.API?.getUserAnnonces) return;
+
+        const loader = document.getElementById('loadingState');
+        const empty  = document.getElementById('emptyState');
+        const grid   = document.getElementById('annoncesGrid');
+
+        loader.classList.remove('hidden');
+        grid.classList.add('hidden');
+        empty.classList.add('hidden');
+
+        try {
+            const ads = await window.API.getUserAnnonces();
+
+            loader.classList.add('hidden');
+
+            if (!ads.length) {
+                empty.classList.remove('hidden');
+                return;
+            }
+
+            dashboardState.ads = ads;
+
+            let views = 0, messages = 0, visits = 0;
+            ads.forEach(a => {
+                views    += a.vues     || 0;
+                messages += a.messages || 0;
+                visits   += a.visites  || 0;
+            });
+
+            document.getElementById('activeAdsCount').textContent = ads.length;
+            document.getElementById('totalViews').textContent     = views.toLocaleString('fr-FR');
+            document.getElementById('totalMessages').textContent  = messages.toLocaleString('fr-FR');
+            document.getElementById('totalVisits').textContent    = visits.toLocaleString('fr-FR');
+
+            const badge = document.getElementById('adsCountBadge');
+            badge.textContent = `${ads.length} annonce${ads.length > 1 ? 's' : ''}`;
+            badge.classList.remove('hidden');
+
+            grid.classList.remove('hidden');
+            renderAds(ads);
+
+        } catch (err) {
+            console.error('Erreur chargement annonces:', err);
+            loader.innerHTML = '<p style="color:#ef4444;font-size:.875rem">Impossible de charger les annonces.</p>';
+        }
+    }
+
+    function renderAds(ads) {
+        const grid = document.getElementById('annoncesGrid');
+        grid.innerHTML = ads.map(ad => `
+            <div class="annonce-card">
+                <div class="card-image">
+                    <img
+                        src="${s(ad.image)}"
+                        alt="${s(ad.titre)}"
+                        onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 width=%22300%22 height=%22160%22%3E%3Crect width=%22300%22 height=%22160%22 fill=%22%23dbeafe%22/%3E%3Ctext x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 font-family=%22sans-serif%22 font-size=%2214%22 fill=%22%2393c5fd%22%3ELoji%3C/text%3E%3C/svg%3E'"
+                    >
+                    <div class="card-img-overlay"></div>
+                </div>
+                <div class="card-body">
+                    <div class="card-title">${s(ad.titre)}</div>
+                    <div class="card-price">${s(ad.prix)}</div>
+                    <div class="card-location">
+                        <span class="material-symbols-outlined">location_on</span>
+                        ${s(ad.ville)}
+                    </div>
+                    <div class="card-metrics">
+                        <div class="metric">
+                            <span class="metric-val">${ad.vues || 0}</span>
+                            <span class="metric-label">vues</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-val">${ad.messages || 0}</span>
+                            <span class="metric-label">messages</span>
+                        </div>
+                        <div class="metric">
+                            <span class="metric-val">${ad.visites || 0}</span>
+                            <span class="metric-label">visites</span>
+                        </div>
+                    </div>
+                    <div class="card-actions-bottom">
+                        <button onclick="editAnnonce(${Number(ad.id)})" class="card-action-btn edit">
+                            <span class="material-symbols-outlined">edit</span>
+                            Modifier
+                        </button>
+                        <button onclick="openDeleteModal(${Number(ad.id)})" class="card-action-btn delete">
+                            <span class="material-symbols-outlined">delete</span>
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
+
+    // ── ACTIONS ──
+    window.editAnnonce = id => {
+        window.location.href = `depot-annonces.html?edit=${Number(id)}`;
+    };
+
+    window.openDeleteModal = id => {
+        currentDeleteId = id;
+        document.getElementById('deleteModal').classList.remove('hidden');
+    };
+
+    window.closeDeleteModal = () => {
+        currentDeleteId = null;
+        document.getElementById('deleteModal').classList.add('hidden');
+    };
+
+    window.confirmDelete = async () => {
+        if (!currentDeleteId) return;
+        const ok = await window.API.deleteAnnonce(currentDeleteId);
+        if (ok) {
+            showToast('Annonce supprimée', 'success');
+            closeDeleteModal();
+            loadUserAnnonces();
+        } else {
+            showToast('Erreur lors de la suppression', 'error');
+        }
+    };
+
+    // ── PHONE ──
+    window.openPhoneModal  = () => document.getElementById('phoneModal').classList.remove('hidden');
+    window.closePhoneModal = () => document.getElementById('phoneModal').classList.add('hidden');
+
+    window.savePhoneNumber = () => {
+        const phone = document.getElementById('phoneInput').value.trim();
+        if (!phone) { showToast('Numéro invalide', 'error'); return; }
+        localStorage.setItem('userPhone', phone);
+        updateUserDisplay(dashboardState.user, phone);
+        closePhoneModal();
+        showToast('Numéro enregistré', 'success');
+    };
+
+    // ── NAV ──
+    function navigateTo(page) {
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
+        if (page === 'annonces' || page === 'dashboard') {
+            window.location.reload();
+        } else {
+            showToast('Fonctionnalité à venir', 'info');
+        }
+    }
+
+    // ── TOAST ──
+    function showToast(msg, type = 'info') {
+        const icons = { success: 'check_circle', error: 'error', info: 'info' };
+        const t = document.createElement('div');
+        t.className = `toast ${type}`;
+        t.innerHTML = `<span class="material-icons">${icons[type]}</span><span>${msg}</span>`;
+        document.body.appendChild(t);
+        setTimeout(() => t.remove(), 3200);
+    }
+</script>
+
+</body>
+</html>npm run develop

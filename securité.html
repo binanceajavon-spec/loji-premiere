@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sécurité - Loji</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet"/>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography"></script>
+    
+    <script>
+        tailwind.config = {
+          theme: {
+            extend: {
+              colors: {
+                primary: "#10B981",
+                "background-light": "#F0F4F8",
+                "card-light": "#FFFFFF",
+                "text-light-primary": "#2D3748",
+                "text-light-secondary": "#718096",
+                "border-light": "#E2E8F0",
+                "danger": "#EF4444",
+                "warning": "#F59E0B",
+              },
+              fontFamily: {
+                display: ["Roboto", "sans-serif"],
+              },
+              borderRadius: {
+                DEFAULT: "0.75rem",
+              },
+            },
+          },
+        };
+    </script>
+    
+    <style>
+        .material-symbols-outlined {
+          font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        
+        .card-border {
+            border: 1px solid #E2E8F0;
+        }
+        
+        .password-strength-bar {
+            transition: all 0.3s ease;
+        }
+    </style>
+</head>
+
+<body class="font-display bg-background-light text-text-light-primary">
+    
+    <!-- HEADER -->
+    <header class="bg-white shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex justify-between items-center">
+            <a href="user-dashboard.html" class="flex items-center gap-2 text-gray-600 hover:text-primary">
+                <span class="material-symbols-outlined">arrow_back</span>
+                <span>Retour</span>
+            </a>
+            <h1 class="text-xl font-bold">Sécurité du compte</h1>
+            <div class="w-6"></div> <!-- Espace pour l'équilibrage -->
+        </div>
+    </header>
+
+    <!-- CONTENU PRINCIPAL -->
+    <main class="max-w-4xl mx-auto p-6">
+        <div class="space-y-6">
+            
+            <!-- SECTION CHANGEMENT MOT DE PASSE -->
+            <div class="bg-card-light p-6 rounded-lg card-border">
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">lock</span>
+                    Changer le mot de passe
+                </h2>
+                <p class="text-text-light-secondary mb-6">Mettez à jour votre mot de passe pour renforcer la sécurité de votre compte.</p>
+                
+                <form id="passwordForm" class="space-y-4">
+                    <!-- Ancien mot de passe -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Mot de passe actuel</label>
+                        <div class="relative">
+                            <input type="password" id="currentPassword" 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-10"
+                                   placeholder="Entrez votre mot de passe actuel">
+                            <button type="button" onclick="togglePassword('currentPassword')" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Nouveau mot de passe -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Nouveau mot de passe</label>
+                        <div class="relative">
+                            <input type="password" id="newPassword" 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-10"
+                                   placeholder="Créez un nouveau mot de passe"
+                                   oninput="checkPasswordStrength()">
+                            <button type="button" onclick="togglePassword('newPassword')" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </button>
+                        </div>
+                        
+                        <!-- Indicateur de force du mot de passe -->
+                        <div id="passwordStrength" class="mt-2 hidden">
+                            <div class="flex items-center gap-2 mb-1">
+                                <div class="flex-1 h-2 bg-gray-200 rounded-full overflow-hidden">
+                                    <div id="strengthBar" class="h-full password-strength-bar w-0"></div>
+                                </div>
+                                <span id="strengthText" class="text-xs font-medium"></span>
+                            </div>
+                            <div id="passwordRequirements" class="text-xs text-gray-500 space-y-1"></div>
+                        </div>
+                    </div>
+
+                    <!-- Confirmation mot de passe -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Confirmer le nouveau mot de passe</label>
+                        <div class="relative">
+                            <input type="password" id="confirmPassword" 
+                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent pr-10"
+                                   placeholder="Confirmez votre nouveau mot de passe">
+                            <button type="button" onclick="togglePassword('confirmPassword')" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600">
+                                <span class="material-symbols-outlined text-lg">visibility</span>
+                            </button>
+                        </div>
+                        <div id="passwordMatch" class="text-xs mt-1 hidden"></div>
+                    </div>
+
+                    <!-- Bouton de soumission -->
+                    <button type="submit" class="w-full bg-primary text-white py-3 rounded-lg hover:bg-green-600 transition-colors font-medium mt-4">
+                        Changer le mot de passe
+                    </button>
+                </form>
+            </div>
+
+            <!-- SECTION SÉCURITÉ AVANCÉE -->
+            <div class="bg-card-light p-6 rounded-lg card-border">
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-warning">security</span>
+                    Sécurité avancée
+                </h2>
+                <p class="text-text-light-secondary mb-6">Options supplémentaires pour protéger votre compte.</p>
+                
+                <div class="space-y-4">
+                    <!-- Connexions actives -->
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                            <h3 class="font-medium">Sessions actives</h3>
+                            <p class="text-sm text-gray-600">Gérez vos appareils connectés</p>
+                        </div>
+                        <button onclick="viewActiveSessions()" class="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors">
+                            Voir
+                        </button>
+                    </div>
+
+                    <!-- Authentification à deux facteurs -->
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                            <h3 class="font-medium">Authentification à deux facteurs</h3>
+                            <p class="text-sm text-gray-600">Ajoutez une couche de sécurité supplémentaire</p>
+                        </div>
+                        <button onclick="enableTwoFactor()" class="px-4 py-2 bg-warning text-white rounded-lg hover:bg-amber-600 transition-colors">
+                            Activer
+                        </button>
+                    </div>
+
+                    <!-- Notifications de sécurité -->
+                    <div class="flex items-center justify-between p-4 border border-gray-200 rounded-lg">
+                        <div>
+                            <h3 class="font-medium">Notifications de sécurité</h3>
+                            <p class="text-sm text-gray-600">Soyez alerté des activités suspectes</p>
+                        </div>
+                        <label class="relative inline-flex items-center cursor-pointer">
+                            <input type="checkbox" class="sr-only peer" checked>
+                            <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-primary"></div>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION DANGER -->
+            <div class="bg-red-50 p-6 rounded-lg card-border border-red-200">
+                <h2 class="text-xl font-bold mb-2 flex items-center gap-2 text-danger">
+                    <span class="material-symbols-outlined">warning</span>
+                    Zone de danger
+                </h2>
+                <p class="text-red-700 mb-6">Ces actions sont irréversibles. Soyez certain de votre choix.</p>
+                
+                <div class="space-y-4">
+                    <!-- Désactivation du compte -->
+                    <div class="flex items-center justify-between p-4 border border-red-200 rounded-lg bg-white">
+                        <div>
+                            <h3 class="font-medium text-red-700">Désactiver le compte</h3>
+                            <p class="text-sm text-red-600">Votre compte sera temporairement désactivé</p>
+                        </div>
+                        <button onclick="deactivateAccount()" class="px-4 py-2 border border-red-300 text-red-700 rounded-lg hover:bg-red-50 transition-colors">
+                            Désactiver
+                        </button>
+                    </div>
+
+                    <!-- Suppression du compte -->
+                    <div class="flex items-center justify-between p-4 border border-red-200 rounded-lg bg-white">
+                        <div>
+                            <h3 class="font-medium text-red-700">Supprimer le compte</h3>
+                            <p class="text-sm text-red-600">Toutes vos données seront définitivement effacées</p>
+                        </div>
+                        <button onclick="deleteAccount()" class="px-4 py-2 bg-danger text-white rounded-lg hover:bg-red-700 transition-colors">
+                            Supprimer
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- MODAL SUPPRESSION COMPTE -->
+    <div id="deleteModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white p-6 rounded-lg w-96 card-border">
+            <div class="text-center mb-4">
+                <span class="material-symbols-outlined text-danger text-4xl mb-2">warning</span>
+                <h3 class="text-lg font-bold text-danger">Supprimer le compte</h3>
+            </div>
+            <p class="text-gray-600 mb-4 text-center">Cette action est irréversible. Toutes vos données seront perdues.</p>
+            <input type="password" id="confirmDeletePassword" placeholder="Entrez votre mot de passe pour confirmer" class="w-full p-3 border border-gray-300 rounded-lg mb-4">
+            <div class="flex gap-3">
+                <button onclick="confirmDelete()" class="flex-1 bg-danger text-white py-2 rounded-lg">Supprimer</button>
+                <button onclick="closeDeleteModal()" class="flex-1 bg-gray-300 py-2 rounded-lg">Annuler</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Gestion du formulaire de changement de mot de passe
+        document.getElementById('passwordForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            changePassword();
+        });
+
+        // Vérification de la correspondance des mots de passe
+        document.getElementById('confirmPassword').addEventListener('input', function() {
+            checkPasswordMatch();
+        });
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.nextElementSibling.querySelector('span');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.textContent = 'visibility_off';
+            } else {
+                input.type = 'password';
+                icon.textContent = 'visibility';
+            }
+        }
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('newPassword').value;
+            const strengthDiv = document.getElementById('passwordStrength');
+            const strengthBar = document.getElementById('strengthBar');
+            const strengthText = document.getElementById('strengthText');
+            const requirementsDiv = document.getElementById('passwordRequirements');
+            
+            if (password.length === 0) {
+                strengthDiv.classList.add('hidden');
+                return;
+            }
+            
+            strengthDiv.classList.remove('hidden');
+            
+            let strength = 0;
+            let requirements = [];
+            
+            // Longueur
+            if (password.length >= 8) {
+                strength += 25;
+                requirements.push('✓ Au moins 8 caractères');
+            } else {
+                requirements.push('✗ Au moins 8 caractères');
+            }
+            
+            // Majuscule
+            if (/[A-Z]/.test(password)) {
+                strength += 25;
+                requirements.push('✓ Lettre majuscule');
+            } else {
+                requirements.push('✗ Lettre majuscule');
+            }
+            
+            // Chiffre
+            if (/[0-9]/.test(password)) {
+                strength += 25;
+                requirements.push('✓ Chiffre');
+            } else {
+                requirements.push('✗ Chiffre');
+            }
+            
+            // Caractère spécial
+            if (/[^A-Za-z0-9]/.test(password)) {
+                strength += 25;
+                requirements.push('✓ Caractère spécial');
+            } else {
+                requirements.push('✗ Caractère spécial');
+            }
+            
+            // Mise à jour de la barre et du texte
+            strengthBar.style.width = strength + '%';
+            
+            if (strength < 50) {
+                strengthBar.style.backgroundColor = '#EF4444';
+                strengthText.textContent = 'Faible';
+                strengthText.className = 'text-xs font-medium text-red-600';
+            } else if (strength < 75) {
+                strengthBar.style.backgroundColor = '#F59E0B';
+                strengthText.textContent = 'Moyen';
+                strengthText.className = 'text-xs font-medium text-amber-600';
+            } else {
+                strengthBar.style.backgroundColor = '#10B981';
+                strengthText.textContent = 'Fort';
+                strengthText.className = 'text-xs font-medium text-green-600';
+            }
+            
+            requirementsDiv.innerHTML = requirements.map(req => 
+                `<div class="${req.startsWith('✓') ? 'text-green-600' : 'text-red-600'}">${req}</div>`
+            ).join('');
+        }
+
+        function checkPasswordMatch() {
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const matchDiv = document.getElementById('passwordMatch');
+            
+            if (confirmPassword.length === 0) {
+                matchDiv.classList.add('hidden');
+                return;
+            }
+            
+            matchDiv.classList.remove('hidden');
+            
+            if (newPassword === confirmPassword) {
+                matchDiv.textContent = '✓ Les mots de passe correspondent';
+                matchDiv.className = 'text-xs mt-1 text-green-600';
+            } else {
+                matchDiv.textContent = '✗ Les mots de passe ne correspondent pas';
+                matchDiv.className = 'text-xs mt-1 text-red-600';
+            }
+        }
+
+        function changePassword() {
+            const currentPassword = document.getElementById('currentPassword').value;
+            const newPassword = document.getElementById('newPassword').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            
+            // Validation basique
+            if (!currentPassword) {
+                alert('Veuillez entrer votre mot de passe actuel');
+                return;
+            }
+            
+            if (newPassword !== confirmPassword) {
+                alert('Les mots de passe ne correspondent pas');
+                return;
+            }
+            
+            if (newPassword.length < 8) {
+                alert('Le nouveau mot de passe doit contenir au moins 8 caractères');
+                return;
+            }
+            
+            // Ici, intégration avec Strapi
+            console.log('Changement de mot de passe:', { currentPassword, newPassword });
+            alert('Mot de passe changé avec succès !');
+            
+            // Réinitialisation du formulaire
+            document.getElementById('passwordForm').reset();
+            document.getElementById('passwordStrength').classList.add('hidden');
+            document.getElementById('passwordMatch').classList.add('hidden');
+        }
+
+        function viewActiveSessions() {
+            alert('Fonctionnalité sessions actives à implémenter');
+        }
+
+        function enableTwoFactor() {
+            alert('Fonctionnalité 2FA à implémenter');
+        }
+
+        function deactivateAccount() {
+            if (confirm('Voulez-vous vraiment désactiver votre compte ? Vous pourrez le réactiver plus tard.')) {
+                alert('Compte désactivé (simulation)');
+            }
+        }
+
+        function deleteAccount() {
+            document.getElementById('deleteModal').classList.remove('hidden');
+        }
+
+        function closeDeleteModal() {
+            document.getElementById('deleteModal').classList.add('hidden');
+            document.getElementById('confirmDeletePassword').value = '';
+        }
+
+        function confirmDelete() {
+            const password = document.getElementById('confirmDeletePassword').value;
+            if (!password) {
+                alert('Veuillez entrer votre mot de passe');
+                return;
+            }
+            
+            if (confirm('ÊTES-VOUS ABSOLUMENT SÛR ? Cette action est irréversible !')) {
+                alert('Compte supprimé (simulation)');
+                closeDeleteModal();
+                // Redirection vers la page d'accueil
+                setTimeout(() => window.location.href = 'index.html', 1000);
+            }
+        }
+    </script>
+</body>
+</html>
