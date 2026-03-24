@@ -19,7 +19,7 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #EEF2FF; /* Nouvelle couleur de fond */
+            background: #EEF2FF;
             min-height: 100vh;
             padding: 2rem 1rem;
             position: relative;
@@ -36,7 +36,6 @@
             border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        /* Flèche de retour modernisée */
         .back-arrow {
             position: fixed;
             top: 1.5rem;
@@ -246,7 +245,6 @@
             transform: none;
         }
 
-        /* Nouvelle section partage moderne */
         .share-section {
             background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
             border-radius: 1.5rem;
@@ -570,7 +568,7 @@
                     placeholder="Décrivez votre bien en quelques lignes..."></textarea>
             </div>
 
-            <!-- ===== NOUVELLE SECTION PARTAGE MODERNE ===== -->
+            <!-- Section partage moderne -->
             <div class="share-section">
                 <div class="share-title">
                     <span class="material-icons">share</span>
@@ -578,35 +576,30 @@
                 </div>
 
                 <div class="share-grid">
-                    <!-- Facebook -->
                     <label class="share-card">
                         <i class="fab fa-facebook"></i>
                         <span>Facebook</span>
                         <input type="checkbox" name="share_facebook" class="checkbox">
                     </label>
 
-                    <!-- Instagram -->
                     <label class="share-card">
                         <i class="fab fa-instagram"></i>
                         <span>Instagram</span>
                         <input type="checkbox" name="share_instagram" class="checkbox">
                     </label>
 
-                    <!-- TikTok -->
                     <label class="share-card">
                         <i class="fab fa-tiktok"></i>
                         <span>TikTok</span>
                         <input type="checkbox" name="share_tiktok" class="checkbox">
                     </label>
 
-                    <!-- WhatsApp -->
                     <label class="share-card">
                         <i class="fab fa-whatsapp"></i>
                         <span>WhatsApp</span>
                         <input type="checkbox" name="share_whatsapp" class="checkbox">
                     </label>
 
-                    <!-- Twitter/X -->
                     <label class="share-card">
                         <i class="fab fa-x-twitter"></i>
                         <span>X (Twitter)</span>
@@ -621,14 +614,12 @@
                 </div>
             </div>
 
-            <!-- Bouton de publication -->
             <button type="submit" class="btn">
                 <span class="material-icons">publish</span>
                 Publier l'annonce
             </button>
         </form>
 
-        <!-- Résultat -->
         <div id="resultat" class="hidden"></div>
     </div>
 
@@ -686,7 +677,10 @@
     <script src="auth.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const STRAPI_URL = 'http://localhost:1337';
+            // =============================================
+            // 1. URL DU BACKEND RAILWAY (CORRECTION PRIORITAIRE)
+            // =============================================
+            const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
             let uploadedImages = [];
 
             // GESTION UPLOAD IMAGES
@@ -751,7 +745,7 @@
             // Fonction de partage sur les réseaux
             async function shareToSocialNetworks(annonce, networks) {
                 const results = {};
-                const annonceUrl = `http://localhost:1337/annonce.html?id=${annonce.id}`;
+                const annonceUrl = `https://my-strapi-project-production-d4d2.up.railway.app/annonce.html?id=${annonce.id}`;
                 
                 const message = encodeURIComponent(
                     `🏠 ${annonce.Titre}\n` +
@@ -801,16 +795,21 @@
 
                 try {
                     const user = JSON.parse(localStorage.getItem('user') || '{}');
-                    const token = localStorage.getItem('userToken') || localStorage.getItem('jwt');
+                    
+                    // =============================================
+                    // 2. SÉCURISATION DE LA RÉCUPÉRATION DU TOKEN
+                    // Utilisation de la clé 'jwt' comme dans auth.js
+                    // =============================================
+                    const token = localStorage.getItem('jwt');
 
                     if (!user || !user.id || !token) {
-                        showResult('error', '❌ Vous devez être connecté pour publier');
+                        showResult('error', '❌ Vous devez être connecté pour publier une annonce. Veuillez vous connecter.');
                         submitBtn.innerHTML = originalText;
                         submitBtn.disabled = false;
                         return;
                     }
 
-                    // Upload des images
+                    // Upload des images vers Strapi
                     const uploadedImageIds = [];
                     
                     for (let i = 0; i < uploadedImages.length; i++) {
@@ -826,11 +825,15 @@
 
                         if (uploadResponse.ok) {
                             const uploadResult = await uploadResponse.json();
-                            uploadedImageIds.push(uploadResult[0].id);
+                            if (uploadResult && uploadResult[0] && uploadResult[0].id) {
+                                uploadedImageIds.push(uploadResult[0].id);
+                            }
+                        } else {
+                            console.error('Erreur upload image:', await uploadResponse.text());
                         }
                     }
 
-                    // Création de l'annonce
+                    // Création de l'annonce dans Strapi
                     const formData = new FormData(this);
                     
                     const annonceData = {
@@ -851,11 +854,7 @@
                             Internet: formData.has('internet'),
                             Nombredechambres: formData.get('nb_chambres') ? parseInt(formData.get('nb_chambres')) : null,
                             Nombresalledebain: formData.get('nb_salles_bain') ? parseInt(formData.get('nb_salles_bain')) : null,
-                            
-                            // Lier à l'utilisateur
                             user: user.id,
-                            
-                            // Lier les images
                             Galeriephotos: uploadedImageIds 
                         }
                     };
@@ -881,7 +880,7 @@
                         
                         // Partager sur les réseaux si demandé
                         if (shareFacebook || shareInstagram || shareTiktok || shareWhatsapp || shareTwitter) {
-                            showResult('info', '📱 Partage en cours...');
+                            showResult('info', '📱 Ouverture des réseaux sociaux...');
                             
                             await shareToSocialNetworks(result.data, {
                                 facebook: shareFacebook,
@@ -892,21 +891,22 @@
                             });
                         }
                         
-                        showResult('success', '✅ Annonce publiée avec succès !');
+                        showResult('success', '✅ Annonce publiée avec succès ! Redirection en cours...');
                         
-                        // Réinitialisation
+                        // Réinitialisation du formulaire
                         this.reset();
                         uploadedImages = [];
                         updateFileList();
                         
-                        // Redirection
+                        // Redirection vers le tableau de bord
                         setTimeout(() => {
                             window.location.href = 'user-dashboard.html';
                         }, 2000);
                         
                     } else {
                         const errorText = await response.text();
-                        throw new Error(`Erreur ${response.status}: ${errorText}`);
+                        console.error('Erreur API:', errorText);
+                        throw new Error(`Erreur ${response.status}: La publication a échoué`);
                     }
 
                 } catch (error) {
