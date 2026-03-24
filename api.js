@@ -1,8 +1,7 @@
 // api.js - Version finale corrigée pour Strapi v5 (LOGi)
-// api.js - Version finale corrigée pour PRODUCTION (LOGI)
 const API = {
-    baseURL: 'https://my-strapi-project-production-d4d2.up.railway.app/api', // ✅ Corrigé
-    serverURL: 'https://my-strapi-project-production-d4d2.up.railway.app',    // ✅ Corrigé
+    baseURL: 'https://my-strapi-project-production-d4d2.up.railway.app/api',
+    serverURL: 'https://my-strapi-project-production-d4d2.up.railway.app',
 
     // 1. Récupérer les annonces de l'utilisateur connecté
     async getUserAnnonces() {
@@ -40,30 +39,37 @@ const API = {
             console.log('✅ Données reçues:', rawData);
 
             // Transformer chaque annonce
-        // Remplace le .map() existant par celui-ci :
-const annoncesTransformees = rawData.map(item => {
-    const attrs = item.attributes; // Obligatoire en v4.25
-    let imageUrl = 'https://via.placeholder.com/400x300?text=Pas+d\'image';
-    
-    // Récupération de l'image (Galerie ou Principale)
-    const photoPath = attrs.Galeriephotos?.data?.[0]?.attributes?.url || 
-                     attrs.Imageprincipale?.data?.attributes?.url;
-    
-    if (photoPath) {
-        // Si Cloudinary, on garde l'URL. Si local, on ajoute le serveur Railway.
-        imageUrl = photoPath.startsWith('http') ? photoPath : `${this.serverURL}${photoPath}`;
-    }
+            const annoncesTransformees = rawData.map(item => {
+                const attrs = item.attributes;
+                let imageUrl = 'https://via.placeholder.com/400x300?text=Pas+d\'image';
+                
+                // Récupération de l'image (Galerie ou Principale)
+                const photoPath = attrs.Galeriephotos?.data?.[0]?.attributes?.url || 
+                                 attrs.Imageprincipale?.data?.attributes?.url;
+                
+                if (photoPath) {
+                    // Si Cloudinary, on garde l'URL. Si local, on ajoute le serveur Railway.
+                    imageUrl = photoPath.startsWith('http') ? photoPath : `${this.serverURL}${photoPath}`;
+                }
 
-    return {
-        id: item.id,
-        titre: attrs.Titre || "Sans titre",
-        prix: attrs.Prix ? `${attrs.Prix} CFA` : "Prix non fixé",
-        ville: attrs.Ville || "Non précisée",
-        status: attrs.publishedAt ? "Publié" : "Brouillon",
-        image: imageUrl,
-        date: attrs.createdAt
-    };
-});
+                return {
+                    id: item.id,
+                    titre: attrs.Titre || "Sans titre",
+                    prix: attrs.Prix ? `${attrs.Prix} CFA` : "Prix non fixé",
+                    ville: attrs.Ville || "Non précisée",
+                    status: attrs.publishedAt ? "Publié" : "Brouillon",
+                    image: imageUrl,
+                    date: attrs.createdAt
+                };
+            });
+
+            return annoncesTransformees;
+
+        } catch (error) {
+            console.error('❌ Erreur dans getUserAnnonces:', error);
+            return [];
+        }
+    },
 
     // 2. Supprimer une annonce
     async deleteAnnonce(id) {
