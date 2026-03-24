@@ -2,9 +2,8 @@
 // APP.JS - VERSION PROPRE ET OPTIMISÉE
 // =============================================
 
-// Configuration
 const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
-const API_URL = `${STRAPI_URL}/api/annonces?populate=*`;
+const API_URL = `${STRAPI_URL}/api/annonces?populate=*`; // Ajoute populate=* pour voir les images
 
 // =============================================
 // INITIALISATION
@@ -185,39 +184,35 @@ function createMobileCard(titre, description, prix, ville, quartier, surface, pi
 function getImageUrl(annonce) {
     try {
         const attrs = annonce.attributes || annonce;
-        
-        // Cas 1: Galeriephotos (tableau direct)
-        if (attrs.Galeriephotos && Array.isArray(attrs.Galeriephotos) && attrs.Galeriephotos.length > 0) {
-            const img = attrs.Galeriephotos[0];
-            if (img && img.url) return `${STRAPI_URL}${img.url}`;
+        let path = "";
+
+        // On cherche le chemin dans Galeriephotos ou Imageprincipale (v4 structure)
+        if (attrs.Galeriephotos?.data?.[0]?.attributes?.url) {
+            path = attrs.Galeriephotos.data[0].attributes.url;
+        } else if (attrs.Imageprincipale?.data?.attributes?.url) {
+            path = attrs.Imageprincipale.data.attributes.url;
+        } else if (attrs.Galeriephotos?.[0]?.url) {
+            path = attrs.Galeriephotos[0].url;
+        } else if (attrs.Imageprincipale?.url) {
+            path = attrs.Imageprincipale.url;
         }
-        
-        // Cas 2: Galeriephotos (structure Strapi v4)
-        if (attrs.Galeriephotos && attrs.Galeriephotos.data && attrs.Galeriephotos.data.length > 0) {
-            const img = attrs.Galeriephotos.data[0];
-            if (img && img.attributes && img.attributes.url) {
-                return `${STRAPI_URL}${img.attributes.url}`;
-            }
-        }
-        
-        // Cas 3: Imageprincipale (direct)
-        if (attrs.Imageprincipale && attrs.Imageprincipale.url) {
-            return `${STRAPI_URL}${attrs.Imageprincipale.url}`;
-        }
-        
-        // Cas 4: Imageprincipale (structure Strapi v4)
-        if (attrs.Imageprincipale && attrs.Imageprincipale.data && attrs.Imageprincipale.data.attributes) {
-            return `${STRAPI_URL}${attrs.Imageprincipale.data.attributes.url}`;
-        }
-        
-        // Image par défaut
-        return 'https://via.placeholder.com/600x400?text=Photo+non+disponible';
-        
+
+        // Si aucune image n'est trouvée
+        if (!path) return 'https://via.placeholder.com/600x400?text=Photo+non+disponible';
+
+        // SOLUTION CLAIRE : Si c'est Cloudinary (http), on renvoie tel quel. 
+        // Sinon (local), on ajoute l'URL de ton serveur Railway.
+        return path.startsWith('http') ? path : `${STRAPI_URL}${path}`;
+
     } catch (error) {
         console.error('Erreur chargement image:', error);
         return 'https://via.placeholder.com/600x400?text=Erreur+image';
     }
 }
+
+
+
+
 
 // =============================================
 // CONSTRUCTION DES CARACTÉRISTIQUES
