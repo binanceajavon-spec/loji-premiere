@@ -140,4 +140,3 @@ const API = {
 if (typeof window !== 'undefined' && !window.API) {
     window.API = API;
     console.log('✅ API.js chargé - Strapi v4.25');
-}

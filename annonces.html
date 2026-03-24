@@ -37,36 +37,88 @@
     </main>
 
     <script src="auth.js"></script>
-    <script>
-        (function () {
-            const loadScript = (src, callback) => {
-                const s = document.createElement('script');
-                s.src = src;
-                s.onload = callback;
-                document.head.appendChild(s);
-            };
+<script src="api.js"></script>
+<script src="nav-multifunction.js"></script>
 
-            console.log("🚀 Lancement de l'initialisation sécurisée...");
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+    console.log("🚀 Initialisation du catalogue LOGI...");
 
-            // 1. Charger la navigation
-            loadScript('nav-multifunction.js', function () {
-                if (window.renderNavMultifunction) {
-                    window.renderNavMultifunction();
-                    console.log("✅ Navbar connectée et affichée");
+    // 1. Initialiser la navigation
+    if (window.renderNavMultifunction) {
+        window.renderNavMultifunction();
+    }
 
-                    // 2. Charger la logique Strapi SEULEMENT après la navbar
-                    setTimeout(() => {
-                        loadScript('app.js', function () {
-                            if (window.fetchAnnonces) {
-                                window.fetchAnnonces();
-                                console.log("✅ Annonces Strapi chargées");
-                            }
-                        });
-                    }, 200); // Petit délai pour laisser la navbar se stabiliser
-                }
-            });
-        })();
-    </script>
-</body>
+    // 2. Charger les annonces via l'objet API
+    await chargerCatalogue();
+});
 
-</html>
+async function chargerCatalogue() {
+    const container = document.getElementById('annoncesContainer');
+    if (!container) return;
+
+    container.innerHTML = `
+        <div class="text-center py-12 text-gray-500">
+            <i class="fas fa-spinner fa-spin text-3xl mb-4"></i>
+            <p>Chargement des annonces en cours...</p>
+        </div>`;
+
+    try {
+        // On utilise la fonction getUserAnnonces de api.js qui gère déjà le token et Railway
+        const annonces = await window.API.getUserAnnonces();
+        console.log('📦 Annonces reçues:', annonces);
+
+        if (!annonces || annonces.length === 0) {
+            container.innerHTML = `
+                <div class="text-center py-12 bg-white rounded-xl shadow-sm">
+                    <p class="text-gray-500">Aucune annonce disponible pour le moment.</p>
+                </div>`;
+            return;
+        }
+
+        // Génération du HTML (Utilise les données transformées par api.js)
+        container.innerHTML = annonces.map(a => `
+            <div class="bg-white rounded-xl shadow-md overflow-hidden mb-6 flex flex-col md:flex-row border border-gray-100">
+                <div class="md:w-1/3 h-64 md:h-auto relative">
+                    <img src="${a.image}" 
+                         alt="${a.titre}" 
+                         class="w-full h-full object-cover"
+                         onerror="this.src='https://via.placeholder.com/400x300?text=Image+non+disponible'">
+                    <div class="absolute top-4 left-4 bg-blue-600 text-white px-3 py-1 rounded-full text-sm font-semibold">
+                        ${a.category || 'Immobilier'}
+                    </div>
+                </div>
+                <div class="p-6 md:w-2/3 flex flex-col justify-between">
+                    <div>
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="text-xl font-bold text-gray-800">${a.titre}</h3>
+                            <span class="text-lg font-bold text-blue-600">${a.prix}</span>
+                        </div>
+                        <p class="text-gray-500 mb-4 flex items-center">
+                            <i class="fas fa-map-marker-alt mr-2"></i> ${a.ville}
+                        </p>
+                        <p class="text-gray-600 line-clamp-3 mb-4">${a.description}</p>
+                    </div>
+                    <div class="flex items-center justify-between pt-4 border-t border-gray-50">
+                        <span class="px-3 py-1 rounded-full text-xs font-medium ${a.status === 'Publié' ? 'bg-green-100 text-green-700' : 'bg-orange-100 text-orange-700'}">
+                            ${a.status}
+                        </span>
+                        <button onclick="window.location.href='annonce-details-fixed.html?id=${a.id}'" 
+                                class="bg-gray-900 text-white px-6 py-2 rounded-lg hover:bg-blue-600 transition-colors">
+                            Voir les détails
+                        </button>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+
+    } catch (error) {
+        console.error('❌ Erreur:', error);
+        container.innerHTML = `
+            <div class="text-center py-12 text-red-600 bg-red-50 rounded-xl">
+                <i class="fas fa-exclamation-circle text-2xl mb-2"></i>
+                <p>Erreur lors du chargement des annonces. Veuillez rafraîchir la page.</p>
+            </div>`;
+    }
+}
+</script>
