@@ -1,10 +1,13 @@
 // =============================================
 // APP.JS - VERSION PROPRE ET OPTIMISÉE
 // =============================================
-
-const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
-const API_URL = `${STRAPI_URL}/api/annonces?populate=*`; // Ajoute populate=* pour voir les images
-
+// On vérifie si les variables existent déjà pour éviter l'erreur "already declared"
+if (typeof STRAPI_URL === 'undefined') {
+    var STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
+}
+if (typeof API_URL === 'undefined') {
+    var API_URL = `${STRAPI_URL}/api/annonces?populate=*`;
+}
 // =============================================
 // INITIALISATION
 // =============================================
