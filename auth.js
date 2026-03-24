@@ -1,6 +1,6 @@
 // auth.js - VERSION CORRIGÉE POUR STRAPI
 
-const STRAPI_URL = 'http://localhost:1337';
+const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
 
 window.auth = {
     // Vérifier si connecté
