@@ -8,8 +8,81 @@ const API = {
     // ANNONCES
     // ============================================================
 
+    // Récupérer TOUTES les annonces (pour le catalogue public)
+    async getAllAnnonces() {
+        console.log('📦 Chargement de toutes les annonces...');
+        
+        const token = localStorage.getItem('jwt');
+        const url = `${this.baseURL}/annonces?populate=*&sort[0]=createdAt:desc`;
+        console.log('📡 URL:', url);
+
+        try {
+            const headers = {
+                'Content-Type': 'application/json'
+            };
+            
+            if (token) {
+                headers['Authorization'] = `Bearer ${token}`;
+            }
+
+            const response = await fetch(url, {
+                method: 'GET',
+                headers: headers
+            });
+
+            if (!response.ok) {
+                const error = await response.json();
+                console.error('❌ Erreur Strapi:', error);
+                throw new Error(`HTTP ${response.status}`);
+            }
+
+            const result = await response.json();
+            const rawData = result.data || [];
+            
+            console.log(`✅ ${rawData.length} annonces trouvées`);
+
+            if (rawData.length === 0) {
+                return [];
+            }
+
+            const annonces = rawData.map(item => {
+                const attrs = item.attributes;
+                
+                let imageUrl = 'https://via.placeholder.com/400x300?text=Pas+d\'image';
+                const photoPath = attrs.Galeriephotos?.data?.[0]?.attributes?.url || 
+                                 attrs.Imageprincipale?.data?.attributes?.url;
+                
+                if (photoPath) {
+                    imageUrl = photoPath.startsWith('http') ? photoPath : `${this.serverURL}${photoPath}`;
+                }
+
+                return {
+                    id: item.id,
+                    titre: attrs.Titre || "Sans titre",
+                    description: attrs.Description || "",
+                    prix: attrs.Prix ? `${Number(attrs.Prix).toLocaleString()} CFA` : "Prix non fixé",
+                    prixValeur: Number(attrs.Prix) || 0,
+                    ville: attrs.Ville || "Non précisée",
+                    status: attrs.publishedAt ? "Publié" : "Brouillon",
+                    image: imageUrl,
+                    date: attrs.createdAt,
+                    category: attrs.Categorie || "",
+                    phone: attrs.Telephone || "",
+                    email: attrs.Email || ""
+                };
+            });
+
+            return annonces;
+
+        } catch (error) {
+            console.error('❌ Erreur getAllAnnonces:', error);
+            return [];
+        }
+    },
+
+    // Récupérer les annonces de l'utilisateur connecté
     async getUserAnnonces() {
-        console.log('📦 Chargement des annonces...');
+        console.log('📦 Chargement des annonces utilisateur...');
         
         const token = localStorage.getItem('jwt');
         const user = JSON.parse(localStorage.getItem('user') || '{}');
@@ -42,17 +115,13 @@ const API = {
             
             console.log(`✅ ${rawData.length} annonces trouvées`);
 
-            // Si aucune annonce, afficher un message clair
             if (rawData.length === 0) {
-                console.log('ℹ️ Aucune annonce trouvée pour cet utilisateur');
                 return [];
             }
 
-            // Transformer les données
             const annonces = rawData.map(item => {
                 const attrs = item.attributes;
                 
-                // Récupération de l'image
                 let imageUrl = 'https://via.placeholder.com/400x300?text=Pas+d\'image';
                 const photoPath = attrs.Galeriephotos?.data?.[0]?.attributes?.url || 
                                  attrs.Imageprincipale?.data?.attributes?.url;
@@ -77,7 +146,6 @@ const API = {
                 };
             });
 
-            console.log('📊 Annonces transformées:', annonces);
             return annonces;
 
         } catch (error) {
@@ -140,3 +208,4 @@ const API = {
 if (typeof window !== 'undefined' && !window.API) {
     window.API = API;
     console.log('✅ API.js chargé - Strapi v4.25');
+}
