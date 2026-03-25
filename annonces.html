@@ -57,11 +57,10 @@
             padding: 0 24px 60px;
         }
 
-        /* Page header - sans titre "Nos annonces" */
+        /* Page header - uniquement le compteur */
         .page-header {
             margin-bottom: 32px;
             display: flex;
-            align-items: center;
             justify-content: flex-end;
         }
         .page-header span {
@@ -184,6 +183,7 @@
             justify-content: center;
             transition: all 0.2s;
             color: #9ca3af;
+            outline: none;
         }
         .btn-save:hover {
             background: white;
@@ -217,6 +217,7 @@
             transition: all 0.2s;
             opacity: 0;
             color: var(--text);
+            outline: none;
         }
         .btn-arrow:hover {
             background: white;
@@ -328,6 +329,11 @@
             from { transform: rotate(0deg); }
             to { transform: rotate(360deg); }
         }
+
+        /* Supprimer les cadres sur les boutons focus */
+        button:focus {
+            outline: none;
+        }
     </style>
 </head>
 <body>
@@ -353,11 +359,7 @@
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             console.log("🚀 Initialisation du catalogue Loji");
-
-            if (window.renderNavMultifunction) {
-                window.renderNavMultifunction();
-            }
-
+            if (window.renderNavMultifunction) window.renderNavMultifunction();
             await chargerAnnonces();
         });
 
@@ -369,6 +371,7 @@
             try {
                 if (!window.API) throw new Error('API non disponible');
 
+                // Récupération des annonces depuis Strapi (via getAllAnnonces)
                 const annonces = await window.API.getAllAnnonces();
                 console.log(`📦 ${annonces.length} annonces chargées`);
 
@@ -381,42 +384,34 @@
                     return;
                 }
 
+                // Génération des cartes
                 container.innerHTML = annonces.map((annonce, idx) => {
-                    // Gestion des images multiples depuis Strapi
+                    // Construction de la liste des images
                     let images = [];
-                    
-                    // Image principale
                     if (annonce.image && !annonce.image.includes('via.placeholder')) {
                         images.push(annonce.image);
                     }
-                    
-                    // Images de la galerie si disponibles dans les données Strapi
                     if (annonce.galerieImages && Array.isArray(annonce.galerieImages)) {
                         annonce.galerieImages.forEach(img => {
-                            if (img && !images.includes(img)) {
-                                images.push(img);
-                            }
+                            if (img && !images.includes(img)) images.push(img);
                         });
                     }
-                    
-                    // Image par défaut si aucune
                     if (images.length === 0) {
                         images.push('https://via.placeholder.com/600x400?text=Image+non+disponible');
                     }
 
                     const hasMultiple = images.length > 1;
                     
-                    // Récupération des données Strapi
+                    // Extraction des données Strapi avec des valeurs par défaut
                     const titre = annonce.titre || 'Sans titre';
                     const prix = annonce.prix || 'Prix non fixé';
                     const ville = annonce.ville || 'Localisation non précisée';
                     const category = annonce.category || 'Bien';
-                    const status = annonce.status || 'Brouillon';
                     
-                    // Données pour les icônes (à adapter selon votre schéma Strapi)
+                    // Champs spécifiques – adapte les noms aux attributs de ton modèle Strapi
                     const pieces = annonce.nombrePieces || annonce.pieces || '—';
-                    const sdb = annonce.salleDeBain || annonce.nombreSdb || '—';
-                    const surface = annonce.surface || annonce.superficie || '—';
+                    const sdb = annonce.salleDeBain || annonce.nombreSdb || annonce.bathrooms || '—';
+                    const surface = annonce.surface || annonce.superficie || annonce.area || '—';
 
                     return `
                         <article class="card" onclick="window.location.href='annonce-details-fixed.html?id=${annonce.id}'">
@@ -477,7 +472,6 @@
                 if (total <= 1) return;
 
                 let idx = 0;
-                let autoInterval = null;
 
                 const goTo = (n) => {
                     idx = (n + total) % total;
@@ -487,7 +481,7 @@
 
                 carousel.goTo = goTo;
 
-                // Support swipe tactile
+                // Swipe tactile
                 let startX = 0;
                 if (slides) {
                     slides.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
@@ -511,6 +505,7 @@
         window.toggleFavori = async function(id, btn) {
             btn.classList.toggle('saved');
             console.log('❤️ Favori:', id, btn.classList.contains('saved') ? 'ajouté' : 'retiré');
+            // Tu peux appeler une API ici pour sauvegarder les favoris
         };
 
         function escapeHtml(str) {
