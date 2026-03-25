@@ -57,30 +57,22 @@
             padding: 0 24px 60px;
         }
 
-        /* Page header */
+        /* Page header - sans titre "Nos annonces" */
         .page-header {
             margin-bottom: 32px;
             display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 16px;
-        }
-        .page-header h1 {
-            font-family: var(--font-serif);
-            font-size: 1.8rem;
-            font-weight: 500;
-            color: var(--text);
-            letter-spacing: -0.02em;
+            align-items: center;
+            justify-content: flex-end;
         }
         .page-header span {
             font-size: 0.85rem;
             color: var(--muted);
-            font-weight: 400;
+            font-weight: 500;
             background: white;
-            padding: 6px 12px;
+            padding: 6px 14px;
             border-radius: 40px;
             box-shadow: var(--shadow);
+            border: 1px solid var(--border);
         }
 
         /* Grid - 3 colonnes sur desktop */
@@ -103,11 +95,11 @@
                 gap: 20px;
             }
             #main-content {
-                margin-top: 90px;
+                margin-top: 88px;
                 padding: 0 16px 40px;
             }
-            .page-header h1 {
-                font-size: 1.5rem;
+            .page-header {
+                margin-bottom: 24px;
             }
         }
 
@@ -344,7 +336,6 @@
 
     <main id="main-content">
         <div class="page-header">
-            <h1>📍 Nos annonces</h1>
             <span id="annonce-count">Chargement...</span>
         </div>
         <div id="annoncesContainer" class="cards-grid">
@@ -391,18 +382,41 @@
                 }
 
                 container.innerHTML = annonces.map((annonce, idx) => {
-                    const images = [];
+                    // Gestion des images multiples depuis Strapi
+                    let images = [];
+                    
+                    // Image principale
                     if (annonce.image && !annonce.image.includes('via.placeholder')) {
                         images.push(annonce.image);
                     }
+                    
+                    // Images de la galerie si disponibles dans les données Strapi
+                    if (annonce.galerieImages && Array.isArray(annonce.galerieImages)) {
+                        annonce.galerieImages.forEach(img => {
+                            if (img && !images.includes(img)) {
+                                images.push(img);
+                            }
+                        });
+                    }
+                    
+                    // Image par défaut si aucune
                     if (images.length === 0) {
                         images.push('https://via.placeholder.com/600x400?text=Image+non+disponible');
                     }
 
                     const hasMultiple = images.length > 1;
-                    const pieces = annonce.category === 'Appartement' ? '2 pièces' : (annonce.category === 'Maison' ? '4 pièces' : '—');
-                    const sdb = annonce.salleDeBain || '—';
-                    const surface = annonce.surface || '—';
+                    
+                    // Récupération des données Strapi
+                    const titre = annonce.titre || 'Sans titre';
+                    const prix = annonce.prix || 'Prix non fixé';
+                    const ville = annonce.ville || 'Localisation non précisée';
+                    const category = annonce.category || 'Bien';
+                    const status = annonce.status || 'Brouillon';
+                    
+                    // Données pour les icônes (à adapter selon votre schéma Strapi)
+                    const pieces = annonce.nombrePieces || annonce.pieces || '—';
+                    const sdb = annonce.salleDeBain || annonce.nombreSdb || '—';
+                    const surface = annonce.surface || annonce.superficie || '—';
 
                     return `
                         <article class="card" onclick="window.location.href='annonce-details-fixed.html?id=${annonce.id}'">
@@ -410,11 +424,11 @@
                                 <div class="slides">
                                     ${images.map(img => `
                                         <div class="slide">
-                                            <img src="${escapeHtml(img)}" alt="${escapeHtml(annonce.titre)}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Photo'">
+                                            <img src="${escapeHtml(img)}" alt="${escapeHtml(titre)}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Photo'">
                                         </div>
                                     `).join('')}
                                 </div>
-                                <span class="badge">${escapeHtml(annonce.category || 'Bien')}</span>
+                                <span class="badge">${escapeHtml(category)}</span>
                                 <button class="btn-save" onclick="event.stopPropagation(); toggleFavori(${annonce.id}, this)" aria-label="Favoris">
                                     <span class="material-symbols-outlined">favorite</span>
                                 </button>
@@ -431,15 +445,15 @@
                                 ` : ''}
                             </div>
                             <div class="card-body">
-                                <div class="price">${annonce.prix}</div>
+                                <div class="price">${escapeHtml(prix)}</div>
                                 <div class="specs">
-                                    <div class="spec-item"><span class="material-symbols-outlined">bed</span> ${pieces}</div>
+                                    <div class="spec-item"><span class="material-symbols-outlined">bed</span> ${pieces} pièce${pieces !== '—' && pieces > 1 ? 's' : ''}</div>
                                     <div class="spec-item"><span class="material-symbols-outlined">bathtub</span> ${sdb} sdb</div>
                                     <div class="spec-item"><span class="material-symbols-outlined">straighten</span> ${surface} m²</div>
                                 </div>
                                 <address>
                                     <span class="material-symbols-outlined">location_on</span>
-                                    ${escapeHtml(annonce.ville)}
+                                    ${escapeHtml(ville)}
                                 </address>
                             </div>
                         </article>
@@ -463,6 +477,7 @@
                 if (total <= 1) return;
 
                 let idx = 0;
+                let autoInterval = null;
 
                 const goTo = (n) => {
                     idx = (n + total) % total;
@@ -472,6 +487,7 @@
 
                 carousel.goTo = goTo;
 
+                // Support swipe tactile
                 let startX = 0;
                 if (slides) {
                     slides.addEventListener('touchstart', e => { startX = e.touches[0].clientX; }, { passive: true });
