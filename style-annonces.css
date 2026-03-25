@@ -1,0 +1,249 @@
+/* GALERIE MOBILE - STYLES OPTIMISÉS SANS TREMBLEMENT */
+.gallery-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+    /* Optimisations de performance */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    transform: translateZ(0);
+    will-change: scroll-position;
+}
+
+/* Cacher la scrollbar sur tous les navigateurs */
+.gallery-scroll-container::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+
+.gallery-slide {
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+    flex-shrink: 0;
+    width: calc(100% - 1px);
+    min-width: calc(100% - 1px);
+    height: 100%;
+    position: relative;
+    
+    /* Éviter les conflits de rendering */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    
+    /* Pas de transition pendant le scroll */
+    transition: none;
+}
+
+/* Images optimisées */
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    
+    /* Hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    
+    /* Transition seulement pour les effets */
+    transition: transform 0.3s ease-out;
+}
+
+/* Désactiver les transitions pendant le scroll */
+.gallery-scroll-container.scrolling .gallery-slide,
+.gallery-scroll-container.scrolling .gallery-slide img {
+    transition: none !important;
+}
+
+/* Indicateurs */
+.gallery-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    margin: 0 4px;
+}
+
+.gallery-indicator.active {
+    width: 24px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.gallery-indicator.inactive {
+    opacity: 0.7;
+    transform: scale(1);
+}
+
+.gallery-indicator:hover {
+    transform: scale(1.2);
+    opacity: 0.9;
+}
+
+/* Classe pour désactiver les animations */
+.no-transitions * {
+    transition: none !important;
+    animation: none !important;
+}
+
+
+
+
+
+
+
+/* GALERIE MOBILE - STYLES OPTIMISÉS SANS TREMBLEMENT */
+.gallery-scroll-container {
+    -webkit-overflow-scrolling: touch;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+    width: 100%;
+    height: 100%;
+    position: relative;
+    
+    /* Optimisations de performance */
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    -webkit-perspective: 1000;
+    perspective: 1000;
+    transform: translateZ(0);
+    will-change: scroll-position;
+}
+
+/* Cacher la scrollbar sur tous les navigateurs */
+.gallery-scroll-container::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+    height: 0 !important;
+    background: transparent !important;
+}
+
+.gallery-slide {
+    scroll-snap-align: center;
+    scroll-snap-stop: normal;
+    flex-shrink: 0;
+    width: calc(100% - 1px);
+    min-width: calc(100% - 1px);
+    height: 100%;
+    position: relative;
+    
+    /* Éviter les conflits de rendering */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    
+    /* Pas de transition pendant le scroll */
+    transition: none;
+}
+
+/* Images optimisées */
+.gallery-slide img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    
+    /* Hardware acceleration */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    backface-visibility: hidden;
+    
+    /* Transition seulement pour les effets */
+    transition: transform 0.3s ease-out;
+}
+
+/* Désactiver les transitions pendant le scroll */
+.gallery-scroll-container.scrolling .gallery-slide,
+.gallery-scroll-container.scrolling .gallery-slide img {
+    transition: none !important;
+}
+
+/* Indicateurs */
+.gallery-indicator {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background-color: rgba(255, 255, 255, 0.6);
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    display: inline-block;
+    margin: 0 4px;
+}
+
+.gallery-indicator.active {
+    width: 24px;
+    border-radius: 12px;
+    background-color: #ffffff;
+    opacity: 1;
+    transform: scale(1.1);
+}
+
+.gallery-indicator.inactive {
+    opacity: 0.7;
+    transform: scale(1);
+}
+
+.gallery-indicator:hover {
+    transform: scale(1.2);
+    opacity: 0.9;
+}
+
+/* Classe pour désactiver les animations */
+.no-transitions * {
+    transition: none !important;
+    animation: none !important;
+}
+
+
+/* Lightbox géré par Tailwind dans app-details-clean.js - PAS DE CSS ICI */
+
+
+
+
+
+
+
+/* CSS à ajouter pour cacher la scrollbar */
+.no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+}
+
+.no-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari and Opera */
+}
+
+/* Assure-toi aussi que hide-scrollbar existe */
+.hide-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+    display: none;
+}
+
+
+

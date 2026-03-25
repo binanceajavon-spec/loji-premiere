@@ -1,13 +1,13 @@
-// app-details-clean.js - VERSION FONCTIONNELLE COMPLÈTE
+// app-details-clean.js - VERSION FONCTIONNELLE COMPLÈTE - COULEURS BLEUES
 (function() {
     'use strict';
     
     console.log('📦 App-details clean - Chargement...');
     
     // =============================================
-    // CONFIGURATION
+    // CONFIGURATION - CORRIGÉE POUR PRODUCTION
     // =============================================
-    const STRAPI_URL = 'http://localhost:1337';
+    const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
     let currentAnnonceImages = [];
     let currentLightboxIndex = 0;
     
@@ -51,8 +51,8 @@
         return features.map(f => {
             const isActive = attrs[f.k] === true;
             return `
-                <div class="flex items-center gap-3 p-3 rounded-xl transition-all ${isActive ? 'bg-green-50 border border-green-200' : 'bg-gray-50'}">
-                    <span class="material-icons ${isActive ? 'text-green-600' : 'text-gray-300'}">
+                <div class="flex items-center gap-3 p-3 rounded-xl transition-all ${isActive ? 'bg-blue-50 border border-blue-200' : 'bg-gray-50'}">
+                    <span class="material-icons ${isActive ? 'text-blue-600' : 'text-gray-300'}">
                         ${isActive ? 'check_circle' : 'radio_button_unchecked'}
                     </span>
                     <span class="${isActive ? 'text-gray-800 font-medium' : 'text-gray-400'}">${f.l}</span>
@@ -275,7 +275,7 @@
                 <div class="mb-4">
                     <h1 class="text-2xl font-bold text-gray-900 leading-tight mb-2">${titre}</h1>
                     <div class="flex items-center text-gray-500 text-sm">
-                        <span class="material-icons text-green-600 text-base mr-1.5">location_on</span>
+                        <span class="material-icons text-blue-600 text-base mr-1.5">location_on</span>
                         ${ville}${quartier ? ', ' + quartier : ''}
                     </div>
                 </div>
@@ -284,7 +284,7 @@
                     <div class="flex items-end justify-between mb-4">
                          <div>
                             <span class="text-[10px] text-gray-400 uppercase font-bold tracking-wider">Loyer mensuel</span>
-                            <div class="text-3xl font-extrabold text-green-500">${prix} <span class="text-sm font-normal text-gray-600">Fcfa</span></div>
+                            <div class="text-3xl font-extrabold text-blue-600">${prix} <span class="text-sm font-normal text-gray-600">Fcfa</span></div>
                         </div>
                     </div>
     
@@ -299,7 +299,7 @@
     
                 <div class="mb-8">
                     <h3 class="font-bold text-lg text-gray-900 mb-3 flex items-center gap-2">
-                        <span class="material-icons text-black text-xl">description</span>
+                        <span class="material-icons text-blue-600 text-xl">description</span>
                         Description
                     </h3>
                     <p class="text-gray-600 leading-relaxed text-sm text-justify">
@@ -309,7 +309,7 @@
     
                 <div class="mb-4">
                     <h3 class="font-bold text-lg text-gray-900 mb-3 flex items-center gap-2">
-                        <span class="material-icons text-black text-xl">apartment</span>
+                        <span class="material-icons text-blue-600 text-xl">apartment</span>
                         Commodités
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
@@ -328,15 +328,15 @@
             <!-- Barre d'actions -->
             <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-3 pb-5 z-50 flex gap-2 shadow-[0_-5px_20px_rgba(0,0,0,0.1)]">
                 
-                <a href="tel:+2250700000000" class="flex-1 bg-gray-900 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center gap-0.5 text-xs active:scale-95 transition-transform">
+                <a href="tel:+2250700000000" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center gap-0.5 text-xs active:scale-95 transition-transform">
                     <span class="material-icons text-lg">call</span> Appel
                 </a>
                 
-                <a href="sms:+2250700000000" class="flex-1 bg-slate-700 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center gap-0.5 text-xs active:scale-95 transition-transform">
+                <a href="sms:+2250700000000" class="flex-1 bg-blue-700 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center gap-0.5 text-xs active:scale-95 transition-transform">
                     <span class="material-icons text-lg">sms</span> SMS
                 </a>
     
-                <a href="https://wa.me/2250700000000" class="flex-1 bg-[#25d366] text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center gap-0.5 text-xs shadow-lg shadow-green-100 active:scale-95 transition-transform">
+                <a href="https://wa.me/2250700000000" class="flex-1 bg-blue-600 text-white py-3 rounded-xl font-bold flex flex-col items-center justify-center gap-0.5 text-xs shadow-lg shadow-blue-100 active:scale-95 transition-transform">
                      <svg class="w-5 h-5 fill-current mb-0.5" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                     WhatsApp
                 </a>
@@ -371,12 +371,12 @@
                             <div class="flex-1">
                                 <h1 class="text-3xl font-bold text-gray-900 mb-3">${titre}</h1>
                                 <p class="text-base text-gray-500 flex items-center">
-                                    <span class="material-icons mr-2 text-green-600">location_on</span> 
+                                    <span class="material-icons mr-2 text-blue-600">location_on</span> 
                                     ${ville}${quartier ? ', ' + quartier : ''}
                                 </p>
                             </div>
                             <div class="text-right ml-8">
-                                <div class="text-4xl font-bold text-green-500">${prix} Fcfa</div>
+                                <div class="text-4xl font-bold text-blue-600">${prix} Fcfa</div>
                                 <div class="text-gray-400 font-medium text-sm">par mois</div>
                             </div>
                         </div>
@@ -390,7 +390,7 @@
                         
                         <div class="mt-8">
                             <h2 class="text-2xl font-bold mb-5 text-gray-900 flex items-center gap-3">
-                                <span class="material-icons text-black text-2xl">description</span>
+                                <span class="material-icons text-blue-600 text-2xl">description</span>
                                 À propos de ce logement
                             </h2>
                             <p class="text-gray-600 text-base leading-relaxed text-justify">
@@ -400,7 +400,7 @@
                         
                         <div class="mt-8 pt-8 border-t border-gray-100">
                             <h3 class="text-xl font-bold text-gray-900 mb-6 flex items-center gap-3">
-                                <span class="material-icons text-black text-2xl">apartment</span>
+                                <span class="material-icons text-blue-600 text-2xl">apartment</span>
                                 Ce que propose ce logement
                             </h3>
                             <div class="grid grid-cols-2 gap-4">
@@ -421,12 +421,12 @@
                         <h3 class="text-xl font-bold text-gray-900 mb-6 text-center">Intéressé par ce bien ?</h3>
     
                         <div class="space-y-3 mb-6">
-                            <a href="https://wa.me/2250700000000" target="_blank" class="w-full py-4 bg-[#25d366] text-white rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-[#20bd5a] transition-all shadow-lg shadow-green-100 hover:-translate-y-1">
+                            <a href="https://wa.me/2250700000000" target="_blank" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-blue-700 transition-all shadow-lg shadow-blue-100 hover:-translate-y-1">
                                 <svg class="w-6 h-6 fill-current" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
                                 Discuter sur WhatsApp
                             </a>
                             
-                            <a href="tel:+2250700000000" class="w-full py-4 bg-gray-900 text-white rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-black transition-all shadow-lg hover:-translate-y-1">
+                            <a href="tel:+2250700000000" class="w-full py-4 bg-blue-600 text-white rounded-xl font-bold flex items-center justify-center gap-3 hover:bg-blue-700 transition-all shadow-lg hover:-translate-y-1">
                                 <span class="material-icons">call</span>
                                 Appeler maintenant
                             </a>
@@ -509,7 +509,7 @@
     
     // =============================================
     // EXPOSITION GLOBALE
-    // =============================================
+    // ============================================
     window.initAnnonceDetails = initAnnonceDetails;
     window.annonceDetails = {
         loadAnnonce,
