@@ -388,71 +388,71 @@
                 return;
             }
 
-            // Génération des cartes
-            container.innerHTML = annonces.map((annonce, idx) => {
-                // Construction des images
-                let images = [];
-                
-                // Vérifier si Galeriephotos existe
-                if (annonce.Galeriephotos && annonce.Galeriephotos.url) {
-                    images.push(annonce.Galeriephotos.url);
-                }
-                
-                if (images.length === 0) {
-                    images.push('https://via.placeholder.com/600x400?text=Image+non+disponible');
-                }
-
-                const hasMultiple = images.length > 1;
-                
-                // Récupération des données avec les bons noms de champs (exacts comme dans Strapi)
-                const titre = annonce.Titre || 'Sans titre';
-                const prix = annonce.Prix ? `${annonce.Prix} FCFA` : 'Prix non fixé';
-                const ville = annonce.Ville || 'Localisation non précisée';
-                const pieces = annonce.Nombredepieces || '—';
-                const sdb = annonce.Nombresalledebain || '—';
-                const surface = annonce.Surface || '—';
-
-                return `
-                    <article class="card" onclick="window.location.href='annonce-details-fixed.html?id=${annonce.id}'">
-                        <div class="carousel" data-carousel="${idx}">
-                            <div class="slides">
-                                ${images.map(img => `
-                                    <div class="slide">
-                                        <img src="${escapeHtml(img)}" alt="${escapeHtml(titre)}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Photo'">
-                                    </div>
-                                `).join('')}
-                            </div>
-                            <span class="badge">${escapeHtml(annonce.Typedebien || 'Bien')}</span>
-                            <button class="btn-save" onclick="event.stopPropagation(); toggleFavori(${annonce.id}, this)" aria-label="Favoris">
-                                <span class="material-symbols-outlined">favorite</span>
-                            </button>
-                            ${hasMultiple ? `
-                                <button class="btn-arrow prev" onclick="event.stopPropagation(); changerSlide(this, -1)">
-                                    <span class="material-symbols-outlined">chevron_left</span>
-                                </button>
-                                <button class="btn-arrow next" onclick="event.stopPropagation(); changerSlide(this, 1)">
-                                    <span class="material-symbols-outlined">chevron_right</span>
-                                </button>
-                                <div class="dots">
-                                    ${images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('')}
-                                </div>
-                            ` : ''}
+        container.innerHTML = annonces.map((annonce, idx) => {
+    // Construction des images
+    let images = [];
+    const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
+    
+    if (annonce.Galeriephotos && Array.isArray(annonce.Galeriephotos)) {
+        images = annonce.Galeriephotos
+            .filter(img => img && img.url)
+            .map(img => STRAPI_URL + img.url);
+    }
+    
+    if (images.length === 0) {
+        images.push('https://via.placeholder.com/600x400?text=Image+non+disponible');
+    }
+    
+    const hasMultiple = images.length > 1;
+    
+    const titre = annonce.Titre || 'Sans titre';
+    const prix = annonce.Prix ? `${annonce.Prix} FCFA` : 'Prix non fixé';
+    const ville = annonce.Ville || 'Localisation non précisée';
+    const pieces = annonce.Nombredepieces || '—';
+    const sdb = annonce.Nombresalledebain || '—';
+    const surface = annonce.Surface || '—';
+    
+    return `
+        <article class="card" onclick="window.location.href='annonce-details-fixed.html?id=${annonce.id}'">
+            <div class="carousel" data-carousel="${idx}">
+                <div class="slides">
+                    ${images.map(img => `
+                        <div class="slide">
+                            <img src="${escapeHtml(img)}" alt="${escapeHtml(titre)}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Photo'">
                         </div>
-                        <div class="card-body">
-                            <div class="price">${escapeHtml(prix)}</div>
-                            <div class="specs">
-                                <div class="spec-item"><span class="material-symbols-outlined">bed</span> ${pieces} pièce${pieces !== '—' && pieces > 1 ? 's' : ''}</div>
-                                <div class="spec-item"><span class="material-symbols-outlined">bathtub</span> ${sdb} sdb</div>
-                                <div class="spec-item"><span class="material-symbols-outlined">straighten</span> ${surface} m²</div>
-                            </div>
-                            <address>
-                                <span class="material-symbols-outlined">location_on</span>
-                                ${escapeHtml(ville)}
-                            </address>
-                        </div>
-                    </article>
-                `;
-            }).join('');
+                    `).join('')}
+                </div>
+                <span class="badge">${escapeHtml(annonce.Typedebien || 'Bien')}</span>
+                <button class="btn-save" onclick="event.stopPropagation(); toggleFavori(${annonce.id}, this)" aria-label="Favoris">
+                    <span class="material-symbols-outlined">favorite</span>
+                </button>
+                ${hasMultiple ? `
+                    <button class="btn-arrow prev" onclick="event.stopPropagation(); changerSlide(this, -1)">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button class="btn-arrow next" onclick="event.stopPropagation(); changerSlide(this, 1)">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                    <div class="dots">
+                        ${images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('')}
+                    </div>
+                ` : ''}
+            </div>
+            <div class="card-body">
+                <div class="price">${escapeHtml(prix)}</div>
+                <div class="specs">
+                    <div class="spec-item"><span class="material-symbols-outlined">bed</span> ${pieces} pièce${pieces !== '—' && pieces > 1 ? 's' : ''}</div>
+                    <div class="spec-item"><span class="material-symbols-outlined">bathtub</span> ${sdb} sdb</div>
+                    <div class="spec-item"><span class="material-symbols-outlined">straighten</span> ${surface} m²</div>
+                </div>
+                <address>
+                    <span class="material-symbols-outlined">location_on</span>
+                    ${escapeHtml(ville)}
+                </address>
+            </div>
+        </article>
+    `;
+}).join('');
 
             initialiserCarrousels();
 
