@@ -388,7 +388,7 @@
                 return;
             }
 
-        container.innerHTML = annonces.map((annonce, idx) => {
+      container.innerHTML = annonces.map((annonce, idx) => {
     // Construction des images
     let images = [];
     const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
@@ -399,8 +399,10 @@
             .map(img => STRAPI_URL + img.url);
     }
     
-    if (images.length === 0) {
-        images.push('https://via.placeholder.com/600x400?text=Image+non+disponible');
+    // Si pas d'images, utiliser une image par défaut qui fonctionne
+    const hasImages = images.length > 0;
+    if (!hasImages) {
+        images = ['https://placehold.co/600x400/e2e8f0/1e293b?text=Loji+-+Photo+non+disponible'];
     }
     
     const hasMultiple = images.length > 1;
@@ -418,7 +420,7 @@
                 <div class="slides">
                     ${images.map(img => `
                         <div class="slide">
-                            <img src="${escapeHtml(img)}" alt="${escapeHtml(titre)}" loading="lazy" onerror="this.src='https://via.placeholder.com/600x400?text=Photo'">
+                            <img src="${img}" alt="${escapeHtml(titre)}" loading="lazy">
                         </div>
                     `).join('')}
                 </div>
