@@ -1,211 +1,139 @@
-// api.js - Version optimisée pour Strapi v4.25
-const API = {
-    // Configuration unique
-    baseURL: 'https://my-strapi-project-production-d4d2.up.railway.app/api',
-    serverURL: 'https://my-strapi-project-production-d4d2.up.railway.app',
+/**
+ * API.js - Communication avec Strapi
+ * Version simplifiée sans erreur Galeriephotos
+ */
 
-    // ============================================================
-    // ANNONCES
-    // ============================================================
+const API_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
 
-    // Récupérer TOUTES les annonces (pour le catalogue public)
-    async getAllAnnonces() {
-        console.log('📦 Chargement de toutes les annonces...');
-        
-        const token = localStorage.getItem('jwt');
-        const url = `${this.baseURL}/annonces?populate=*&sort[0]=createdAt:desc`;
-        console.log('📡 URL:', url);
-
-        try {
-            const headers = {
-                'Content-Type': 'application/json'
-            };
-            
-            if (token) {
-                headers['Authorization'] = `Bearer ${token}`;
-            }
-
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: headers
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                console.error('❌ Erreur Strapi:', error);
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const result = await response.json();
-            const rawData = result.data || [];
-            
-            console.log(`✅ ${rawData.length} annonces trouvées`);
-
-            if (rawData.length === 0) {
-                return [];
-            }
-
-            const annonces = rawData.map(item => {
-                const attrs = item.attributes;
-                
-                let imageUrl = 'https://via.placeholder.com/400x300?text=Pas+d\'image';
-                const photoPath = attrs.Galeriephotos?.data?.[0]?.attributes?.url || 
-                                 attrs.Imageprincipale?.data?.attributes?.url;
-                
-                if (photoPath) {
-                    imageUrl = photoPath.startsWith('http') ? photoPath : `${this.serverURL}${photoPath}`;
-                }
-
-                return {
-                    id: item.id,
-                    titre: attrs.Titre || "Sans titre",
-                    description: attrs.Description || "",
-                    prix: attrs.Prix ? `${Number(attrs.Prix).toLocaleString()} CFA` : "Prix non fixé",
-                    prixValeur: Number(attrs.Prix) || 0,
-                    ville: attrs.Ville || "Non précisée",
-                    status: attrs.publishedAt ? "Publié" : "Brouillon",
-                    image: imageUrl,
-                    date: attrs.createdAt,
-                    category: attrs.Categorie || "",
-                    phone: attrs.Telephone || "",
-                    email: attrs.Email || ""
-                };
-            });
-
-            return annonces;
-
-        } catch (error) {
-            console.error('❌ Erreur getAllAnnonces:', error);
-            return [];
+const api = {
+  /**
+   * Récupérer toutes les annonces
+   */
+  getAllAnnonces: async function() {
+    try {
+      console.log('📦 Chargement de toutes les annonces...');
+      const url = `${API_URL}/api/annonces?sort[0]=createdAt:desc`;
+      console.log('📡 URL:', url);
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         }
-    },
-
-    // Récupérer les annonces de l'utilisateur connecté
-    async getUserAnnonces() {
-        console.log('📦 Chargement des annonces utilisateur...');
-        
-        const token = localStorage.getItem('jwt');
-        const user = JSON.parse(localStorage.getItem('user') || '{}');
-        
-        if (!token || !user.id) {
-            console.error('❌ Utilisateur non connecté');
-            return [];
-        }
-
-        const url = `${this.baseURL}/annonces?filters[user][id][$eq]=${user.id}&populate=*&sort[0]=createdAt:desc`;
-        console.log('📡 URL:', url);
-
-        try {
-            const response = await fetch(url, {
-                method: 'GET',
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                console.error('❌ Erreur Strapi:', error);
-                throw new Error(`HTTP ${response.status}`);
-            }
-
-            const result = await response.json();
-            const rawData = result.data || [];
-            
-            console.log(`✅ ${rawData.length} annonces trouvées`);
-
-            if (rawData.length === 0) {
-                return [];
-            }
-
-            const annonces = rawData.map(item => {
-                const attrs = item.attributes;
-                
-                let imageUrl = 'https://via.placeholder.com/400x300?text=Pas+d\'image';
-                const photoPath = attrs.Galeriephotos?.data?.[0]?.attributes?.url || 
-                                 attrs.Imageprincipale?.data?.attributes?.url;
-                
-                if (photoPath) {
-                    imageUrl = photoPath.startsWith('http') ? photoPath : `${this.serverURL}${photoPath}`;
-                }
-
-                return {
-                    id: item.id,
-                    titre: attrs.Titre || "Sans titre",
-                    description: attrs.Description || "",
-                    prix: attrs.Prix ? `${Number(attrs.Prix).toLocaleString()} CFA` : "Prix non fixé",
-                    prixValeur: Number(attrs.Prix) || 0,
-                    ville: attrs.Ville || "Non précisée",
-                    status: attrs.publishedAt ? "Publié" : "Brouillon",
-                    image: imageUrl,
-                    date: attrs.createdAt,
-                    category: attrs.Categorie || "",
-                    phone: attrs.Telephone || "",
-                    email: attrs.Email || ""
-                };
-            });
-
-            return annonces;
-
-        } catch (error) {
-            console.error('❌ Erreur getUserAnnonces:', error);
-            return [];
-        }
-    },
-
-    async deleteAnnonce(id) {
-        const token = localStorage.getItem('jwt');
-        if (!token) return false;
-
-        try {
-            const response = await fetch(`${this.baseURL}/annonces/${id}`, {
-                method: 'DELETE',
-                headers: { 
-                    'Authorization': `Bearer ${token}`,
-                    'Content-Type': 'application/json'
-                }
-            });
-
-            if (!response.ok) {
-                const error = await response.json();
-                console.error('❌ Erreur suppression:', error);
-                return false;
-            }
-
-            console.log(`✅ Annonce ${id} supprimée`);
-            return true;
-            
-        } catch (error) {
-            console.error('❌ Erreur:', error);
-            return false;
-        }
-    },
-
-    getImageUrl(path) {
-        if (!path) return 'https://via.placeholder.com/400x300?text=Image+manquante';
-        if (path.startsWith('http')) return path;
-        return `${this.serverURL}${path}`;
-    },
-
-    formatPrice(price) {
-        if (!price && price !== 0) return 'Prix non fixé';
-        return `${Number(price).toLocaleString()} CFA`;
-    },
-
-    formatDate(dateString) {
-        if (!dateString) return '';
-        const date = new Date(dateString);
-        return date.toLocaleDateString('fr-FR', {
-            day: '2-digit',
-            month: '2-digit',
-            year: 'numeric'
-        });
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      console.log(`✅ ${data.data.length} annonces trouvées`);
+      
+      // Retourner les données brutes sans transformation
+      return data.data;
+      
+    } catch (error) {
+      console.error('❌ Erreur getAllAnnonces:', error);
+      return [];
     }
+  },
+
+  /**
+   * Récupérer une annonce par son ID
+   */
+  getAnnonceById: async function(id) {
+    try {
+      console.log(`📦 Chargement de l'annonce ${id}...`);
+      const url = `${API_URL}/api/annonces/${id}`;
+      
+      const response = await fetch(url, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      });
+      
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+      }
+      
+      const data = await response.json();
+      return data.data;
+      
+    } catch (error) {
+      console.error('❌ Erreur getAnnonceById:', error);
+      return null;
+    }
+  },
+
+  /**
+   * Connexion utilisateur
+   */
+  login: async function(email, password) {
+    try {
+      console.log(`🔐 Tentative de connexion pour: ${email}`);
+      const url = `${API_URL}/api/auth/local`;
+      
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          identifier: email,
+          password: password
+        })
+      });
+      
+      const data = await response.json();
+      
+      if (!response.ok) {
+        return { success: false, error: data.error?.message || 'Erreur de connexion' };
+      }
+      
+      if (data.jwt) {
+        localStorage.setItem('jwt', data.jwt);
+        localStorage.setItem('user', JSON.stringify(data.user));
+      }
+      
+      return { success: true, data: data };
+      
+    } catch (error) {
+      console.error('❌ Erreur réseau:', error);
+      return { success: false, error: 'Erreur réseau' };
+    }
+  },
+
+  /**
+   * Déconnexion
+   */
+  logout: function() {
+    localStorage.removeItem('jwt');
+    localStorage.removeItem('user');
+    console.log('🔓 Déconnecté');
+  },
+
+  /**
+   * Vérifier si connecté
+   */
+  isLoggedIn: function() {
+    return localStorage.getItem('jwt') !== null;
+  },
+
+  /**
+   * Récupérer l'utilisateur
+   */
+  getCurrentUser: function() {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  },
+
+  /**
+   * Récupérer le token
+   */
+  getToken: function() {
+    return localStorage.getItem('jwt');
+  }
 };
 
-// Éviter les conflits de déclaration
-if (typeof window !== 'undefined' && !window.API) {
-    window.API = API;
-    console.log('✅ API.js chargé - Strapi v4.25');
-}
+console.log('✅ API.js chargé - Version corrigée sans erreur Galeriephotos');
