@@ -201,7 +201,7 @@
         .btn-primary {
             display: inline-block;
             padding: 14px 28px;
-            background: #1d4ed8;
+            background: #93f77a;
             color: #fff;
             font-size: 15px;
             font-weight: 700;
@@ -365,13 +365,18 @@
     <div class="hero">
         <div class="hero-text">
             <h1>
-                <span class="blue">Your business,</span>
-                <span class="black">backed by Zillow</span>
+                <span class="blue">Technologie </span>
+                <span class="black"> </span>
             </h1>
             <p>
-                You're always on — and that dedication drives your success.
-                Tap into the power of Zillow's suite of solutions, including Zillow
-                Pro<sup>SM</sup>, to stand out and supercharge your business.
+               La Gestion Immobilière par la Haute Technologie
+Confier votre bien à LOGi, c'est injecter la puissance de nos outils propriétaires au service de votre patrimoine :
+
+Intelligence Artificielle & Agents LOGi : Nos agents IA analysent le marché en temps réel pour ajuster vos prix et capturer les meilleurs profils locatifs. Ils gèrent les interactions 24/7, garantissant une réactivité instantanée et un taux d'occupation record.
+
+CRM & Écosystème de Gestion Dédié : Un pilotage chirurgical de chaque interaction. Notre CRM centralise la gestion des locataires, les flux financiers et les interventions techniques pour une transparence totale et zéro erreur humaine.
+
+Tableau de Bord & Suivi 360° : Accédez à votre console propriétaire pour un suivi en temps réel de vos revenus et de l'état de vos actifs.
             </p>
             <a href="#" class="btn-primary">Explore Zillow Pro</a>
             <br/>
@@ -439,11 +444,17 @@
         </div>
     </div>
 </footer>
-
-<!-- ========== SCRIPTS ========== -->
+<!-- ========== SCRIPTS DANS LE BON ORDRE ========== -->
+<!-- Supabase SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<!-- API Supabase -->
+<script src="api.js"></script>
+<!-- Auth bridge -->
 <script src="auth.js"></script>
-<script src="navbar.js"></script>
+<!-- Navbar component -->
 <script src="navbar-component.js"></script>
+<!-- Scripts globaux -->
+<script src="script.js"></script>
 
 </body>
 </html>

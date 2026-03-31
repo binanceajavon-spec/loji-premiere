@@ -1,186 +1,133 @@
-// auth.js - VERSION CORRIGÉE POUR STRAPI
-
-const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
+// auth.js - Version Supabase
 
 window.auth = {
-    // Vérifier si connecté
     isLoggedIn: function () {
-        return !!(localStorage.getItem('jwt') && localStorage.getItem('user'));
+        return window.api ? window.api.isLoggedIn() : false;
     },
 
-    // Récupérer l'utilisateur
     getUser: function () {
-        const user = localStorage.getItem('user');
-        return user ? JSON.parse(user) : null;
+        return window.api ? window.api.getUser() : null;
     },
 
-    // Récupérer le token
     getToken: function () {
         return localStorage.getItem('jwt');
     },
 
-    // INSCRIPTION - Version corrigée pour Strapi
     register: async function (email, password, name, phone) {
-        console.log('Tentative d\'inscription pour:', email);
+        console.log('📝 Inscription Supabase pour:', email);
+        
+        if (!window.api) {
+            return { success: false, error: 'API non disponible' };
+        }
 
         try {
-            // ÉTAPE 1: Créer l'utilisateur avec les champs de base
-            const userData = {
-                username: name || email.split('@')[0], // Utiliser le nom comme username
+            // Utiliser le client supabase partagé
+            const { data, error } = await window.supabaseClient.auth.signUp({
                 email: email,
-                password: password
-            };
-
-            console.log('Étape 1 - Données de base envoyées:', userData);
-
-            const registerResponse = await fetch(`${STRAPI_URL}/api/auth/local/register`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData)
+                password: password,
+                options: {
+                    data: {
+                        display_name: name || email.split('@')[0],
+                        phone_number: phone || ''
+                    }
+                }
             });
 
-            const registerResult = await registerResponse.json();
-            console.log('Étape 1 - Réponse Strapi:', registerResult);
+            if (error) throw error;
 
-            if (!registerResponse.ok) {
-                const errorMsg = registerResult.error?.message || registerResult.message || 'Erreur lors de l\'inscription';
-                return { success: false, error: errorMsg };
+            if (data.user) {
+                // Créer le profil dans la table users
+                await window.supabaseClient
+                    .from('users')
+                    .upsert({
+                        id: data.user.id,
+                        username: name || email.split('@')[0],
+                        email: email,
+                        phone: phone || ''
+                    });
+
+                localStorage.setItem('jwt', data.session?.access_token || '');
+                localStorage.setItem('user', JSON.stringify(data.user));
+
+                return { 
+                    success: true, 
+                    user: data.user,
+                    message: 'Compte créé avec succès'
+                };
             }
-
-            // ÉTAPE 2: Si l'inscription de base réussit, mettre à jour avec les infos supplémentaires
-            console.log('Étape 2 - Mise à jour du profil avec phone et name...');
-
-            const updateResponse = await fetch(`${STRAPI_URL}/api/users/${registerResult.user.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${registerResult.jwt}`
-                },
-                body: JSON.stringify({
-                    name: name || email.split('@')[0],
-                    phone: phone || ''
-                })
-            });
-
-            const updateResult = await updateResponse.json();
-            console.log('Étape 2 - Résultat mise à jour:', updateResult);
-
-            // Même si la mise à jour échoue, l'utilisateur est créé
-            // On sauvegarde quand même les données
-            const finalUser = {
-                ...registerResult.user,
-                name: name || email.split('@')[0],
-                phone: phone || ''
-            };
-
-            localStorage.setItem('jwt', registerResult.jwt);
-            localStorage.setItem('user', JSON.stringify(finalUser));
-
-            return {
-                success: true,
-                user: finalUser,
-                message: updateResponse.ok ? 'Compte créé avec succès' : 'Compte créé (profil partiellement mis à jour)'
-            };
-
+            return { success: false, error: 'Erreur lors de l\'inscription' };
         } catch (error) {
-            console.error('Erreur:', error);
-            return { success: false, error: 'Erreur réseau: ' + error.message };
+            console.error('❌ Erreur inscription:', error);
+            return { success: false, error: error.message };
         }
     },
 
-    // CONNEXION - Version simplifiée
     login: async function (email, password) {
-        console.log('Tentative de connexion pour:', email);
-
-        try {
-            const response = await fetch(`${STRAPI_URL}/api/auth/local`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    identifier: email,
-                    password: password
-                })
-            });
-
-            const result = await response.json();
-            console.log('Réponse connexion:', result);
-
-            if (response.ok) {
-                localStorage.setItem('jwt', result.jwt);
-                localStorage.setItem('user', JSON.stringify(result.user));
-
-                setTimeout(() => {
-                    window.location.href = 'index.html';
-                }, 1000);
-
-                return { success: true, user: result.user };
-            } else {
-                return { success: false, error: 'Email ou mot de passe incorrect' };
-            }
-
-        } catch (error) {
-            console.error('Erreur:', error);
-            return { success: false, error: 'Erreur réseau' };
+        console.log('🔐 Tentative de connexion pour:', email);
+        
+        if (!window.api) {
+            return { success: false, error: 'API non disponible' };
         }
+
+        const result = await window.api.login(email, password);
+        
+        if (result.success) {
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 1000);
+        }
+        
+        return result;
     },
 
-    // DÉCONNEXION
     logout: function () {
-        localStorage.removeItem('jwt');
-        localStorage.removeItem('user');
-        window.location.href = 'connexion.html';
+        if (window.api) {
+            window.api.logout();
+        } else {
+            localStorage.removeItem('jwt');
+            localStorage.removeItem('user');
+            window.location.href = 'connexion.html';
+        }
     },
 
-    // MISE À JOUR DU PROFIL (pour plus tard)
     updateProfile: async function (userData) {
-        const token = this.getToken();
-        const user = this.getUser();
-
-        if (!token || !user) {
-            return { success: false, error: 'Non connecté' };
-        }
-
+        if (!window.api) return { success: false, error: 'API non disponible' };
+        
         try {
-            const response = await fetch(`${STRAPI_URL}/api/users/${user.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${token}`
-                },
-                body: JSON.stringify(userData)
-            });
+            const user = window.api.getUser();
+            if (!user) return { success: false, error: 'Non connecté' };
 
-            const data = await response.json();
+            const { error } = await window.supabaseClient
+                .from('users')
+                .update(userData)
+                .eq('id', user.id);
 
-            if (response.ok) {
-                localStorage.setItem('user', JSON.stringify(data));
-                return { success: true, user: data };
-            } else {
-                return { success: false, error: data.error?.message };
-            }
+            if (error) throw error;
+
+            const updatedUser = { ...user, ...userData };
+            localStorage.setItem('user', JSON.stringify(updatedUser));
+
+            return { success: true, user: updatedUser };
         } catch (error) {
-            return { success: false, error: 'Erreur réseau' };
+            return { success: false, error: error.message };
         }
     },
 
-    // MISE À JOUR DU NUMÉRO (pour plus tard)
     updatePhone: function (phone) {
         const user = this.getUser();
         if (user) {
             user.phone = phone;
             localStorage.setItem('user', JSON.stringify(user));
+            if (window.api && user.id) {
+                window.supabaseClient.from('users').update({ phone }).eq('id', user.id);
+            }
         }
     },
 
-    // RÉCUPÉRER LE NUMÉRO
     getPhone: function () {
         const user = this.getUser();
-        return user ? user.phone : '';
+        return user?.phone || localStorage.getItem('userPhone') || '';
     }
 };
 
-console.log('Auth chargé - Version corrigée pour Strapi');
+console.log('✅ Auth.js - Version Supabase chargée');

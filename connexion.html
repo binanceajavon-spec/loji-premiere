@@ -10,39 +10,107 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
-        body {
-            background-image: url('images/conex.png');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            background-attachment: fixed;
+        /* Container pour la vidéo en arrière-plan */
+        .video-background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: 0;
+        }
+
+        .video-background video {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+        }
+
+        /* Overlay sombre */
+        .video-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            z-index: 1;
+        }
+
+        /* Contenu principal */
+        .content-wrapper {
+            position: relative;
+            z-index: 2;
             min-height: 100vh;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin: 0;
             padding: 20px;
         }
 
-        /* Overlay pour améliorer la lisibilité */
-        .auth-overlay {
-            background-color: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(5px);
-        }
-
+        /* Carte compacte */
         .auth-card {
-            max-width: 420px;
+            max-width: 360px;
             width: 100%;
-            margin: 0 auto;
-            padding: 40px 35px;
+            padding: 28px 26px;
             border-radius: 24px;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(226, 232, 240, 0.9);
+            background: rgba(255, 255, 255, 0.96);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.5s ease-out;
         }
 
-        /* Style pour le champ password avec œil */
+        /* Logo compact */
+        .logo-img {
+            height: 50px;
+            width: auto;
+            object-fit: contain;
+        }
+
+        /* Groupes de formulaire */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+            display: block;
+            color: #374151;
+            letter-spacing: 0.3px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            transition: all 0.2s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #0057FF;
+            box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
+        }
+
+        /* Champ mot de passe avec œil */
         .password-container {
             position: relative;
+        }
+
+        .password-container input {
+            padding-right: 38px;
         }
 
         .password-toggle {
@@ -53,136 +121,202 @@
             background: none;
             border: none;
             cursor: pointer;
-            color: #718096;
-            padding: 4px;
+            color: #9ca3af;
+            padding: 0;
         }
 
         .password-toggle:hover {
-            color: #0057FF !important;
+            color: #0057FF;
         }
 
-        /* Style pour le logo */
-        .logo-img {
-            height: 70px;
-            width: auto;
-            object-fit: contain;
+        .password-toggle .material-icons {
+            font-size: 18px;
         }
 
-        /* Suppression du WhatsApp float */
-        .whatsapp-float {
-            display: none !important;
+        /* Bouton principal */
+        .btn-primary {
+            width: 100%;
+            background: #0057FF;
+            color: white;
+            padding: 10px 0;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-top: 6px;
         }
 
-        /* Responsive pour mobile */
-        @media (max-width: 640px) {
-            body {
-                padding: 10px;
-                align-items: flex-start;
+        .btn-primary:hover {
+            background: #0041CC;
+            transform: translateY(-1px);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        /* Séparateur */
+        .separator {
+            display: flex;
+            align-items: center;
+            margin: 20px 0;
+        }
+
+        .separator-line {
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .separator-text {
+            padding: 0 12px;
+            font-size: 0.7rem;
+            color: #9ca3af;
+        }
+
+        /* Lien */
+        .link {
+            color: #0057FF;
+            font-weight: 500;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+
+        .link:hover {
+            color: #0041CC;
+        }
+
+        /* Animation */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            .auth-card {
+                padding: 22px 20px;
+                max-width: 100%;
             }
             
-            .auth-card {
-                margin: 40px auto;
-                padding: 30px 20px;
+            .logo-img {
+                height: 42px;
             }
-
-            body {
-                background-attachment: scroll;
+            
+            .content-wrapper {
+                padding: 16px;
+                align-items: center;
             }
         }
     </style>
 </head>
 
 <body>
-    <div class="auth-card bg-white auth-overlay">
-        <!-- Logo -->
-        <div class="text-center mb-8">
-            <img src="images/footer.png" alt="Loji" class="logo-img mx-auto mb-4">
-            <p class="text-gray-600">Trouvez votre bien immobilier</p>
-        </div>
+    <!-- Vidéo locale en arrière-plan -->
+    <div class="video-background">
+        <video autoplay muted loop playsinline id="bgVideo">
+            <source src="videos/background.mp4" type="video/mp4">
+        </video>
+    </div>
+    
+    <!-- Overlay sombre -->
+    <div class="video-overlay"></div>
 
-        <!-- Formulaire connexion -->
-        <form id="loginForm">
-            <div class="space-y-5">
+    <!-- Contenu principal -->
+    <div class="content-wrapper">
+        <div class="auth-card">
+            <!-- Logo compact -->
+            <div class="text-center mb-5">
+                <img src="images/footer.png" alt="Loji" class="logo-img mx-auto">
+                <p class="text-gray-500 text-xs mt-1">Trouvez votre bien immobilier</p>
+            </div>
+
+            <!-- Formulaire connexion -->
+            <form id="loginForm">
                 <!-- Email ou Numéro -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Email ou Numéro
-                    </label>
-                    <input type="text" id="identifier"
-                        class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0057FF] focus:border-transparent transition-all"
-                        placeholder="email@exemple.com ou +225..." required>
+                <div class="form-group">
+                    <label>Email ou Numéro</label>
+                    <input type="text" id="identifier" placeholder="email@exemple.com ou +225..." required>
                 </div>
 
-                <!-- Mot de passe avec œil -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700 mb-2">
-                        Mot de passe
-                    </label>
+                <!-- Mot de passe -->
+                <div class="form-group">
+                    <label>Mot de passe</label>
                     <div class="password-container">
-                        <input type="password" id="password"
-                            class="w-full p-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-[#0057FF] focus:border-transparent pr-10 transition-all"
-                            placeholder="Votre mot de passe" required>
+                        <input type="password" id="password" placeholder="Votre mot de passe" required>
                         <button type="button" class="password-toggle" id="togglePassword">
                             <span class="material-icons" id="eyeIcon">visibility_off</span>
                         </button>
                     </div>
                 </div>
 
-                <!-- Bouton connexion (BLEU PURE) -->
-                <button type="submit"
-                    class="w-full bg-[#0057FF] text-white py-3.5 rounded-xl hover:bg-[#0041CC] transition-colors font-medium text-lg shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 transition-all">
+                <!-- Bouton connexion -->
+                <button type="submit" class="btn-primary" id="submitBtn">
                     Se connecter
                 </button>
+            </form>
+
+            <!-- Séparateur -->
+            <div class="separator">
+                <div class="separator-line"></div>
+                <span class="separator-text">ou</span>
+                <div class="separator-line"></div>
             </div>
-        </form>
 
-        <!-- Séparateur -->
-        <div class="flex items-center my-6">
-            <div class="flex-1 border-t border-gray-300"></div>
-            <span class="px-3 text-gray-500 text-sm">ou</span>
-            <div class="flex-1 border-t border-gray-300"></div>
-        </div>
-
-        <!-- Lien création compte (BLEU PURE) -->
-        <div class="text-center">
-            <p class="text-gray-600">Pas de compte ?</p>
-            <a href="inscription.html" class="text-[#0057FF] font-medium hover:text-[#0041CC] transition-colors">
-                Créer un compte
-            </a>
+            <!-- Lien création compte -->
+            <div class="text-center">
+                <p class="text-gray-500 text-xs mb-1">Pas de compte ?</p>
+                <a href="inscription.html" class="link">Créer un compte</a>
+            </div>
         </div>
     </div>
 
-    <!-- CHARGER LES SCRIPTS DANS LE BON ORDRE -->
+    <!-- SCRIPTS DANS LE BON ORDRE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="api.js"></script>
     <script src="auth.js"></script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function () {
             console.log('📍 Page: connexion.html');
             console.log('🔐 Auth status:', window.auth ? 'Auth chargé' : 'Auth non chargé');
-            console.log('👤 Logged in?', window.auth?.isLoggedIn() ? 'OUI' : 'NON');
 
-            // Fonctionnalité œil pour mot de passe
+            // Gestion de la vidéo
+            const video = document.getElementById('bgVideo');
+            if (video) {
+                video.play().catch(() => {
+                    document.body.addEventListener('click', function playVideo() {
+                        video.play();
+                        document.body.removeEventListener('click', playVideo);
+                    }, { once: true });
+                });
+            }
+
+            // Œil pour mot de passe
             const togglePassword = document.getElementById('togglePassword');
             const passwordInput = document.getElementById('password');
             const eyeIcon = document.getElementById('eyeIcon');
 
             if (togglePassword && passwordInput && eyeIcon) {
                 togglePassword.addEventListener('click', function () {
-                    const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
-                    passwordInput.setAttribute('type', type);
-
-                    // Changer l'icône
-                    if (type === 'text') {
-                        eyeIcon.textContent = 'visibility';
-                        eyeIcon.style.color = '#0057FF';
-                    } else {
-                        eyeIcon.textContent = 'visibility_off';
-                        eyeIcon.style.color = '#718096';
-                    }
+                    const type = passwordInput.type === 'password' ? 'text' : 'password';
+                    passwordInput.type = type;
+                    eyeIcon.textContent = type === 'text' ? 'visibility' : 'visibility_off';
+                    eyeIcon.style.color = type === 'text' ? '#0057FF' : '#9ca3af';
                 });
             }
 
-            // Vérifier si déjà connecté
+            // Redirection si déjà connecté
             if (window.auth && window.auth.isLoggedIn()) {
                 console.log('⚠️ Déjà connecté, redirection vers index.html');
                 window.location.href = 'index.html';
@@ -190,33 +324,44 @@
             }
 
             // Gestion du formulaire
-            document.getElementById('loginForm').addEventListener('submit', async function (e) {
+            const form = document.getElementById('loginForm');
+            const submitBtn = document.getElementById('submitBtn');
+
+            form.addEventListener('submit', async function (e) {
                 e.preventDefault();
                 console.log('📝 Formulaire soumis');
 
                 const identifier = document.getElementById('identifier').value;
                 const password = document.getElementById('password').value;
 
-                const button = e.target.querySelector('button[type="submit"]');
-                button.disabled = true;
-                button.textContent = 'Connexion...';
+                if (!identifier || !password) {
+                    alert('❌ Veuillez remplir tous les champs');
+                    return;
+                }
+
+                submitBtn.disabled = true;
+                submitBtn.textContent = 'Connexion...';
 
                 try {
-                    // CONNEXION - auth.js gère la redirection automatique
+                    // Vérifier que l'API est disponible
+                    if (!window.api) {
+                        throw new Error('API non disponible. Vérifiez que api.js est bien chargé.');
+                    }
+
                     const result = await auth.login(identifier, password);
                     console.log('📝 Résultat login:', result);
 
                     if (!result.success) {
-                        alert('❌ Erreur: ' + result.error);
-                        button.disabled = false;
-                        button.textContent = 'Se connecter';
+                        alert('❌ ' + (result.error || 'Identifiants incorrects'));
+                        submitBtn.disabled = false;
+                        submitBtn.textContent = 'Se connecter';
                     }
                     // Si succès : auth.js redirige automatiquement vers index.html
                 } catch (error) {
                     console.error('❌ Erreur:', error);
-                    alert('❌ Erreur de connexion');
-                    button.disabled = false;
-                    button.textContent = 'Se connecter';
+                    alert('❌ Erreur de connexion: ' + error.message);
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Se connecter';
                 }
             });
         });

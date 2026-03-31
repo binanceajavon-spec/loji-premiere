@@ -1,18 +1,14 @@
-// app-details-clean.js - VERSION FONCTIONNELLE COMPLÈTE - COULEURS BLEUES
+// app-details-clean.js - Version Supabase
 (function() {
     'use strict';
     
-    console.log('📦 App-details clean - Chargement...');
+    console.log('📦 App-details clean - Version Supabase');
     
-    // =============================================
-    // CONFIGURATION - CORRIGÉE POUR PRODUCTION
-    // =============================================
-    const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
     let currentAnnonceImages = [];
     let currentLightboxIndex = 0;
     
     // =============================================
-    // FONCTIONS UTILITAIRES (d'abord pour éviter les références undefined)
+    // FONCTIONS UTILITAIRES
     // =============================================
     function renderStatMobile(icon, value, label) {
         return `
@@ -40,12 +36,12 @@
     
     function generateFeaturesList(attrs) {
         const features = [
-            { k: 'Meuble', l: 'Meublé', i: 'chair' },
-            { k: 'Climatisation', l: 'Climatisation', i: 'ac_unit' },
-            { k: 'Wifi', l: 'Internet / Wifi', i: 'wifi' },
-            { k: 'Parking', l: 'Parking', i: 'local_parking' },
-            { k: 'Securite', l: 'Sécurité 24/7', i: 'security' },
-            { k: 'Balcon', l: 'Balcon / Terrasse', i: 'balcony' }
+            { k: 'meuble', l: 'Meublé', i: 'chair' },
+            { k: 'climatisation', l: 'Climatisation', i: 'ac_unit' },
+            { k: 'internet', l: 'Internet / Wifi', i: 'wifi' },
+            { k: 'parking', l: 'Parking', i: 'local_parking' },
+            { k: 'securite', l: 'Sécurité 24/7', i: 'security' },
+            { k: 'balcon', l: 'Balcon / Terrasse', i: 'balcony' }
         ];
     
         return features.map(f => {
@@ -63,26 +59,11 @@
     
     function getAllImages(annonce) {
         const images = [];
-        const attrs = annonce.attributes || annonce;
-        const galerie = attrs.Galeriephotos;
+        const photos = annonce.photos || [];
         
-        if (galerie) {
-            const data = galerie.data || galerie;
-            if (Array.isArray(data)) {
-                data.forEach(img => {
-                    const url = img.attributes?.url || img.url;
-                    if (url) images.push(`${STRAPI_URL}${url}`);
-                });
-            } else if (data.attributes?.url || data.url) {
-                images.push(`${STRAPI_URL}${data.attributes?.url || data.url}`);
-            }
-        }
-    
-        if (images.length === 0 && attrs.Imageprincipale) {
-            const main = attrs.Imageprincipale;
-            const mainUrl = main.data?.attributes?.url || main.url;
-            if (mainUrl) images.push(`${STRAPI_URL}${mainUrl}`);
-        }
+        photos.forEach(photo => {
+            if (photo.url) images.push(photo.url);
+        });
     
         if (images.length === 0) {
             return [
@@ -208,22 +189,20 @@
             return;
         }
         
-        const attrs = annonce.attributes || annonce;
-        
-        // Données
-        const titre = attrs.Titre || 'Titre non disponible';
-        const description = attrs.Description || attrs.description || 'Aucune description disponible.';
-        const prix = attrs.Prix ? new Intl.NumberFormat('fr-FR').format(attrs.Prix) : '0';
-        const ville = attrs.Ville || '';
-        const quartier = attrs.Quartier || '';
+        // Données (format Supabase direct)
+        const titre = annonce.titre || 'Titre non disponible';
+        const description = annonce.description || 'Aucune description disponible.';
+        const prix = annonce.prix ? new Intl.NumberFormat('fr-FR').format(annonce.prix) : '0';
+        const ville = annonce.ville || '';
+        const quartier = annonce.quartier || '';
         
         currentAnnonceImages = getAllImages(annonce);
         console.log('🖼️ Images trouvées:', currentAnnonceImages.length);
     
-        const chambres = attrs.Nombredechambres || 0;
-        const bains = attrs.Nombresalledebain || 0;
-        const surface = attrs.Surface || 0;
-        const meuble = attrs.Meuble ? 'Oui' : 'Non';
+        const chambres = annonce.nombredechambres || 0;
+        const bains = annonce.nombresalledebain || 0;
+        const surface = annonce.surface || 0;
+        const meuble = annonce.meuble ? 'Oui' : 'Non';
     
         container.innerHTML = `
         <!-- Lightbox -->
@@ -273,10 +252,10 @@
             <div class="bg-white rounded-t-3xl shadow-[0_-5px_20px_rgba(0,0,0,0.03)] px-6 py-8 -mt-6 z-20">
                 
                 <div class="mb-4">
-                    <h1 class="text-2xl font-bold text-gray-900 leading-tight mb-2">${titre}</h1>
+                    <h1 class="text-2xl font-bold text-gray-900 leading-tight mb-2">${escapeHtml(titre)}</h1>
                     <div class="flex items-center text-gray-500 text-sm">
                         <span class="material-icons text-blue-600 text-base mr-1.5">location_on</span>
-                        ${ville}${quartier ? ', ' + quartier : ''}
+                        ${escapeHtml(ville)}${quartier ? ', ' + escapeHtml(quartier) : ''}
                     </div>
                 </div>
     
@@ -303,7 +282,7 @@
                         Description
                     </h3>
                     <p class="text-gray-600 leading-relaxed text-sm text-justify">
-                        ${description}
+                        ${escapeHtml(description)}
                     </p>
                 </div>
     
@@ -313,14 +292,14 @@
                         Commodités
                     </h3>
                     <div class="grid grid-cols-2 gap-3">
-                        ${generateFeaturesList(attrs)}
+                        ${generateFeaturesList(annonce)}
                     </div>
                 </div>
                 
                 <!-- Référence -->
                 <div class="mt-6 pt-6 border-t border-gray-100 text-center">
                     <p class="text-gray-500 text-sm">
-                        Référence: <span class="font-bold text-gray-700">#${attrs.id || annonce.id}</span>
+                        Référence: <span class="font-bold text-gray-700">#${annonce.id || 'N/A'}</span>
                     </p>
                 </div>
             </div>
@@ -369,10 +348,10 @@
                     <div class="bg-white rounded-3xl shadow-lg border border-gray-100 p-8">
                         <div class="flex justify-between items-start mb-6 pb-6 border-b border-gray-100">
                             <div class="flex-1">
-                                <h1 class="text-3xl font-bold text-gray-900 mb-3">${titre}</h1>
+                                <h1 class="text-3xl font-bold text-gray-900 mb-3">${escapeHtml(titre)}</h1>
                                 <p class="text-base text-gray-500 flex items-center">
                                     <span class="material-icons mr-2 text-blue-600">location_on</span> 
-                                    ${ville}${quartier ? ', ' + quartier : ''}
+                                    ${escapeHtml(ville)}${quartier ? ', ' + escapeHtml(quartier) : ''}
                                 </p>
                             </div>
                             <div class="text-right ml-8">
@@ -394,7 +373,7 @@
                                 À propos de ce logement
                             </h2>
                             <p class="text-gray-600 text-base leading-relaxed text-justify">
-                                ${description}
+                                ${escapeHtml(description)}
                             </p>
                         </div>
                         
@@ -404,12 +383,12 @@
                                 Ce que propose ce logement
                             </h3>
                             <div class="grid grid-cols-2 gap-4">
-                                ${generateFeaturesList(attrs)}
+                                ${generateFeaturesList(annonce)}
                             </div>
                         </div>
                         
                         <div class="mt-8 pt-8 border-t border-gray-100 text-center">
-                            <p class="text-gray-500">Référence: <span class="font-bold text-gray-700">#${attrs.id || annonce.id}</span></p>
+                            <p class="text-gray-500">Référence: <span class="font-bold text-gray-700">#${annonce.id || 'N/A'}</span></p>
                         </div>
                     </div>
                 </div>
@@ -433,7 +412,7 @@
                         </div>
     
                         <div class="pt-6 border-t border-gray-100 text-center">
-                            <p class="text-gray-400 text-sm">Référence: <span class="font-bold">#${attrs.id || annonce.id}</span></p>
+                            <p class="text-gray-400 text-sm">Référence: <span class="font-bold">#${annonce.id || 'N/A'}</span></p>
                         </div>
                     </div>
                 </div>
@@ -449,23 +428,31 @@
         }, 100);
     }
     
+    function escapeHtml(str) {
+        if (!str) return '';
+        return String(str)
+            .replace(/&/g, '&amp;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;');
+    }
+    
     // =============================================
-    // FONCTION DE CHARGEMENT DES DONNÉES
+    // FONCTION DE CHARGEMENT DES DONNÉES AVEC SUPABASE
     // =============================================
     async function loadAnnonce(requestedId) {
         try {
             console.log('📡 Chargement annonce ID:', requestedId);
-            const response = await fetch(`${STRAPI_URL}/api/annonces?populate=*`);
-            const data = await response.json();
             
-            let annonce = null;
-            if (requestedId) {
-                annonce = data.data.find(a => a.id == requestedId);
+            if (!window.api || !window.api.getAnnonceById) {
+                console.error('❌ API non disponible');
+                document.getElementById('annonceDetailContainer').innerHTML = 
+                    '<div class="p-10 text-center text-red-500 font-bold">Erreur technique. API non disponible.</div>';
+                return;
             }
-    
-            if (!annonce && data.data.length > 0) {
-                annonce = data.data[0];
-            }
+            
+            const annonce = await window.api.getAnnonceById(requestedId);
             
             if (annonce) {
                 displayAnnonceDetail(annonce);
@@ -477,7 +464,7 @@
         } catch (error) {
             console.error('❌ Erreur:', error);
             document.getElementById('annonceDetailContainer').innerHTML = 
-                '<div class="p-10 text-center text-red-500 font-bold">Erreur de chargement.</div>';
+                '<div class="p-10 text-center text-red-500 font-bold">Erreur de chargement: ' + error.message + '</div>';
         }
     }
     
@@ -485,24 +472,26 @@
     // FONCTION D'INITIALISATION PRINCIPALE
     // =============================================
     function initAnnonceDetails() {
-        console.log('🚀 Initialisation détails annonce');
-        
-        const container = document.getElementById('annonceDetailContainer');
-        if (container) {
-            // Garder la position par défaut (ne pas modifier)
-        }
+        console.log('🚀 Initialisation détails annonce - Version Supabase');
         
         // 🔒 Garantir que le lightbox est CACHÉ au démarrage
         setTimeout(() => {
             const modal = document.getElementById('lightboxModal');
             if (modal) {
                 modal.classList.add('hidden');
-                console.log('✅ Lightbox garanti caché:', modal.className);
+                console.log('✅ Lightbox garanti caché');
             }
         }, 50);
         
         const urlParams = new URLSearchParams(window.location.search);
         const annonceId = urlParams.get('id');
+        
+        if (!annonceId) {
+            console.warn('⚠️ Aucun ID d\'annonce trouvé dans l\'URL');
+            document.getElementById('annonceDetailContainer').innerHTML = 
+                '<div class="p-10 text-center text-orange-500 font-bold">Aucune annonce spécifiée.</div>';
+            return;
+        }
         
         loadAnnonce(annonceId);
     }
@@ -519,5 +508,5 @@
         displayAnnonceDetail
     };
     
-    console.log('✅ App-details clean prêt');
+    console.log('✅ App-details clean - Version Supabase prête');
 })();

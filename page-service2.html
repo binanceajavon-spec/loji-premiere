@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>LOGi – Your business, backed by Zillow</title>
+    <title>LOGi – Votre déménagement simplifié</title>
     
     <!-- Fonts & Icons -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
@@ -15,6 +15,24 @@
     <link rel="stylesheet" href="styles - exo.css">
     
     <style>
+        /* ========== RESET & BASE ========== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background: #fff;
+            color: #1a1a1a;
+            min-height: 100vh;
+            padding-top: 75px;
+            margin: 0;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            width: 100%;
+        }
+        
         /* ========== CORRECTIONS NAVBAR ========== */
         .navbar a:hover,
         .navbar .nav-links a:hover,
@@ -56,22 +74,16 @@
             color: white !important;
         }
         
-        /* ========== CORRECTION CONTENU ========== */
-        body {
-            background: #fff;
-            color: #1a1a1a;
-            min-height: 100vh;
-            padding-top: 75px;
-            margin: 0;
-            font-family: 'Inter', sans-serif;
-        }
-
+        /* ========== HERO SECTION STYLES ========== */
         .hero-wrapper {
             max-width: 1400px;
             margin: 0 auto;
             padding: 40px 40px 40px 80px;
+            overflow-x: hidden;
+            width: 100%;
+            position: relative;
         }
-
+        
         .hero {
             display: flex;
             align-items: center;
@@ -79,12 +91,62 @@
             gap: 60px;
             min-height: calc(100vh - 155px);
         }
-
+        
         .hero-text {
             flex: 0 0 500px;
             max-width: 500px;
+            position: relative;
         }
-
+        
+        /* ========== POINTILLÉS STYLISÉS À GAUCHE ========== */
+        .dotted-decoration {
+            position: absolute;
+            left: -40px;
+            top: 40px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .dotted-line-vertical {
+            width: 3px;
+            height: 100px;
+            background: linear-gradient(180deg, #1d4ed8 0%, #b9f55a 50%, #1d4ed8 100%);
+            background-size: 3px 15px;
+            background-repeat: repeat-y;
+            border-radius: 2px;
+        }
+        
+        .dotted-dots {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .dot {
+            width: 6px;
+            height: 6px;
+            background: #1d4ed8;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+        
+        .dot:nth-child(2) {
+            background: #b9f55a;
+            width: 8px;
+            height: 8px;
+        }
+        
+        .dot:nth-child(3) {
+            background: #1d4ed8;
+        }
+        
+        .hero-text:hover .dot {
+            transform: scale(1.2);
+        }
+        
         .hero-text h1 {
             font-size: 58px;
             font-weight: 900;
@@ -93,7 +155,7 @@
             margin-bottom: 25px;
             font-family: 'Montserrat', sans-serif;
         }
-
+        
         .hero-text h1 .blue {
             color: #1d4ed8;
             display: block;
@@ -102,69 +164,89 @@
         .hero-text h1 .black {
             color: #111;
         }
-
+        
         .hero-text p {
             font-size: 16px;
             color: #4b5563;
             line-height: 1.7;
             margin-bottom: 35px;
             max-width: 420px;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+        }
+        
+        .hero-text p strong {
+            color: #1d4ed8;
+            font-weight: 700;
         }
         
         .hero-text p sup {
             font-size: 10px;
             vertical-align: super;
         }
-
+        
         .btn-primary {
             display: inline-block;
-            padding: 14px 28px;
-            background: #1d4ed8;
-            color: #fff;
+            padding: 14px 32px;
+            background: #b9f55a;
+            color: #1a1a1a;
             font-size: 15px;
             font-weight: 700;
-            border-radius: 8px;
+            border-radius: 50px;
             text-decoration: none;
             margin-bottom: 18px;
-            transition: background 0.2s;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(185, 245, 90, 0.3);
         }
         
         .btn-primary:hover {
-            background: #1e40af;
+            background: #1d4ed8;
+            color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(29, 78, 216, 0.3);
         }
-
+        
         .link-all {
-            display: flex;
+            display: inline-flex;
             align-items: center;
             gap: 8px;
             font-size: 15px;
             font-weight: 600;
             color: #111;
             text-decoration: none;
+            transition: all 0.3s ease;
         }
         
         .link-all:hover {
             color: #1d4ed8;
-            text-decoration: underline;
+            gap: 12px;
         }
-
+        
         .hero-image {
             flex: 1;
             min-width: 0;
             border-radius: 24px;
             overflow: hidden;
             box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            margin-left: -20px;
+            max-width: 100%;
         }
-
-        /* ========== NOUVELLE IMAGE SIMPLE ========== */
+        
         .hero-image img {
             width: 100%;
-            height: 100%;
+            height: auto;
             object-fit: cover;
             display: block;
+            transition: transform 0.5s ease;
         }
-
+        
+        .hero-image:hover img {
+            transform: scale(1.02);
+        }
+        
+        /* ========== RESPONSIVE TABLETTE ========== */
         @media (max-width: 1200px) {
             .hero-wrapper {
                 padding: 30px 30px 30px 60px;
@@ -182,11 +264,12 @@
                 font-size: 48px;
             }
             
-            .hero-image {
-                margin-left: -10px;
+            .dotted-decoration {
+                left: -30px;
             }
         }
-
+        
+        /* ========== RESPONSIVE MOBILE AVEC POINTILLÉS HORIZONTAUX ========== */
         @media (max-width: 1024px) {
             .hero-wrapper {
                 padding: 20px;
@@ -194,7 +277,7 @@
             
             .hero {
                 flex-direction: column;
-                gap: 30px;
+                gap: 40px;
                 padding: 20px 0;
                 min-height: auto;
             }
@@ -208,6 +291,8 @@
             .hero-text p {
                 margin-left: auto;
                 margin-right: auto;
+                text-align: center;
+                max-width: 90%;
             }
             
             .hero-text h1 .blue {
@@ -217,7 +302,106 @@
             .hero-image {
                 margin-left: 0;
                 width: 100%;
+                max-width: 500px;
+                margin: 0 auto;
             }
+            
+            /* ========== POINTILLÉS STYLISÉS VERSION MOBILE (HORIZONTAUX) ========== */
+            .dotted-decoration {
+                position: relative;
+                left: 0;
+                top: 0;
+                flex-direction: row;
+                justify-content: center;
+                margin-bottom: 25px;
+                gap: 12px;
+            }
+            
+            .dotted-line-vertical {
+                width: 50px;
+                height: 3px;
+                background: linear-gradient(90deg, #1d4ed8 0%, #b9f55a 50%, #1d4ed8 100%);
+                background-size: 15px 3px;
+                background-repeat: repeat-x;
+            }
+            
+            .dotted-dots {
+                flex-direction: row;
+                gap: 8px;
+            }
+            
+            .dot {
+                width: 8px;
+                height: 8px;
+            }
+            
+            .btn-primary, .link-all {
+                margin-left: auto;
+                margin-right: auto;
+            }
+        }
+        
+        /* ========== RESPONSIVE PETITS ÉCRANS ========== */
+        @media (max-width: 768px) {
+            .hero-wrapper {
+                padding: 15px;
+            }
+            
+            .hero-text h1 {
+                font-size: 36px;
+                letter-spacing: -1px;
+            }
+            
+            .hero-text p {
+                font-size: 14px;
+                line-height: 1.6;
+            }
+            
+            .btn-primary {
+                padding: 12px 28px;
+                font-size: 14px;
+            }
+            
+            .dotted-line-vertical {
+                width: 40px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .hero-text h1 {
+                font-size: 28px;
+            }
+            
+            .hero-text p {
+                font-size: 13px;
+            }
+            
+            .dotted-decoration {
+                gap: 8px;
+                margin-bottom: 20px;
+            }
+            
+            .dotted-line-vertical {
+                width: 35px;
+            }
+            
+            .dot {
+                width: 6px;
+                height: 6px;
+            }
+        }
+        
+        /* ========== CORRECTIONS DES DÉBORDEMENTS ========== */
+        .hero-wrapper,
+        .hero,
+        .hero-text,
+        .hero-image {
+            overflow-x: visible;
+        }
+        
+        img {
+            max-width: 100%;
+            height: auto;
         }
     </style>
 </head>
@@ -226,32 +410,56 @@
 <!-- ========== NAVBAR ========== -->
 <header class="navbar" id="navbar"></header>
 
-<!-- ========== HERO SECTION ========== -->
+<!-- ========== HERO SECTION AVEC POINTILLÉS STYLISÉS ========== -->
 <div class="hero-wrapper">
     <div class="hero">
         <div class="hero-text">
+            <!-- Pointillés décoratifs à gauche (version desktop) / au-dessus (version mobile) -->
+            <div class="dotted-decoration">
+                <div class="dotted-line-vertical"></div>
+                <div class="dotted-dots">
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                    <div class="dot"></div>
+                </div>
+            </div>
+            
             <h1>
-                <span class="blue">Your business,</span>
-                <span class="black">backed by Zillow</span>
+                <span class="blue">Déménagement,</span>
+                <span class="black">Simplifié</span>
             </h1>
+            
             <p>
-                You're always on — and that dedication drives your success.
-                Tap into the power of Zillow's suite of solutions, including Zillow
-                Pro<sup>SM</sup>, to stand out and supercharge your business.
+                <strong>Oubliez l'informel et les imprévus.</strong> LOGi professionnalise votre changement de domicile 
+                avec une logistique de précision :
+                <br><br>
+                <strong>✓ Gain de Temps Radical :</strong> Une planification millimétrée et une exécution rapide. 
+                Nous gérons le transport de A à Z pour que vous passiez d'une maison à l'autre en une seule 
+                journée, sans stress.
+                <br><br>
+                <strong>✓ Économies Réelles :</strong> Grâce à notre réseau de transporteurs certifiés et mutualisés, 
+                nous cassons les prix du marché traditionnel. Vous bénéficiez d'un service premium au prix le 
+                plus juste.
+                <br><br>
+                <strong>✓ Sérénité Totale :</strong> Assurance tous risques incluse, suivi en temps réel, 
+                et équipe dédiée à votre disposition 7j/7.
             </p>
-            <a href="#" class="btn-primary">Explore Zillow Pro</a>
+            
+            <a href="#" class="btn-primary">Contactez-nous</a>
             <br/>
-            <a href="#" class="link-all">See all agent solutions &nbsp;→</a>
+            <a href="#" class="link-all">
+                Voir toutes nos solutions 
+                <i class="fas fa-arrow-right"></i>
+            </a>
         </div>
 
-        <!-- ========== SIMPLE IMAGE À DROITE ========== -->
         <div class="hero-image">
-            <img src="images/gestion2.png" alt="Gestion immobilière">
+            <img src="images/gestion2.png" alt="Déménagement professionnel LOGi">
         </div>
     </div>
 </div>
 
-<!-- ========== FOOTER DE INDEX.HTML ========== -->
+<!-- ========== FOOTER ========== -->
 <footer class="full-width-footer">
     <div class="footer-container">
         <div class="footer-grid">
@@ -264,8 +472,8 @@
                     <div>Bingerville</div>
                     <div>Bassam</div>
                     <div>Koumassi</div>
-                    <div>attecoube</div>
-                    <div>treichville</div>
+                    <div>Attécoubé</div>
+                    <div>Treichville</div>
                     <div>Abobo</div>
                 </div>
             </div>
@@ -274,7 +482,7 @@
                 <div class="links">
                     <div>Daloa</div>
                     <div>Gagnoa</div>
-                    <div> korhogo</div>
+                    <div>Korhogo</div>
                     <div>San Pedro</div>
                     <div>Sassandra</div>
                     <div>Divo</div>
@@ -283,7 +491,7 @@
             <div class="footer-column">
                 <h3>QUI SOMMES-NOUS</h3>
                 <div class="links">
-                    <div>Bloq</div>
+                    <div>Blog</div>
                     <div>Services</div>
                     <div>Contact</div>
                 </div>
@@ -296,8 +504,8 @@
                 <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
             </div>
             <div class="contact-info">
-                <div> loji-ci@gmail.com</div>
-                <div>+225 01 52 25 38 35 </div>
+                <div>loji-ci@gmail.com</div>
+                <div>+225 01 52 25 38 35</div>
             </div>
         </div>
         <div class="footer-logo">
@@ -307,9 +515,19 @@
 </footer>
 
 <!-- ========== SCRIPTS ========== -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script src="api.js"></script>
 <script src="auth.js"></script>
-<script src="navbar.js"></script>
 <script src="navbar-component.js"></script>
+<script src="script.js"></script>
 
+<script>
+    // Script supplémentaire pour assurer le bon chargement de la navbar
+    document.addEventListener('DOMContentLoaded', function() {
+        if (typeof loadNavbar === 'function') {
+            loadNavbar();
+        }
+    });
+</script>
 </body>
 </html>

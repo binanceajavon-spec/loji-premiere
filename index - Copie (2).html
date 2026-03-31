@@ -122,8 +122,8 @@
         }
 
         .blue-text {
-            color: #8ce974; /* Bleu plus vif comme sur l'image */
-            background: linear-gradient(135deg, #2ff029, #2563eb);
+            color: #3b82f6; /* Bleu plus vif comme sur l'image */
+            background: linear-gradient(135deg, #3b82f6, #2563eb);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -520,7 +520,7 @@
             .footer-grid {
                 grid-template-columns: 1fr;
             }
-        
+        }
     </style>
 
     </head>
@@ -639,93 +639,8 @@
                 </div>
             </div>
         </section>
-               <!-- ========== VALUES SECTION ========== -->
-        <style>
-            /* Container fixe pour la colonne de gauche */
-            .values-left-col {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-            }
-            
-            /* Titre avec taille fixe et responsive */
-            .values-title {
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 800;
-                line-height: 1.2;
-                letter-spacing: -0.02em;
-                color: #000000;
-                margin-bottom: 0;
-                width: 100%;
-            }
-            
-            /* Mobile */
-            .values-title {
-                font-size: 1.5rem;
-            }
-            
-            /* Tablette */
-            @media (min-width: 768px) {
-                .values-title {
-                    font-size: 2.4rem;
-                }
-            }
-            
-            /* Desktop */
-            @media (min-width: 1024px) {
-                .values-title {
-                    font-size: 0.8rem;
-                }
-            }
-            
-            /* Grande desktop */
-            @media (min-width: 1280px) {
-                .values-title {
-                    font-size: 2rem;
-                }
-            }
-            
-            /* Fixe la largeur des colonnes */
-            .values-grid {
-                display: grid;
-                grid-template-columns: repeat(12, 1fr);
-                gap: 3rem;
-            }
-            
-            .values-col-left {
-                grid-column: span 5;
-            }
-            
-            .values-col-right {
-                grid-column: span 7;
-                padding-left: 2rem;
-            }
-            
-            @media (max-width: 1024px) {
-                .values-grid {
-                    gap: 2rem;
-                }
-                .values-col-right {
-                    padding-left: 1rem;
-                }
-            }
-            
-            @media (max-width: 768px) {
-                .values-grid {
-                    grid-template-columns: 1fr;
-                    gap: 2rem;
-                }
-                .values-col-left {
-                    grid-column: span 1;
-                }
-                .values-col-right {
-                    grid-column: span 1;
-                    padding-left: 0;
-                }
-            }
-        </style>
-        
+
+        <!-- ========== VALUES SECTION ========== -->
         <section class="values-section py-12 md:py-20 relative overflow-hidden">
             <!-- Background Dotted Pattern -->
             <div class="absolute inset-0 pointer-events-none">
@@ -733,68 +648,65 @@
             </div>
             
             <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-                <div class="values-grid">
+                <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-start">
                     
-                    <!-- Left Column: Vision & headline -->
-                    <div class="values-col-left">
-                        <div class="values-left-col">
-                            <div class="flex items-center gap-3 mb-6">
-                                <span class="w-2 h-2 rounded-sm" style="background: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%);"></span>
-                                <span class="text-gray-500 text-sm uppercase tracking-widest font-semibold">Notre Vision</span>
-                            </div>
-                            <h1 class="values-title">
-                                Les valeurs qui guident notre engagement
-                            </h1>
+                    <!-- Left Column: Vision & headline (sans bouton) -->
+                    <div class="lg:col-span-5 flex flex-col items-start">
+                        <div class="flex items-center gap-3 mb-6">
+                            <span class="w-2 h-2 rounded-sm" style="background: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%);"></span>
+                            <span class="text-gray-500 font-label text-sm uppercase tracking-widest font-semibold">Notre Vision</span>
                         </div>
+                        <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold leading-[1.1] tracking-tighter mb-0 text-gray-900" style="font-family: 'Montserrat', sans-serif;">
+                            Les valeurs qui guident notre engagement
+                        </h1>
                     </div>
                     
-                    <!-- Right Column: Three vertical feature cards -->
-                    <div class="values-col-right">
-                        <div class="flex flex-col space-y-12">
-                            
-                            <!-- Item 1: Logement de Rêve -->
-                            <div class="flex items-start gap-6 group">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
-                                    <span class="material-icons text-3xl" style="color: #00A3FF;">home</span>
-                                </div>
-                                <div class="flex flex-col pt-1">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Logement de Rêve</h3>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-md">
-                                        Découvrez votre espace de vie idéal avec nos annonces immobilières premium.
-                                    </p>
-                                </div>
+                    <!-- Right Column: Three vertical feature cards - décalée vers la droite -->
+                    <div class="lg:col-span-7 flex flex-col space-y-12 lg:pl-12">
+                        
+                        <!-- Item 1: Dream Home -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
+                                <span class="material-icons text-3xl" style="color: #00A3FF;">home</span>
                             </div>
-                            
-                            <!-- Item 2: Investissement Intelligent -->
-                            <div class="flex items-start gap-6 group">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
-                                    <span class="material-icons text-3xl" style="color: #00A3FF;">shield</span>
-                                </div>
-                                <div class="flex flex-col pt-1">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Investissement Intelligent</h3>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-md">
-                                        Sécurisez des opportunités immobilières à haute valeur ajoutée, prêtes pour l'avenir.
-                                    </p>
-                                </div>
+                            <div class="flex flex-col pt-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Logement de Rêve</h3>
+                                <p class="text-gray-600 text-lg leading-relaxed max-w-md">
+                                    Découvrez votre espace de vie idéal avec nos annonces immobilières premium.
+                                </p>
                             </div>
-                            
-                            <!-- Item 3: Art de Vivre -->
-                            <div class="flex items-start gap-6 group">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
-                                    <span class="material-icons text-3xl" style="color: #00A3FF;">trending_up</span>
-                                </div>
-                                <div class="flex flex-col pt-1">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Art de Vivre</h3>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-md">
-                                        Explorez des propriétés exclusives et sophistiquées adaptées à votre style de vie parfait.
-                                    </p>
-                                </div>
+                        </div>
+                        
+                        <!-- Item 2: Smart Investment -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
+                                <span class="material-icons text-3xl" style="color: #00A3FF;">shield</span>
+                            </div>
+                            <div class="flex flex-col pt-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Investissement Intelligent</h3>
+                                <p class="text-gray-600 text-lg leading-relaxed max-w-md">
+                                    Sécurisez des opportunités immobilières à haute valeur ajoutée, prêtes pour l'avenir.
+                                </p>
+                            </div>
+                        </div>
+                        
+                        <!-- Item 3: Luxury Living -->
+                        <div class="flex items-start gap-6 group">
+                            <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
+                                <span class="material-icons text-3xl" style="color: #00A3FF;">trending_up</span>
+                            </div>
+                            <div class="flex flex-col pt-1">
+                                <h3 class="text-xl font-bold text-gray-900 mb-2">Art de Vivre</h3>
+                                <p class="text-gray-600 text-lg leading-relaxed max-w-md">
+                                    Explorez des propriétés exclusives et sophistiquées adaptées à votre style de vie parfait.
+                                </p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
+       
 
         <!-- Ligne de démarcation entre la partie description et le carrousel -->
         <hr class="border-t border-gray-200" style="border-color: #e5e7eb; margin: 2rem auto; max-width: 80%; border-top-width: 1px;">
@@ -1161,55 +1073,39 @@
             </p>
             <a class="btn-discover" href="#">Découvrir</a>
         </div>
-        <!-- DYNAMIC IMAGE GRID - MAISONS MODERNES 4K -->
-<div class="gallery-right">
-    <!-- Column A — scrolls UP (bottom → top) -->
-    <div class="column scroll-up">
-        <div class="track">
-            <!-- Maison moderne extérieur 1 -->
-            <img class="img-tall" src="https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Maison moderne extérieur">
-            <!-- Salon intérieur luxe -->
-            <img class="img-sq" src="https://images.pexels.com/photos/1571460/pexels-photo-1571460.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Salon intérieur luxe">
-            <!-- Villa contemporaine -->
-            <img class="img-land" src="https://images.pexels.com/photos/2587054/pexels-photo-2587054.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Villa contemporaine">
-            <!-- Cuisine moderne -->
-            <img class="img-sq" src="https://images.pexels.com/photos/1457842/pexels-photo-1457842.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Cuisine moderne">
-            <!-- Duplication pour l'effet infini - Maison moderne extérieur 2 -->
-            <img class="img-tall" src="https://images.pexels.com/photos/280229/pexels-photo-280229.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Maison moderne extérieur 2">
-            <!-- Chambre à coucher luxe -->
-            <img class="img-sq" src="https://images.pexels.com/photos/1648776/pexels-photo-1648776.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Chambre luxe">
-            <!-- Piscine moderne -->
-            <img class="img-land" src="https://images.pexels.com/photos/323780/pexels-photo-323780.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Piscine moderne">
-            <!-- Salle de bain luxe -->
-            <img class="img-sq" src="https://images.pexels.com/photos/1571468/pexels-photo-1571468.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Salle de bain luxe">
-        </div>
-    </div>
 
-    <!-- Column B — scrolls DOWN (top → bottom) -->
-    <div class="column scroll-down">
-        <div class="track">
-            <!-- Intérieur salon moderne -->
-            <img class="img-tall" src="https://images.pexels.com/photos/1571463/pexels-photo-1571463.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Salon moderne">
-            <!-- Maison avec jardin -->
-            <img class="img-sq" src="https://images.pexels.com/photos/210617/pexels-photo-210617.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Maison avec jardin">
-            <!-- Villa de luxe -->
-            <img class="img-land" src="https://images.pexels.com/photos/258154/pexels-photo-258154.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Villa de luxe">
-            <!-- Escalier intérieur design -->
-            <img class="img-sq" src="https://images.pexels.com/photos/1457847/pexels-photo-1457847.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Escalier design">
-            <!-- Duplication pour l'effet infini - Bureau moderne -->
-            <img class="img-tall" src="https://images.pexels.com/photos/1571467/pexels-photo-1571467.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Bureau moderne">
-            <!-- Terrasse extérieure -->
-            <img class="img-sq" src="https://images.pexels.com/photos/2587054/pexels-photo-2587054.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Terrasse extérieure">
-            <!-- Vue panoramique maison -->
-            <img class="img-land" src="https://images.pexels.com/photos/280221/pexels-photo-280221.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Vue panoramique">
-            <!-- Salle à manger moderne -->
-            <img class="img-sq" src="https://images.pexels.com/photos/1457841/pexels-photo-1457841.jpeg?auto=compress&cs=tinysrgb&w=1600" alt="Salle à manger moderne">
-        </div>
-    </div>
-</div>
+        <!-- DYNAMIC IMAGE GRID -->
+        <div class="gallery-right">
+            <!-- Column A — scrolls UP (bottom → top) -->
+            <div class="column scroll-up">
+                <div class="track">
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0dNYo9PCSf3eZ-4tenGjQeJCRqLqjWlAWUXITVxjDXDnXY1kL6dp_2l9H1HF0EbXrdySVEcpA2seSgAa0g8qOSJKRkIZHcIciBT9uTt-m13PkLeQWOKWDRxVnk54FzZ5U7tfL-L6bnkHANxuKFpfr2C1HNUEEhPJPvvidVGAXR5Vq4MIQDkUCc2tAQ5WTbpa6T7Yzop5BaPzn9dGKdIHwJYFY-PlVajnK0pOpDhGl9aXoM6PUh7Y69Wf4fMHhoHmmUqriRuKG33ZQ" alt="Architecture moderne">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsen-Pbg_8YKleePwHiYvAkT0m08tVABrNV9TbAnYn4yPu75y1BYRXJaKCL2B4KHAGo6IhdVs04l3QexdwlTarvyQ5cI-uwajePeV3ph_XTJ-gRZMrsTTgxmOPvkYBr8c1dwKzd4eJfQdOH6ETqg0adEeT8F2zf9GLR63hnpb7W0HO4sGWA2FBD66AhFkgu5eLJjM_1xnhNTRtt4XEQiqxjNSDj8WOiIg-q6XOVdCwETSgLWQdaEiomWCBCoxBZW9pPLsN3euOO7C_" alt="Vue urbaine">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                    <!-- Duplication pour l'effet infini -->
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0dNYo9PCSf3eZ-4tenGjQeJCRqLqjWlAWUXITVxjDXDnXY1kL6dp_2l9H1HF0EbXrdySVEcpA2seSgAa0g8qOSJKRkIZHcIciBT9uTt-m13PkLeQWOKWDRxVnk54FzZ5U7tfL-L6bnkHANxuKFpfr2C1HNUEEhPJPvvidVGAXR5Vq4MIQDkUCc2tAQ5WTbpa6T7Yzop5BaPzn9dGKdIHwJYFY-PlVajnK0pOpDhGl9aXoM6PUh7Y69Wf4fMHhoHmmUqriRuKG33ZQ" alt="Architecture moderne">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsen-Pbg_8YKleePwHiYvAkT0m08tVABrNV9TbAnYn4yPu75y1BYRXJaKCL2B4KHAGo6IhdVs04l3QexdwlTarvyQ5cI-uwajePeV3ph_XTJ-gRZMrsTTgxmOPvkYBr8c1dwKzd4eJfQdOH6ETqg0adEeT8F2zf9GLR63hnpb7W0HO4sGWA2FBD66AhFkgu5eLJjM_1xnhNTRtt4XEQiqxjNSDj8WOiIg-q6XOVdCwETSgLWQdaEiomWCBCoxBZW9pPLsN3euOO7C_" alt="Vue urbaine">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                </div>
+            </div>
 
-       
-          
+            <!-- Column B — scrolls DOWN (top → bottom) -->
+            <div class="column scroll-down">
+                <div class="track">
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBisYTSvgV-mRnfRwFf7pRRRULnKEZz2O4TM2qgdHHJdX0ehWHUQC6XS4xIO77oyhlo2gxJY2rGK7jJgX--L70H5C2Pvzif988MJSje1oZ91lTewVcKlbdHHZbyTCTiC_tqBu3gM3B1pQqN05XUSrYEIOx0HWGkLlrJ9pcZvJ_kcPMJkWtv-VDXh5eVpkFrFiAUUAnOQu8aZQ3H0wTIsQG6CTiefYsnVQd74YE4jaZIzE5BCs6aesLSSCTls863H-DWUsvMtCMSOrtU" alt="Villa de luxe">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbq3Onq4w3eiOLxY25fV5rkPA3KAHhDMbiLRRmZfvjfSC82RerqUEw7CFESrimJeXRzUvC9CJ8WkpCyGLhHbDqgsX6lEbKCsAdxphdzbNN0V3mywqhWnjsGoeCIPwhD93Ecthk35SPM71ALzVPkqqgJCOcuQgHWk19NKMji53dQJuYhSfY7KljNuyECablZ5aw3-w5ZQ1kgsjGPIO0ZBQb09J42MM14ADDEYmVE9VTYQr3ky8LembgGOVtHkKeWRQHC0o0DM6Y1Ngi" alt="Pont moderne">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                    <!-- Duplication pour l'effet infini -->
+                    <img class="img-tall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiuIaFrCI2frc9-paTrsEzHldFOAB-TqfAPalkwX9khKtZ35p8Z-1IsFaXBDysQA1Ts5WrN0SZgW0tTg59OccTE2leElzzigB0Wex3Ppl0XVKVVNgTzYos3F4qSkpP4G8IuF3x65uyGWSlq8lsPyinRCla7wP61U6YgmfxgvFCyS24DBr-nDOVFUsMzRa1pd-zfjJwOdu0oWiVx_JAJjXE0hmpN_VAmstTtusfisY2XikrQFc0Qiu9Jo14woW_vF_6Ask9GCndhpUs" alt="Intérieur luxe">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBisYTSvgV-mRnfRwFf7pRRRULnKEZz2O4TM2qgdHHJdX0ehWHUQC6XS4xIO77oyhlo2gxJY2rGK7jJgX--L70H5C2Pvzif988MJSje1oZ91lTewVcKlbdHHZbyTCTiC_tqBu3gM3B1pQqN05XUSrYEIOx0HWGkLlrJ9pcZvJ_kcPMJkWtv-VDXh5eVpkFrFiAUUAnOQu8aZQ3H0wTIsQG6CTiefYsnVQd74YE4jaZIzE5BCs6aesLSSCTls863H-DWUsvMtCMSOrtU" alt="Villa de luxe">
+                    <img class="img-land" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAbq3Onq4w3eiOLxY25fV5rkPA3KAHhDMbiLRRmZfvjfSC82RerqUEw7CFESrimJeXRzUvC9CJ8WkpCyGLhHbDqgsX6lEbKCsAdxphdzbNN0V3mywqhWnjsGoeCIPwhD93Ecthk35SPM71ALzVPkqqgJCOcuQgHWk19NKMji53dQJuYhSfY7KljNuyECablZ5aw3-w5ZQ1kgsjGPIO0ZBQb09J42MM14ADDEYmVE9VTYQr3ky8LembgGOVtHkKeWRQHC0o0DM6Y1Ngi" alt="Pont moderne">
+                    <img class="img-sq" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBAIrXmT_4jbgC8ORMaXFpOI5qSVrucXkJMT4zCDZkcDl_-5hxnHO-beNnsP0BK9PuGw9GXVNNkJjhPNxWDMSaELYmbCbh2EJe_eq_YI45dZJloM8Zy1PiLk91dYa21F8B7GNefHiLOON2-WK1iD3XBF8l9Mba18wYvDMo9YDRiSVGlRBHkqjhWRtntorNbrYW32iFAbADDUk0guNvoE8XM4C7qxrHUKhtZ7kStU0lUBNrM1bIi2F5VKcfyuJ_DKrT9F5hMed2x_9tK" alt="Agent immobilier">
+                </div>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -1347,7 +1243,6 @@
 <script src="navbar-component.js"></script>
 <!-- Scripts globaux -->
 <script src="script.js"></script>
-<script src="js/fix-mobile-menus.js"></script>
 
 <script>
     // ========== HEADER SCROLL (déjà dans index.html, à garder) ==========

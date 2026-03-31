@@ -305,24 +305,16 @@
             color: var(--blue);
         }
 
-       .loading-state {
-    grid-column: 1 / -1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 300px;
-    background: transparent; /* Enlever le fond blanc si désiré */
-    border: none; /* Enlever la bordure */
-    box-shadow: none;
-}
-
-/* Créer une animation de cercle plus fluide */
-.fa-spinner {
-    color: var(--blue);
-    font-size: 2rem;
-    margin-bottom: 1rem;
-}
+        /* États de chargement */
+        .loading-state, .error-state, .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 60px 24px;
+            background: white;
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            border: 1px solid var(--border);
+        }
         .error-state {
             color: #dc2626;
             background: #fef2f2;
@@ -360,11 +352,10 @@
         </div>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="api.js"></script>
-<script src="auth.js"></script>
-<script src="nav-multifunction.js"></script>
-   
+    <script src="auth.js"></script>
+    <script src="api.js"></script>
+    <script src="nav-multifunction.js"></script>
+
     <script>
     document.addEventListener('DOMContentLoaded', async () => {
         console.log("🚀 Initialisation du catalogue Loji");
@@ -372,115 +363,107 @@
         await chargerAnnonces();
     });
 
-async function chargerAnnonces() {
-    const container = document.getElementById('annoncesContainer');
-    const countSpan = document.getElementById('annonce-count');
-    if (!container) return;
+    async function chargerAnnonces() {
+        const container = document.getElementById('annoncesContainer');
+        const countSpan = document.getElementById('annonce-count');
+        if (!container) return;
 
-    try {
-        if (!window.api) {
-            console.error('❌ API non chargée');
-            throw new Error('API non disponible');
-        }
-
-        console.log('📡 Appel à window.api.getAllAnnonces()');
-        const response = await window.api.getAllAnnonces();
-        
-        // Le format retourné par api.js
-        const annonces = response.data || [];
-        console.log(`✅ ${annonces.length} annonces reçues`, annonces);
-
-        if (countSpan) {
-            countSpan.textContent = `${annonces.length} annonce${annonces.length > 1 ? 's' : ''}`;
-        }
-
-        if (!annonces || annonces.length === 0) {
-            container.innerHTML = `<div class="empty-state"><i class="fas fa-home text-3xl mb-3 opacity-50"></i><p>Aucune annonce disponible pour le moment.</p></div>`;
-            return;
-        }
-
-        container.innerHTML = annonces.map((annonce, idx) => {
-            // Format Supabase direct (pas de attributes)
-            const titre = annonce.titre || annonce.Titre || 'Sans titre';
-            const prix = annonce.prix || annonce.Prix;
-            const ville = annonce.ville || annonce.Ville || 'Localisation non précisée';
-            const pieces = annonce.nombredepieces || annonce.Nombredepieces || '—';
-            const sdb = annonce.nombresalledebain || annonce.Nombresalledebain || '—';
-            const surface = annonce.surface || annonce.Surface || '—';
-            const typedebien = annonce.typedebien || annonce.Typedebien || 'Bien';
-            
-            // Construction des images (table photos séparée)
-            let images = [];
-            if (annonce.photos && Array.isArray(annonce.photos)) {
-                images = annonce.photos.map(p => p.url).filter(url => url);
+        try {
+            // ✅ CORRECTION : utiliser window.api (minuscule) au lieu de window.API
+            if (!window.api) {
+                console.error('❌ API non chargée, window.api n\'existe pas');
+                throw new Error('API non disponible');
             }
-            
-            // Fallback pour l'ancien format Strapi
-            if (images.length === 0 && annonce.Galeriephotos?.data) {
-                images = annonce.Galeriephotos.data.map(img => img.attributes?.url || img.url).filter(url => url);
-            }
-            
-            // Image par défaut
-            if (images.length === 0) {
-                images = ['https://placehold.co/600x400/e2e8f0/1e293b?text=Loji'];
-            }
-            
-            const hasMultiple = images.length > 1;
-            const prixAffiche = prix ? `${prix.toLocaleString()} FCFA` : 'Prix non fixé';
-            
-            return `
-                <article class="card" onclick="window.location.href='annonce-details-fixed.html?id=${annonce.id}'">
-                    <div class="carousel" data-carousel="${idx}">
-                        <div class="slides">
-                            ${images.map(img => `
-                                <div class="slide">
-                                    <img src="${img}" alt="${escapeHtml(titre)}" loading="lazy" onerror="this.src='https://placehold.co/600x400/e2e8f0/1e293b?text=Loji'">
-                                </div>
-                            `).join('')}
-                        </div>
-                        <span class="badge">${escapeHtml(typedebien)}</span>
-                        <button class="btn-save" onclick="event.stopPropagation(); toggleFavori(${annonce.id}, this)" aria-label="Favoris">
-                            <span class="material-symbols-outlined">favorite</span>
-                        </button>
-                        ${hasMultiple ? `
-                            <button class="btn-arrow prev" onclick="event.stopPropagation(); changerSlide(this, -1)">
-                                <span class="material-symbols-outlined">chevron_left</span>
-                            </button>
-                            <button class="btn-arrow next" onclick="event.stopPropagation(); changerSlide(this, 1)">
-                                <span class="material-symbols-outlined">chevron_right</span>
-                            </button>
-                            <div class="dots">
-                                ${images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('')}
-                            </div>
-                        ` : ''}
-                    </div>
-                    <div class="card-body">
-                        <div class="price">${escapeHtml(prixAffiche)}</div>
-                        <div class="specs">
-                            <div class="spec-item"><span class="material-symbols-outlined">bed</span> ${pieces} pièce${pieces !== '—' && pieces > 1 ? 's' : ''}</div>
-                            <div class="spec-item"><span class="material-symbols-outlined">bathtub</span> ${sdb} sdb</div>
-                            <div class="spec-item"><span class="material-symbols-outlined">straighten</span> ${surface} m²</div>
-                        </div>
-                        <address>
-                            <span class="material-symbols-outlined">location_on</span>
-                            ${escapeHtml(ville)}
-                        </address>
-                    </div>
-                </article>
-            `;
-        }).join('');
 
-        initialiserCarrousels();
+            console.log('📡 Appel à window.api.getAllAnnonces()');
+            const annonces = await window.api.getAllAnnonces();
+            console.log(`✅ ${annonces.length} annonces reçues`);
 
-    } catch (error) {
-        console.error('❌ Erreur:', error);
-        container.innerHTML = `<div class="error-state"><i class="fas fa-exclamation-circle text-2xl mb-2"></i><p>Erreur: ${error.message}</p><button onclick="location.reload()" style="margin-top:16px;padding:8px 24px;background:#2563eb;color:white;border:none;border-radius:8px;cursor:pointer;">Réessayer</button></div>`;
-        if (countSpan) countSpan.textContent = 'Erreur';
+            if (countSpan) {
+                countSpan.textContent = `${annonces.length} annonce${annonces.length > 1 ? 's' : ''}`;
+            }
+
+            if (!annonces || annonces.length === 0) {
+                container.innerHTML = `<div class="empty-state"><i class="fas fa-home text-3xl mb-3 opacity-50"></i><p>Aucune annonce disponible pour le moment.</p></div>`;
+                return;
+            }
+
+      container.innerHTML = annonces.map((annonce, idx) => {
+    // Construction des images
+    let images = [];
+    const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
+    
+    if (annonce.Galeriephotos && Array.isArray(annonce.Galeriephotos)) {
+        images = annonce.Galeriephotos
+            .filter(img => img && img.url)
+            .map(img => STRAPI_URL + img.url);
     }
-}
+    
+    // Si pas d'images, utiliser une image par défaut qui fonctionne
+    const hasImages = images.length > 0;
+    if (!hasImages) {
+        images = ['https://placehold.co/600x400/e2e8f0/1e293b?text=Loji+-+Photo+non+disponible'];
+    }
+    
+    const hasMultiple = images.length > 1;
+    
+    const titre = annonce.Titre || 'Sans titre';
+    const prix = annonce.Prix ? `${annonce.Prix} FCFA` : 'Prix non fixé';
+    const ville = annonce.Ville || 'Localisation non précisée';
+    const pieces = annonce.Nombredepieces || '—';
+    const sdb = annonce.Nombresalledebain || '—';
+    const surface = annonce.Surface || '—';
+    
+    return `
+        <article class="card" onclick="window.location.href='annonce-details-fixed.html?id=${annonce.id}'">
+            <div class="carousel" data-carousel="${idx}">
+                <div class="slides">
+                    ${images.map(img => `
+                        <div class="slide">
+                            <img src="${img}" alt="${escapeHtml(titre)}" loading="lazy">
+                        </div>
+                    `).join('')}
+                </div>
+                <span class="badge">${escapeHtml(annonce.Typedebien || 'Bien')}</span>
+                <button class="btn-save" onclick="event.stopPropagation(); toggleFavori(${annonce.id}, this)" aria-label="Favoris">
+                    <span class="material-symbols-outlined">favorite</span>
+                </button>
+                ${hasMultiple ? `
+                    <button class="btn-arrow prev" onclick="event.stopPropagation(); changerSlide(this, -1)">
+                        <span class="material-symbols-outlined">chevron_left</span>
+                    </button>
+                    <button class="btn-arrow next" onclick="event.stopPropagation(); changerSlide(this, 1)">
+                        <span class="material-symbols-outlined">chevron_right</span>
+                    </button>
+                    <div class="dots">
+                        ${images.map((_, i) => `<div class="dot ${i === 0 ? 'active' : ''}"></div>`).join('')}
+                    </div>
+                ` : ''}
+            </div>
+            <div class="card-body">
+                <div class="price">${escapeHtml(prix)}</div>
+                <div class="specs">
+                    <div class="spec-item"><span class="material-symbols-outlined">bed</span> ${pieces} pièce${pieces !== '—' && pieces > 1 ? 's' : ''}</div>
+                    <div class="spec-item"><span class="material-symbols-outlined">bathtub</span> ${sdb} sdb</div>
+                    <div class="spec-item"><span class="material-symbols-outlined">straighten</span> ${surface} m²</div>
+                </div>
+                <address>
+                    <span class="material-symbols-outlined">location_on</span>
+                    ${escapeHtml(ville)}
+                </address>
+            </div>
+        </article>
+    `;
+}).join('');
 
+            initialiserCarrousels();
 
-
+        } catch (error) {
+            console.error('❌ Erreur:', error);
+            container.innerHTML = `<div class="error-state"><i class="fas fa-exclamation-circle text-2xl mb-2"></i><p>Erreur: ${error.message}</p><button onclick="location.reload()" style="margin-top:16px;padding:8px 24px;background:#2563eb;color:white;border:none;border-radius:8px;cursor:pointer;">Réessayer</button></div>`;
+            if (countSpan) countSpan.textContent = 'Erreur';
+        }
+    }
 
     function initialiserCarrousels() {
         document.querySelectorAll('.carousel').forEach(carousel => {

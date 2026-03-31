@@ -136,7 +136,7 @@ body {
 }
 
 .logo img {
-    height: 120px;
+    height: 105px;
     width: auto;
     object-fit: contain;
 }
@@ -319,7 +319,7 @@ body {
 
 @media (max-width: 480px) {
     .logo img {
-        height: 80px;
+        height: 92px;
     }
 }
 
@@ -629,9 +629,7 @@ body {
         padding: 8px 5%;
     }
 
-    .logo img {
-        height: 50px;
-    }
+  
 }
 
 

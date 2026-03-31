@@ -10,6 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" rel="stylesheet">
 
     <style>
+        /* Garde tous tes styles existants */
         :root {
             --blue: #3b82f6;
             --blue-dark: #2563eb;
@@ -74,14 +75,14 @@
             overflow-x: hidden;
         }
 
-        /* Top Bar - Logo centré */
+        /* Top Bar */
         .topbar {
             grid-area: topbar;
             display: flex;
             align-items: center;
-            justify-content: center;
+            justify-content: space-between;
             padding: 0 2rem;
-            background: rgba(255,255,255,.95);
+            background: rgba(255,255,255,.82);
             backdrop-filter: blur(20px) saturate(160%);
             border-bottom: 1px solid rgba(226,232,240,.7);
             box-shadow: 0 1px 0 rgba(255,255,255,.6), var(--shadow-sm);
@@ -90,46 +91,24 @@
             z-index: 100;
             width: 100%;
             height: 80px;
-            position: relative;
         }
 
-        /* Bouton settings - visible uniquement sur mobile */
-        .settings-btn {
-            position: absolute;
-            left: 1.5rem;
-            background: none;
-            border: none;
-            cursor: pointer;
-            display: none;
-            align-items: center;
-            justify-content: center;
-            width: 40px;
-            height: 40px;
-            border-radius: 10px;
-            transition: background 0.2s;
-        }
-        .settings-btn:hover { background: var(--blue-pale); }
-        .settings-btn img { width: 26px; height: 26px; object-fit: contain; }
-
-        .logo-wrap { display: flex; align-items: center; text-decoration: none; }
+        .topbar-left { display: flex; align-items: center; gap: 1rem; flex: 0 0 auto; }
+        .menu-toggle { display: none; background: none; border: none; cursor: pointer; color: var(--ink-3); padding: 0.5rem; border-radius: 8px; transition: background 0.2s; }
+        .menu-toggle:hover { background: var(--blue-pale); color: var(--blue); }
+        .logo-wrap { display: flex; align-items: center; text-decoration: none; margin-left: 0.5rem; }
         .logo-wrap img { height: 100px; width: auto; object-fit: contain; }
-        
-        .topbar-divider { width: 1px; height: 30px; background: var(--line); margin: 0 0.5rem; display: none; }
-        .topbar-page-label { font-size: 0.9rem; font-weight: 500; color: var(--muted); letter-spacing: .02em; display: none; }
-        
-        .topbar-right { 
-            position: absolute;
-            right: 1.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            gap: 1.2rem;
-        }
+        .topbar-divider { width: 1px; height: 30px; background: var(--line); margin-left: 0.5rem; }
+        .topbar-page-label { font-size: 0.9rem; font-weight: 500; color: var(--muted); letter-spacing: .02em; }
+        .topbar-right { display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem; flex: 1; margin-left: auto; }
         .topbar-user { display: flex; align-items: center; gap: 0.6rem; padding: 0.4rem 0.8rem 0.4rem 0.5rem; border-radius: var(--radius-pill); background: var(--surface); border: 1px solid var(--line); cursor: default; }
         .topbar-avatar { width: 32px; height: 32px; border-radius: 50%; background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%); display: flex; align-items: center; justify-content: center; color: #fff; font-size: 0.8rem; font-weight: 700; flex-shrink: 0; font-family: 'DM Mono', monospace; }
         .topbar-username { font-size: 0.9rem; font-weight: 600; color: var(--ink-2); white-space: nowrap; max-width: 120px; overflow: hidden; text-overflow: ellipsis; }
+        .topbar-logout { display: flex; align-items: center; gap: 0.5rem; padding: 0.5rem 1.2rem; border-radius: var(--radius-pill); border: 1px solid var(--line); background: var(--white); color: var(--muted); font-size: 0.9rem; font-weight: 500; cursor: pointer; transition: all .2s; }
+        .topbar-logout:hover { border-color: var(--red); color: var(--red); background: #fff5f5; }
+        .topbar-logout .material-icons { font-size: 1.1rem; }
 
-        /* Sidebar - identique à la version originale */
+        /* Sidebar */
         .sidebar {
             grid-area: sidebar;
             width: var(--sidebar-w);
@@ -143,6 +122,7 @@
             top: 80px;
             height: calc(100vh - 80px);
             overflow-y: auto;
+            transition: transform 0.3s ease;
         }
 
         .profile-card {
@@ -266,173 +246,12 @@
         .toast .material-icons { font-size: 1.1rem; }
         .hidden { display: none !important; }
 
-        /* ========== MENU MOBILE FULL SCREEN ========== */
-        .mobile-menu-overlay {
-            position: fixed;
-            inset: 0;
-            background: var(--white);
-            z-index: 200;
-            transform: translateY(-100%);
-            transition: transform 0.3s cubic-bezier(0.2, 0.9, 0.4, 1.1);
-            overflow-y: auto;
-            display: flex;
-            flex-direction: column;
-        }
-        .mobile-menu-overlay.open {
-            transform: translateY(0);
-        }
-        .mobile-menu-header {
-            display: flex;
-            align-items: center;
-            justify-content: flex-end;
-            padding: 1.25rem 1.5rem;
-            border-bottom: 1px solid var(--line);
-            background: var(--white);
-            position: sticky;
-            top: 0;
-            z-index: 10;
-        }
-        .mobile-menu-close {
-            background: none;
-            border: none;
-            cursor: pointer;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 10px;
-        }
-        .mobile-menu-close:hover { background: var(--blue-pale); }
-        .mobile-menu-close .material-icons { font-size: 1.5rem; color: var(--ink-3); }
-        .mobile-menu-content {
-            flex: 1;
-            padding: 1rem 1.5rem 2rem;
-        }
-        .mobile-profile {
-            background: linear-gradient(135deg, var(--blue) 0%, var(--blue-deep) 100%);
-            border-radius: var(--radius-lg);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            color: #fff;
-        }
-        .mobile-avatar {
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            background: rgba(255,255,255,.2);
-            border: 2px solid rgba(255,255,255,.35);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.3rem;
-            font-weight: 700;
-            margin-bottom: 0.75rem;
-            font-family: 'DM Mono', monospace;
-        }
-        .mobile-name {
-            font-size: 1.1rem;
-            font-weight: 700;
-            margin-bottom: 0.25rem;
-        }
-        .mobile-email {
-            font-size: 0.8rem;
-            opacity: 0.8;
-            margin-bottom: 1rem;
-        }
-        .mobile-phone-btn {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(255,255,255,.15);
-            border: 1px solid rgba(255,255,255,.2);
-            border-radius: var(--radius-pill);
-            padding: 0.6rem 1rem;
-            font-size: 0.85rem;
-            cursor: pointer;
-            width: 100%;
-            justify-content: center;
-            color: #fff;
-        }
-        .mobile-nav-item {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            color: var(--ink-3);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-        .mobile-nav-item:hover { background: var(--blue-pale); color: var(--blue); }
-        .mobile-nav-item.active { background: var(--blue-pale); color: var(--blue); font-weight: 600; }
-        .mobile-nav-item .material-symbols-outlined { font-size: 1.3rem; }
-        .mobile-logout {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-            padding: 1rem;
-            border-radius: 12px;
-            color: var(--red);
-            font-size: 1rem;
-            font-weight: 500;
-            cursor: pointer;
-            margin-top: 1rem;
-            border-top: 1px solid var(--line);
-            padding-top: 1.5rem;
-        }
-
-        /* Responsive Desktop */
-        @media (min-width: 841px) {
-            .settings-btn { display: none; }
-            .topbar { justify-content: center; }
-            .topbar-right { position: absolute; right: 1.5rem; }
-        }
-
         /* Responsive */
         @media (max-width: 1300px) { .main, .page-header, .stats-row, .section-header, .annonces-grid { max-width: 1000px; } .stats-row { gap: 1rem; } .annonces-grid { grid-template-columns: repeat(3, 1fr); gap: 1rem; } }
         @media (max-width: 1100px) { .main, .page-header, .stats-row, .section-header, .annonces-grid { max-width: 800px; } .stats-row { grid-template-columns: repeat(2, 1fr); } .annonces-grid { grid-template-columns: repeat(2, 1fr); } }
-        
-        /* Mobile */
-        @media (max-width: 840px) {
-            :root { --sidebar-w: 0px; }
-            .app-shell { grid-template-columns: 1fr; grid-template-areas: "topbar" "main"; }
-            .sidebar { display: none; }
-            .main { padding: 1.5rem 1rem 2rem; }
-            .settings-btn { display: flex; }
-            .topbar { justify-content: center; }
-            .topbar-right { position: absolute; right: 1rem; }
-            .topbar-username { display: none; }
-            .topbar-user { padding: 0.3rem 0.6rem; }
-            .topbar-avatar { width: 32px; height: 32px; font-size: 0.8rem; }
-        }
-        
-        @media (max-width: 640px) {
-            .topbar { padding: 0 1rem; height: 70px; }
-            .logo-wrap img { height: 80px; }
-            .main { padding: 1rem; }
-            .page-header { flex-direction: column; align-items: stretch; margin-bottom: 1.5rem; }
-            .page-title { font-size: 1.5rem; }
-            .btn-new { width: 100%; justify-content: center; padding: 0.6rem 1rem; font-size: 0.85rem; }
-            .stats-row { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; }
-            .stat-tile { padding: 0.9rem 0.9rem 0.7rem; }
-            .stat-tile-value { font-size: 1.4rem; }
-            .annonces-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; }
-            .card-image { height: 120px; }
-            .card-body { padding: 0.8rem; }
-            .card-title { font-size: 0.85rem; }
-            .card-price { font-size: 1.1rem; }
-        }
-        
-        @media (max-width: 480px) {
-            .topbar { padding: 0 0.75rem; height: 65px; }
-            .logo-wrap img { height: 70px; }
-            .stats-row { grid-template-columns: 1fr; }
-            .annonces-grid { grid-template-columns: 1fr; }
-            .toast { left: 1rem; right: 1rem; bottom: 1rem; max-width: none; }
-        }
+        @media (max-width: 840px) { :root { --sidebar-w: 0px; } .app-shell { grid-template-columns: 1fr; grid-template-areas: "topbar" "main"; } .menu-toggle { display: flex; } .sidebar { position: fixed; top: 80px; left: 0; width: 280px; transform: translateX(-100%); z-index: 90; box-shadow: var(--shadow-lg); height: calc(100vh - 80px); } .sidebar.open { transform: translateX(0); } .main { padding: 1.5rem 1rem 2rem; } }
+        @media (max-width: 640px) { .topbar { padding: 0 1rem; height: 70px; } .logo-wrap img { height: 48px; } .topbar-user { padding: 0.3rem 0.6rem 0.3rem 0.4rem; } .topbar-avatar { width: 28px; height: 28px; font-size: 0.7rem; } .topbar-username { max-width: 80px; font-size: 0.8rem; } .topbar-logout { padding: 0.4rem 0.8rem; } .main { padding: 1rem; } .page-header { flex-direction: column; align-items: stretch; margin-bottom: 1.5rem; } .page-title { font-size: 1.5rem; } .btn-new { width: 100%; justify-content: center; padding: 0.6rem 1rem; font-size: 0.85rem; } .stats-row { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; margin-bottom: 1.5rem; } .stat-tile { padding: 0.9rem 0.9rem 0.7rem; } .stat-tile-value { font-size: 1.4rem; } .annonces-grid { grid-template-columns: repeat(2, 1fr); gap: 0.75rem; } .card-image { height: 120px; } .card-body { padding: 0.8rem; } .card-title { font-size: 0.85rem; } .card-price { font-size: 1.1rem; } }
+        @media (max-width: 480px) { .topbar { padding: 0 0.75rem; height: 65px; } .logo-wrap img { height: 42px; } .topbar-page-label, .topbar-username, .topbar-logout span:last-child { display: none; } .topbar-logout { padding: 0.35rem 0.6rem; } .stats-row { grid-template-columns: 1fr; } .annonces-grid { grid-template-columns: 1fr; } .toast { left: 1rem; right: 1rem; bottom: 1rem; max-width: none; } }
     </style>
 </head>
 <body>
@@ -440,74 +259,28 @@
 <div class="app-shell">
 
     <header class="topbar">
-        <!-- Bouton settings - visible uniquement sur mobile -->
-        <button class="settings-btn" id="mobileMenuBtn" aria-label="Menu">
-            <img src="images/setting.svg" alt="Menu">
-        </button>
-
-        <!-- Logo centré pour les deux versions -->
-        <a href="index.html" class="logo-wrap">
-            <img src="images/footer.png" alt="Loji">
-        </a>
-
+        <div class="topbar-left">
+            <button class="menu-toggle" id="menuToggle" aria-label="Menu">
+                <span class="material-icons">menu</span>
+            </button>
+            <a href="index.html" class="logo-wrap">
+                <img src="images/loji.png" alt="Loji">
+            </a>
+            <div class="topbar-divider"></div>
+            <span class="topbar-page-label">Tableau de bord</span>
+        </div>
         <div class="topbar-right">
             <div class="topbar-user">
                 <div class="topbar-avatar" id="topbarAvatar">LO</div>
                 <span class="topbar-username" id="headerUserName">...</span>
             </div>
+            <button onclick="window.api?.logout()" class="topbar-logout">
+                <span class="material-icons">logout</span>
+                <span>Déconnexion</span>
+            </button>
         </div>
     </header>
 
-    <!-- Menu mobile FULL SCREEN -->
-    <div class="mobile-menu-overlay" id="mobileMenuOverlay">
-        <div class="mobile-menu-header">
-            <button class="mobile-menu-close" id="closeMobileMenu">
-                <span class="material-icons">close</span>
-            </button>
-        </div>
-        <div class="mobile-menu-content">
-            <div class="mobile-profile">
-                <div class="mobile-avatar" id="mobileAvatar">LO</div>
-                <div class="mobile-name" id="mobileName">Chargement...</div>
-                <div class="mobile-email" id="mobileEmail">—</div>
-                <button id="mobilePhoneBtn" onclick="openPhoneModal()" class="mobile-phone-btn">
-                    <span class="material-icons">phone</span>
-                    <span id="mobilePhoneLabel">AJOUTER UN NUMÉRO</span>
-                </button>
-            </div>
-            
-            <div class="mobile-nav-item active" data-page="annonces">
-                <span class="material-symbols-outlined">home</span>
-                <span>Mes annonces</span>
-            </div>
-            <div class="mobile-nav-item" data-page="dashboard">
-                <span class="material-symbols-outlined">dashboard</span>
-                <span>Tableau de bord</span>
-            </div>
-            <div class="mobile-nav-item" data-page="abonnes">
-                <span class="material-symbols-outlined">group</span>
-                <span>Abonnés</span>
-            </div>
-            <div class="mobile-nav-item" data-page="avis">
-                <span class="material-symbols-outlined">reviews</span>
-                <span>Avis</span>
-            </div>
-            <div class="mobile-nav-item" data-page="favoris">
-                <span class="material-symbols-outlined">favorite</span>
-                <span>Favoris</span>
-            </div>
-            <div class="mobile-nav-item" data-page="faq">
-                <span class="material-symbols-outlined">help</span>
-                <span>Foire aux questions</span>
-            </div>
-            <div class="mobile-logout" onclick="handleLogout()">
-                <span class="material-icons">logout</span>
-                <span>Déconnexion</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sidebar desktop - identique à l'original -->
     <aside class="sidebar" id="sidebar">
         <div class="profile-card">
             <div class="profile-avatar-wrap">
@@ -598,31 +371,19 @@
     </div>
 </div>
 
+<!-- SCRIPTS DANS LE BON ORDRE -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="api.js"></script>
 <script src="auth.js"></script>
 
 <script>
-    // ── MOBILE MENU FULL SCREEN ──
-    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-    const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-    const closeMobileMenu = document.getElementById('closeMobileMenu');
-
-    function openMobileMenu() { mobileMenuOverlay.classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function closeMobileMenuFn() { mobileMenuOverlay.classList.remove('open'); document.body.style.overflow = ''; }
-
-    if (mobileMenuBtn) mobileMenuBtn.addEventListener('click', openMobileMenu);
-    if (closeMobileMenu) closeMobileMenu.addEventListener('click', closeMobileMenuFn);
-    if (mobileMenuOverlay) mobileMenuOverlay.addEventListener('click', (e) => {
-        if (e.target === mobileMenuOverlay) closeMobileMenuFn();
-    });
-
     // ── STATE ──
     const dashboardState = { user: null, ads: [], stats: {} };
     let currentDeleteId = null;
 
     // ── INIT ──
     document.addEventListener('DOMContentLoaded', () => {
+        // Vérifier la connexion via window.api
         if (!window.api || !window.api.isLoggedIn()) {
             window.location.href = 'connexion.html';
             return;
@@ -630,26 +391,36 @@
         initNav();
         loadUserData();
         loadUserAnnonces();
+        
+        // Menu mobile toggle
+        const menuToggle = document.getElementById('menuToggle');
+        const sidebar = document.getElementById('sidebar');
+        if (menuToggle && sidebar) {
+            menuToggle.addEventListener('click', () => sidebar.classList.toggle('open'));
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 840 && !sidebar.contains(e.target) && !menuToggle.contains(e.target)) {
+                    sidebar.classList.remove('open');
+                }
+            });
+        }
     });
 
     function initNav() {
         document.querySelectorAll('[data-page]').forEach(item => {
             item.addEventListener('click', e => {
                 e.preventDefault();
-                closeMobileMenuFn();
                 navigateTo(item.getAttribute('data-page'));
             });
         });
     }
 
-    function handleLogout() {
-        if (window.api?.logout) window.api.logout();
-    }
-
     // ── USER ──
     function loadUserData() {
         const user = window.api?.getUser();
-        if (!user) { window.api?.logout(); return; }
+        if (!user) { 
+            window.api?.logout(); 
+            return; 
+        }
         dashboardState.user = user;
         const phone = localStorage.getItem('userPhone') || '';
         updateUserDisplay(user, phone);
@@ -661,28 +432,17 @@
         const initials = name.substring(0, 2).toUpperCase();
         const shortName = name.length > 12 ? name.substring(0, 12) + '…' : name;
 
-        // Desktop sidebar
         document.getElementById('userNameDisplay').textContent = name;
         document.getElementById('userEmailDisplay').textContent = user.email || '—';
         document.getElementById('userInitials').textContent = initials;
         document.getElementById('topbarAvatar').textContent = initials;
         document.getElementById('headerUserName').textContent = shortName;
 
-        // Mobile menu
-        document.getElementById('mobileName').textContent = name;
-        document.getElementById('mobileEmail').textContent = user.email || '—';
-        document.getElementById('mobileAvatar').textContent = initials;
-
         const phoneBadge = document.getElementById('userPhoneDisplay');
-        const mobilePhoneLabel = document.getElementById('mobilePhoneLabel');
-        
         if (phone) {
-            if (phoneBadge) {
-                phoneBadge.innerHTML = `<span class="material-icons" style="font-size:.9rem">phone</span><span>${phone}</span>`;
-                phoneBadge.onclick = null;
-                phoneBadge.style.cursor = 'default';
-            }
-            if (mobilePhoneLabel) mobilePhoneLabel.textContent = phone;
+            phoneBadge.innerHTML = `<span class="material-icons" style="font-size:.9rem">phone</span><span>${phone}</span>`;
+            phoneBadge.onclick = null;
+            phoneBadge.style.cursor = 'default';
         }
     }
 
@@ -695,6 +455,7 @@
     // ── ANNONCES ──
     async function loadUserAnnonces() {
         if (!window.api?.getUserAnnonces) return;
+
         const loader = document.getElementById('loadingState');
         const empty = document.getElementById('emptyState');
         const grid = document.getElementById('annoncesGrid');
@@ -707,11 +468,19 @@
             const ads = await window.api.getUserAnnonces();
             loader.classList.add('hidden');
 
-            if (!ads || ads.length === 0) { empty.classList.remove('hidden'); return; }
+            if (!ads || ads.length === 0) {
+                empty.classList.remove('hidden');
+                return;
+            }
 
             dashboardState.ads = ads;
+
             let views = 0, messages = 0, visits = 0;
-            ads.forEach(a => { views += a.vues || 0; messages += a.messages || 0; visits += a.visites || 0; });
+            ads.forEach(a => {
+                views += a.vues || 0;
+                messages += a.messages || 0;
+                visits += a.visites || 0;
+            });
 
             document.getElementById('activeAdsCount').textContent = ads.length;
             document.getElementById('totalViews').textContent = views.toLocaleString('fr-FR');
@@ -724,6 +493,7 @@
 
             grid.classList.remove('hidden');
             renderAds(ads);
+
         } catch (err) {
             console.error('Erreur chargement annonces:', err);
             loader.innerHTML = '<p style="color:#ef4444;font-size:.875rem">Impossible de charger les annonces.</p>';
@@ -763,8 +533,13 @@
     window.confirmDelete = async () => {
         if (!currentDeleteId) return;
         const ok = await window.api.deleteAnnonce(currentDeleteId);
-        if (ok) { showToast('Annonce supprimée', 'success'); closeDeleteModal(); loadUserAnnonces(); }
-        else { showToast('Erreur lors de la suppression', 'error'); }
+        if (ok) {
+            showToast('Annonce supprimée', 'success');
+            closeDeleteModal();
+            loadUserAnnonces();
+        } else {
+            showToast('Erreur lors de la suppression', 'error');
+        }
     };
 
     // ── PHONE ──
@@ -781,8 +556,8 @@
 
     // ── NAV ──
     function navigateTo(page) {
-        document.querySelectorAll('[data-page]').forEach(i => i.classList.remove('active'));
-        document.querySelectorAll(`[data-page="${page}"]`).forEach(i => i.classList.add('active'));
+        document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+        document.querySelector(`[data-page="${page}"]`)?.classList.add('active');
         if (page === 'annonces' || page === 'dashboard') {
             window.location.reload();
         } else {

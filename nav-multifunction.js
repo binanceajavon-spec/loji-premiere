@@ -482,12 +482,38 @@ class NavMultifunction {
             .search-input { flex: 1; border: none; background: transparent; outline: none; }
             .quick-action-btn { width: 46px; height: 46px; border-radius: 12px; border: 1px solid #e5e7eb; background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #555; }
             .quick-action-btn .material-icons, .search-btn .material-icons { font-size: 24px; line-height: 1; }
-            
+.search-integrated { padding: 10px 5% 15px; background: white; transition: all 0.3s; }
+.mobile-header.scroll-mode .search-integrated { transform: none; margin-top: 0; }
+.search-box-container { display: flex; gap: 10px; align-items: center; }
+.search-box { flex: 1; display: flex; align-items: center; background: #f3f4f6; border-radius: 12px; padding: 0 12px; height: 46px; }
+.search-input { flex: 1; border: none; background: transparent; outline: none; }
+.quick-action-btn { width: 46px; height: 46px; border-radius: 12px; border: 1px solid #e5e7eb; background: white; display: flex; align-items: center; justify-content: center; cursor: pointer; color: #555; }
+.quick-action-btn .material-icons, .search-btn .material-icons { font-size: 24px; line-height: 1; }
+
+/* AJOUTEZ CETTE RÈGLE POUR ENLEVER LE CARRÉ AUTOUR DE LA LOUPE */
+.search-btn {
+    background: transparent !important;
+    border: none !important;
+    padding: 0 !important;
+    margin: 0 !important;
+    color: #0057FF !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mobile-auth-buttons {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 2px solid #f0f0f0;
+}
             .mobile-auth-buttons {
                 margin-top: auto;
                 padding-top: 20px;
                 border-top: 2px solid #f0f0f0;
             }
+
             
             /* MODALES */
             .filters-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); z-index: 2000; opacity: 0; visibility: hidden; transition: all 0.3s; }
@@ -518,8 +544,13 @@ class NavMultifunction {
             }
             @media (max-width: 768px) { 
                 body { padding-top: 140px; } 
-                .logo img { height: 105px; }
+                .logo img { height: 92px; }
             }
+
+           .logo {
+        margin-left: -40px;  /* Valeur négative pour décaler vers la gauche */
+    }
+ 
         `;
         document.head.appendChild(style);
         this.stylesAdded = true;

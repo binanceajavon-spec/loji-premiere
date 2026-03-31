@@ -3,9 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Loji - Dépôt Express</title>
+    <title>Loji - Déposer une annonce</title>
     
-    <!-- Fonts & Icons Modernes -->
+    <!-- Fonts & Icons -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
@@ -19,52 +19,14 @@
 
         body {
             font-family: 'Inter', sans-serif;
-            background: #EEF2FF;
+            background: linear-gradient(135deg, #f5f7fb 0%, #eef2f6 100%);
             min-height: 100vh;
-            padding: 2rem 1rem;
-            position: relative;
+            padding: 2rem;
         }
 
         .container {
-            max-width: 48rem;
+            max-width: 1400px;
             margin: 0 auto;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 2rem;
-            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
-            padding: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .back-arrow {
-            position: fixed;
-            top: 1.5rem;
-            left: 1.5rem;
-            background: white;
-            color: #3b82f6;
-            width: 56px;
-            height: 56px;
-            border-radius: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-decoration: none;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            z-index: 1000;
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(5px);
-        }
-
-        .back-arrow:hover {
-            transform: translateY(-2px) scale(1.05);
-            box-shadow: 0 20px 30px -8px rgba(0, 0, 0, 0.3);
-            background: #3b82f6;
-            color: white;
-        }
-
-        .back-arrow .material-icons {
-            font-size: 28px;
         }
 
         .header {
@@ -72,237 +34,269 @@
             margin-bottom: 2rem;
         }
 
-        .logo-container {
-            display: flex;
-            justify-content: center;
-            margin-bottom: 1rem;
+        .logo-link {
+            display: inline-block;
+            cursor: pointer;
+            transition: transform 0.2s ease;
+        }
+
+        .logo-link:hover {
+            transform: scale(1.02);
         }
 
         .logo {
             height: 70px;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 10px 15px -3px rgba(59, 130, 246, 0.3));
         }
 
-        .subtitle {
-            color: #64748b;
+        .header h1 {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #1e293b;
             margin-top: 0.5rem;
-            font-size: 1.1rem;
+        }
+
+        .header p {
+            color: #64748b;
+            margin-top: 0.25rem;
         }
 
         .badge {
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #0057FF;
             color: white;
-            padding: 0.5rem 1rem;
-            border-radius: 100px;
-            font-size: 0.875rem;
-            margin-top: 0.75rem;
-            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 40px;
+            font-size: 0.75rem;
             font-weight: 500;
-            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+            margin-top: 12px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 28px;
+            box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 24px;
+            padding: 32px 36px;
+        }
+
+        .form-section {
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            border: 1px solid #e9eef3;
+            transition: all 0.2s ease;
+        }
+
+        .form-section:hover {
+            border-color: #0057FF20;
+            box-shadow: 0 4px 12px rgba(0, 87, 255, 0.05);
+        }
+
+        .section-title {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid #e9eef3;
+        }
+
+        .section-title .material-icons {
+            color: #0057FF;
+            font-size: 24px;
+        }
+
+        .section-title h2 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #1e293b;
         }
 
         .form-group {
-            margin-bottom: 1.25rem;
+            margin-bottom: 18px;
         }
 
-        .label {
-            display: block;
-            font-size: 0.875rem;
+        .form-group label {
+            font-size: 0.75rem;
             font-weight: 600;
-            color: #1e293b;
-            margin-bottom: 0.5rem;
-            letter-spacing: 0.025em;
+            margin-bottom: 6px;
+            display: block;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
-        .input {
+        .input, select, textarea {
             width: 100%;
-            padding: 0.875rem 1.25rem;
-            border: 2px solid #e2e8f0;
-            border-radius: 1rem;
-            font-size: 1rem;
+            padding: 12px 14px;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 14px;
+            font-size: 0.9rem;
             transition: all 0.2s;
-            background: white;
             font-family: 'Inter', sans-serif;
+            background: white;
         }
 
-        .input:focus {
+        .input:focus, select:focus, textarea:focus {
             outline: none;
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.15);
+            border-color: #0057FF;
+            box-shadow: 0 0 0 3px rgba(0, 87, 255, 0.1);
         }
 
-        .grid-2 {
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .inline-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
+            gap: 12px;
         }
 
         .checkbox-group {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 0.75rem;
-            margin-top: 0.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 8px;
         }
 
         .checkbox-label {
             display: flex;
             align-items: center;
-            padding: 0.75rem 1rem;
-            background: #f8fafc;
-            border: 2px solid #e2e8f0;
-            border-radius: 1rem;
-            font-size: 0.95rem;
-            color: #1e293b;
+            gap: 8px;
+            padding: 8px 14px;
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 40px;
+            font-size: 0.8rem;
             cursor: pointer;
             transition: all 0.2s;
         }
 
         .checkbox-label:hover {
-            border-color: #3b82f6;
-            background: #eff6ff;
-            transform: translateY(-1px);
+            border-color: #0057FF;
+            background: #f0f4ff;
         }
 
         .checkbox {
-            margin-right: 0.75rem;
-            width: 1.25rem;
-            height: 1.25rem;
-            accent-color: #3b82f6;
+            width: 16px;
+            height: 16px;
+            accent-color: #0057FF;
         }
 
         .upload-zone {
-            border: 3px dashed #e2e8f0;
-            border-radius: 1.5rem;
-            padding: 2.5rem;
+            border: 2px dashed #cbd5e1;
+            border-radius: 16px;
+            padding: 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.3s;
-            margin-top: 0.5rem;
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            transition: all 0.2s;
+            background: white;
         }
 
         .upload-zone:hover {
-            border-color: #3b82f6;
-            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
-            transform: scale(1.02);
+            border-color: #0057FF;
+            background: #f8fafc;
         }
 
         .upload-zone .material-icons {
-            font-size: 3.5rem;
-            color: #3b82f6;
-            margin-bottom: 0.75rem;
+            font-size: 36px;
+            color: #0057FF;
+            margin-bottom: 8px;
         }
 
-        .hidden {
-            display: none !important;
+        .upload-zone p {
+            font-size: 0.8rem;
+            color: #64748b;
         }
 
-        .btn {
-            width: 100%;
-            background: linear-gradient(135deg, #3b82f6 0%, #2563eb 100%);
-            color: white;
-            font-weight: 600;
-            padding: 1rem 1.5rem;
-            border: none;
-            border-radius: 1rem;
-            cursor: pointer;
-            transition: all 0.3s;
+        .file-list {
+            margin-top: 12px;
+        }
+
+        .file-item {
             display: flex;
             align-items: center;
-            justify-content: center;
-            font-size: 1.1rem;
-            gap: 0.75rem;
-            box-shadow: 0 10px 20px -5px rgba(59, 130, 246, 0.4);
-            position: relative;
-            overflow: hidden;
+            justify-content: space-between;
+            padding: 8px 12px;
+            background: white;
+            border-radius: 10px;
+            margin-bottom: 6px;
+            font-size: 0.75rem;
+            border: 1px solid #e2e8f0;
         }
 
-        .btn::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-            transition: left 0.5s;
-        }
-
-        .btn:hover::before {
-            left: 100%;
-        }
-
-        .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 25px -5px rgba(59, 130, 246, 0.5);
-        }
-
-        .btn:disabled {
-            opacity: 0.7;
-            cursor: not-allowed;
-            transform: none;
+        .file-item button {
+            background: none;
+            border: none;
+            color: #ef4444;
+            cursor: pointer;
         }
 
         .share-section {
-            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-            border-radius: 1.5rem;
-            padding: 1.5rem;
-            margin: 2rem 0 1.5rem;
-            border: 2px solid rgba(59, 130, 246, 0.1);
+            background: #f8fafc;
+            border-radius: 20px;
+            padding: 20px;
+            margin: 0 36px 32px 36px;
+            border: 1px solid #e9eef3;
         }
 
         .share-title {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            margin-bottom: 1.25rem;
+            gap: 10px;
+            margin-bottom: 16px;
         }
 
         .share-title .material-icons {
-            color: #3b82f6;
-            font-size: 2rem;
+            color: #0057FF;
+            font-size: 24px;
         }
 
         .share-title h3 {
-            font-size: 1.25rem;
+            font-size: 1rem;
             font-weight: 600;
             color: #1e293b;
         }
 
         .share-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 1rem;
-            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
         }
 
         .share-card {
-            background: white;
-            border-radius: 1rem;
-            padding: 1rem;
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            border: 2px solid #e2e8f0;
-            transition: all 0.2s;
+            gap: 10px;
+            padding: 8px 18px;
+            background: white;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 40px;
+            font-size: 0.85rem;
             cursor: pointer;
+            transition: all 0.2s;
         }
 
         .share-card:hover {
-            border-color: #3b82f6;
+            border-color: #0057FF;
             transform: translateY(-2px);
-            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.2);
-        }
-
-        .share-card.selected {
-            border-color: #3b82f6;
-            background: #eff6ff;
         }
 
         .share-card i {
-            font-size: 1.75rem;
+            font-size: 1.2rem;
         }
 
         .share-card .fa-facebook { color: #1877f2; }
@@ -311,629 +305,513 @@
         .share-card .fa-whatsapp { color: #25d366; }
         .share-card .fa-x-twitter { color: #000000; }
 
-        .share-card span {
-            font-weight: 500;
-            color: #1e293b;
-        }
-
-        .share-card input[type="checkbox"] {
+        .share-card input {
             margin-left: auto;
-            width: 1.25rem;
-            height: 1.25rem;
-            accent-color: #3b82f6;
+            width: 16px;
+            height: 16px;
+            accent-color: #0057FF;
         }
 
         .share-note {
-            font-size: 0.875rem;
+            font-size: 0.7rem;
             color: #64748b;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-            margin-top: 1rem;
-            padding: 0.75rem;
-            background: rgba(59, 130, 246, 0.05);
-            border-radius: 1rem;
-        }
-
-        .share-note i {
-            color: #3b82f6;
+            gap: 8px;
+            margin-top: 16px;
+            padding: 10px 12px;
+            background: rgba(0, 87, 255, 0.05);
+            border-radius: 12px;
         }
 
         .share-note button {
-            color: #3b82f6;
-            font-weight: 600;
+            color: #0057FF;
             background: none;
             border: none;
             cursor: pointer;
-            text-decoration: underline;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            width: calc(100% - 72px);
+            margin: 0 36px 36px 36px;
+            background: #0057FF;
+            color: white;
+            padding: 14px 0;
+            border-radius: 16px;
+            font-weight: 600;
+            font-size: 1rem;
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        .btn-primary:hover {
+            background: #0041CC;
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px -5px rgba(0, 87, 255, 0.4);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
         }
 
         .result {
-            margin-top: 1.5rem;
-            padding: 1rem 1.5rem;
-            border-radius: 1rem;
+            margin: 0 36px 36px 36px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            font-size: 0.85rem;
             font-weight: 500;
-            animation: slideIn 0.3s ease;
         }
 
-        @keyframes slideIn {
-            from {
-                opacity: 0;
-                transform: translateY(-10px);
+        .success { background: #dbeafe; color: #1e40af; border-left: 4px solid #0057FF; }
+        .error { background: #fee2e2; color: #991b1b; border-left: 4px solid #ef4444; }
+        .info { background: #dbeafe; color: #1e40af; border-left: 4px solid #0057FF; }
+
+        .hidden { display: none; }
+
+        @media (max-width: 1100px) {
+            .form-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+                padding: 28px;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
         }
 
-        .success {
-            background: #dbeafe;
-            color: #1e40af;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .error {
-            background: #fee2e2;
-            color: #991b1b;
-            border-left: 4px solid #ef4444;
-        }
-
-        .info {
-            background: #dbeafe;
-            color: #1e40af;
-            border-left: 4px solid #3b82f6;
-        }
-
-        .file-list {
-            margin-top: 1rem;
-        }
-
-        .file-item {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0.75rem;
-            background: #f8fafc;
-            border-radius: 0.75rem;
-            margin-bottom: 0.5rem;
-            border: 1px solid #e2e8f0;
-        }
-
-        .file-item .material-icons {
-            color: #3b82f6;
-        }
-
-        .file-item button {
-            color: #ef4444;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 0.25rem;
-        }
-
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
             body {
-                padding: 1rem 0.5rem;
+                padding: 1rem;
             }
-            
-            .back-arrow {
-                top: 1rem;
-                left: 1rem;
-                width: 48px;
-                height: 48px;
-            }
-
-            .container {
-                margin-top: 10px;
-                padding: 1.5rem;
-            }
-
-            .grid-2 {
+            .form-grid {
                 grid-template-columns: 1fr;
+                padding: 20px;
+                gap: 16px;
+            }
+            .btn-primary, .share-section, .result {
+                width: calc(100% - 40px);
+                margin-left: 20px;
+                margin-right: 20px;
+            }
+            .share-section {
+                margin-top: 0;
+            }
+            .logo {
+                height: 50px;
+            }
+            .header h1 {
+                font-size: 1.4rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .inline-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+            .checkbox-group {
+                gap: 8px;
+            }
+            .checkbox-label {
+                padding: 6px 12px;
+                font-size: 0.7rem;
             }
         }
     </style>
 </head>
 
 <body>
-    <a href="user-dashboard.html" class="back-arrow">
-        <span class="material-icons">arrow_back</span>
-    </a>
-
     <div class="container">
         <div class="header">
-            <div class="logo-container">
-                <img src="images/loji.png" alt="Loji" class="logo">
-            </div>
-            <p class="subtitle">Publiez votre bien en quelques clics</p>
+            <a href="index.html" class="logo-link">
+                <img src="images/footer.png" alt="Loji" class="logo">
+            </a>
+            <h1>Déposer une annonce</h1>
+            <p>Publiez votre bien en quelques clics</p>
             <div class="badge">
-                <span class="material-icons" style="font-size: 1rem; vertical-align: middle;">timer</span>
+                <span class="material-icons" style="font-size: 14px;">timer</span>
                 Objectif : 2 minutes
             </div>
         </div>
 
-        <form id="form-depot-rapide">
-            <!-- Titre -->
-            <div class="form-group">
-                <label class="label">Titre de l'annonce *</label>
-                <input type="text" name="titre" required class="input"
-                    placeholder="Ex: Appartement moderne Cocody 3 pièces">
-            </div>
+        <div class="card">
+            <form id="form-depot-rapide">
+                <div class="form-grid">
+                    
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="material-icons">info</span>
+                            <h2>Informations principales</h2>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>Titre de l'annonce *</label>
+                            <input type="text" name="titre" required class="input" placeholder="Ex: Appartement moderne Cocody">
+                        </div>
 
-            <!-- Prix + Type -->
-            <div class="grid-2">
-                <div class="form-group">
-                    <label class="label">Prix (FCFA) *</label>
-                    <input type="number" name="prix" required class="input" placeholder="250000">
-                </div>
-                <div class="form-group">
-                    <label class="label">Type de bien *</label>
-                    <select name="type_bien" required class="input">
-                        <option value="">Choisir...</option>
-                        <option value="Appartement">Appartement</option>
-                        <option value="Studio">Studio</option>
-                        <option value="Villa">Villa</option>
-                        <option value="Maison">Maison</option>
-                        <option value="Terrain">Terrain</option>
-                    </select>
-                </div>
-            </div>
+                        <div class="inline-grid">
+                            <div class="form-group">
+                                <label>Prix (FCFA) *</label>
+                                <input type="number" name="prix" required class="input" placeholder="250000">
+                            </div>
+                            <div class="form-group">
+                                <label>Type de bien *</label>
+                                <select name="type_bien" required class="input">
+                                    <option value="">Choisir...</option>
+                                    <option value="Appartement">Appartement</option>
+                                    <option value="Studio">Studio</option>
+                                    <option value="Villa">Villa</option>
+                                    <option value="Maison">Maison</option>
+                                    <option value="Terrain">Terrain</option>
+                                </select>
+                            </div>
+                        </div>
 
-            <!-- Ville + Quartier -->
-            <div class="grid-2">
-                <div class="form-group">
-                    <label class="label">Ville *</label>
-                    <select name="ville" required class="input">
-                        <option value="">Choisir...</option>
-                        <option value="Abidjan">Abidjan</option>
-                        <option value="San-Pedro">San-Pedro</option>
-                        <option value="Yamoussoukro">Yamoussoukro</option>
-                        <option value="Bouaké">Bouaké</option>
-                        <option value="Daloa">Daloa</option>
-                        <option value="Autre">Autre</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label class="label">Quartier *</label>
-                    <input type="text" name="quartier" required class="input"
-                        placeholder="Ex: Cocody, Angré, Marcory...">
-                </div>
-            </div>
+                        <div class="inline-grid">
+                            <div class="form-group">
+                                <label>Ville *</label>
+                                <select name="ville" required class="input">
+                                    <option value="">Choisir...</option>
+                                    <option value="Abidjan">Abidjan</option>
+                                    <option value="San-Pédro">San-Pédro</option>
+                                    <option value="Yamoussoukro">Yamoussoukro</option>
+                                    <option value="Bouaké">Bouaké</option>
+                                    <option value="Daloa">Daloa</option>
+                                    <option value="Korhogo">Korhogo</option>
+                                    <option value="Man">Man</option>
+                                    <option value="Gagnoa">Gagnoa</option>
+                                    <option value="Divo">Divo</option>
+                                    <option value="Soubré">Soubré</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Quartier *</label>
+                                <input type="text" name="quartier" required class="input" placeholder="Ex: Cocody, Marcory...">
+                            </div>
+                        </div>
 
-            <!-- Surface + Pièces -->
-            <div class="grid-2">
-                <div class="form-group">
-                    <label class="label">Surface (m²)</label>
-                    <input type="number" name="surface" class="input" placeholder="75">
-                </div>
-                <div class="form-group">
-                    <label class="label">Nombre de pièces</label>
-                    <input type="number" name="nb_pieces" class="input" placeholder="5">
-                </div>
-            </div>
+                        <div class="form-group">
+                            <label>Description</label>
+                            <textarea name="description" class="input" placeholder="Décrivez votre bien en quelques lignes..."></textarea>
+                        </div>
+                    </div>
 
-            <div class="grid-2">
-                <div class="form-group">
-                    <label class="label">Chambres</label>
-                    <input type="number" name="nb_chambres" class="input" placeholder="3">
-                </div>
-                <div class="form-group">
-                    <label class="label">Salles de bain</label>
-                    <input type="number" name="nb_salles_bain" class="input" placeholder="2">
-                </div>
-            </div>
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="material-icons">straighten</span>
+                            <h2>Caractéristiques</h2>
+                        </div>
 
-            <!-- Caractéristiques -->
-            <div class="form-group">
-                <label class="label">Équipements</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="meuble" class="checkbox"> Meublé
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="climatisation" class="checkbox"> Climatisation
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="parking" class="checkbox"> Parking
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="balcon" class="checkbox"> Balcon
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="securite" class="checkbox"> Sécurité
-                    </label>
-                    <label class="checkbox-label">
-                        <input type="checkbox" name="internet" class="checkbox"> Internet
-                    </label>
-                </div>
-            </div>
+                        <div class="inline-grid">
+                            <div class="form-group">
+                                <label>Surface (m²)</label>
+                                <input type="number" name="surface" class="input" placeholder="75">
+                            </div>
+                            <div class="form-group">
+                                <label>Pièces</label>
+                                <input type="number" name="nb_pieces" class="input" placeholder="3">
+                            </div>
+                            <div class="form-group">
+                                <label>Chambres</label>
+                                <input type="number" name="nb_chambres" class="input" placeholder="2">
+                            </div>
+                            <div class="form-group">
+                                <label>Salles de bain</label>
+                                <input type="number" name="nb_salles_bain" class="input" placeholder="1">
+                            </div>
+                        </div>
 
-            <!-- Upload d'images -->
-            <div class="form-group">
-                <label class="label">Photos du bien</label>
-                <div class="upload-zone" id="upload-zone">
-                    <input type="file" accept="image/*" class="hidden" id="file-input" multiple>
-                    <span class="material-icons">cloud_upload</span>
-                    <p style="font-weight: 500; margin-bottom: 0.25rem;">Cliquez ou glissez vos photos</p>
-                    <p style="font-size: 0.875rem; color: #64748b;">PNG, JPG • Max 5Mo par image</p>
-                </div>
-                <div id="file-list" class="file-list"></div>
-            </div>
+                        <div class="form-group">
+                            <label>Équipements</label>
+                            <div class="checkbox-group">
+                                <label class="checkbox-label"><input type="checkbox" name="meuble" class="checkbox"> Meublé</label>
+                                <label class="checkbox-label"><input type="checkbox" name="climatisation" class="checkbox"> Climatisation</label>
+                                <label class="checkbox-label"><input type="checkbox" name="parking" class="checkbox"> Parking</label>
+                                <label class="checkbox-label"><input type="checkbox" name="balcon" class="checkbox"> Balcon</label>
+                                <label class="checkbox-label"><input type="checkbox" name="securite" class="checkbox"> Sécurité</label>
+                                <label class="checkbox-label"><input type="checkbox" name="internet" class="checkbox"> Internet</label>
+                            </div>
+                        </div>
+                    </div>
 
-            <!-- Description -->
-            <div class="form-group">
-                <label class="label">Description</label>
-                <textarea name="description" rows="4" class="input"
-                    placeholder="Décrivez votre bien en quelques lignes..."></textarea>
-            </div>
+                    <div class="form-section">
+                        <div class="section-title">
+                            <span class="material-icons">photo_camera</span>
+                            <h2>Photos du bien</h2>
+                        </div>
 
-            <!-- Section partage moderne -->
-            <div class="share-section">
-                <div class="share-title">
-                    <span class="material-icons">share</span>
-                    <h3>Publier automatiquement sur vos réseaux</h3>
+                        <div class="form-group">
+                            <div class="upload-zone" id="upload-zone">
+                                <input type="file" accept="image/*" class="hidden" id="file-input" multiple>
+                                <span class="material-icons">cloud_upload</span>
+                                <p>Cliquez ou glissez vos photos</p>
+                                <p style="font-size: 0.7rem; color: #94a3b8;">PNG, JPG • Max 5Mo par image</p>
+                            </div>
+                            <div id="file-list" class="file-list"></div>
+                        </div>
+                    </div>
                 </div>
 
-                <div class="share-grid">
-                    <label class="share-card">
-                        <i class="fab fa-facebook"></i>
-                        <span>Facebook</span>
-                        <input type="checkbox" name="share_facebook" class="checkbox">
-                    </label>
-
-                    <label class="share-card">
-                        <i class="fab fa-instagram"></i>
-                        <span>Instagram</span>
-                        <input type="checkbox" name="share_instagram" class="checkbox">
-                    </label>
-
-                    <label class="share-card">
-                        <i class="fab fa-tiktok"></i>
-                        <span>TikTok</span>
-                        <input type="checkbox" name="share_tiktok" class="checkbox">
-                    </label>
-
-                    <label class="share-card">
-                        <i class="fab fa-whatsapp"></i>
-                        <span>WhatsApp</span>
-                        <input type="checkbox" name="share_whatsapp" class="checkbox">
-                    </label>
-
-                    <label class="share-card">
-                        <i class="fab fa-x-twitter"></i>
-                        <span>X (Twitter)</span>
-                        <input type="checkbox" name="share_twitter" class="checkbox">
-                    </label>
+                <div class="share-section">
+                    <div class="share-title">
+                        <span class="material-icons">share</span>
+                        <h3>Publier automatiquement sur vos réseaux</h3>
+                    </div>
+                    <div class="share-grid">
+                        <label class="share-card"><i class="fab fa-facebook"></i><span>Facebook</span><input type="checkbox" name="share_facebook"></label>
+                        <label class="share-card"><i class="fab fa-instagram"></i><span>Instagram</span><input type="checkbox" name="share_instagram"></label>
+                        <label class="share-card"><i class="fab fa-tiktok"></i><span>TikTok</span><input type="checkbox" name="share_tiktok"></label>
+                        <label class="share-card"><i class="fab fa-whatsapp"></i><span>WhatsApp</span><input type="checkbox" name="share_whatsapp"></label>
+                        <label class="share-card"><i class="fab fa-x-twitter"></i><span>X (Twitter)</span><input type="checkbox" name="share_twitter"></label>
+                    </div>
+                    <div class="share-note">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Les annonces seront partagées avec un lien vers Loji.</span>
+                        <button type="button" onclick="showSocialModal()">Configurer</button>
+                    </div>
                 </div>
 
-                <div class="share-note">
-                    <i class="fas fa-info-circle"></i>
-                    <span>Les annonces seront partagées avec un lien vers Loji.</span>
-                    <button type="button" onclick="showSocialModal()">Configurer</button>
-                </div>
-            </div>
+                <button type="submit" class="btn-primary" id="submitBtn">
+                    <span class="material-icons" style="font-size: 20px;">publish</span> Publier l'annonce
+                </button>
+            </form>
 
-            <button type="submit" class="btn">
-                <span class="material-icons">publish</span>
-                Publier l'annonce
-            </button>
-        </form>
-
-        <div id="resultat" class="hidden"></div>
+            <div id="resultat" class="hidden"></div>
+        </div>
     </div>
 
-    <!-- Modal de configuration des réseaux -->
     <div id="socialModal" class="fixed inset-0 z-50 hidden" style="background: rgba(0,0,0,0.5); backdrop-filter: blur(4px);">
         <div class="absolute inset-0" onclick="closeSocialModal()"></div>
         <div class="absolute inset-0 flex items-center justify-center p-4">
-            <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl">
+            <div class="bg-white rounded-2xl max-w-sm w-full p-6">
                 <h3 class="text-xl font-bold mb-4">🔗 Connecter vos réseaux</h3>
-                
                 <div class="space-y-3">
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <i class="fab fa-facebook text-2xl text-blue-600"></i>
-                            <span class="font-medium">Facebook</span>
-                        </div>
-                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700">
-                            Connecter
-                        </button>
+                        <div class="flex items-center gap-3"><i class="fab fa-facebook text-2xl text-blue-600"></i><span class="font-medium">Facebook</span></div>
+                        <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm">Connecter</button>
                     </div>
-                    
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <i class="fab fa-instagram text-2xl text-pink-600"></i>
-                            <span class="font-medium">Instagram</span>
-                        </div>
-                        <button class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm hover:bg-pink-700">
-                            Connecter
-                        </button>
+                        <div class="flex items-center gap-3"><i class="fab fa-instagram text-2xl text-pink-600"></i><span class="font-medium">Instagram</span></div>
+                        <button class="px-4 py-2 bg-pink-600 text-white rounded-lg text-sm">Connecter</button>
                     </div>
-                    
                     <div class="flex items-center justify-between p-3 bg-gray-50 rounded-xl">
-                        <div class="flex items-center gap-3">
-                            <i class="fab fa-tiktok text-2xl"></i>
-                            <span class="font-medium">TikTok</span>
-                        </div>
-                        <button class="px-4 py-2 bg-black text-white rounded-lg text-sm hover:bg-gray-800">
-                            Connecter
-                        </button>
+                        <div class="flex items-center gap-3"><i class="fab fa-tiktok text-2xl"></i><span class="font-medium">TikTok</span></div>
+                        <button class="px-4 py-2 bg-black text-white rounded-lg text-sm">Connecter</button>
                     </div>
                 </div>
-
                 <div class="mt-6 flex justify-end gap-3">
-                    <button onclick="closeSocialModal()" class="px-4 py-2 border rounded-lg hover:bg-gray-50">
-                        Fermer
-                    </button>
-                    <button onclick="closeSocialModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
-                        Sauvegarder
-                    </button>
+                    <button onclick="closeSocialModal()" class="px-4 py-2 border rounded-lg hover:bg-gray-50">Fermer</button>
+                    <button onclick="closeSocialModal()" class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">Sauvegarder</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- SCRIPTS DANS LE BON ORDRE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="api.js"></script>
     <script src="auth.js"></script>
+
     <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // =============================================
-            // 1. URL DU BACKEND RAILWAY (CORRECTION PRIORITAIRE)
-            // =============================================
-            const STRAPI_URL = 'https://my-strapi-project-production-d4d2.up.railway.app';
-            let uploadedImages = [];
+        // ========== VARIABLES GLOBALES ==========
+        let uploadedImages = [];
+        let currentUser = null;
 
-            // GESTION UPLOAD IMAGES
-            const fileInput = document.getElementById('file-input');
-            const uploadZone = document.getElementById('upload-zone');
-            const fileList = document.getElementById('file-list');
+        // ========== ÉLÉMENTS DOM ==========
+        const fileInput = document.getElementById('file-input');
+        const uploadZone = document.getElementById('upload-zone');
+        const fileList = document.getElementById('file-list');
+        const form = document.getElementById('form-depot-rapide');
+        const submitBtn = document.getElementById('submitBtn');
 
-            uploadZone.onclick = () => fileInput.click();
-            
-            uploadZone.ondragover = (e) => {
-                e.preventDefault();
-                uploadZone.style.borderColor = '#3b82f6';
-                uploadZone.style.background = 'linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%)';
-            };
-            
-            uploadZone.ondragleave = () => {
-                uploadZone.style.borderColor = '#e2e8f0';
-                uploadZone.style.background = 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)';
-            };
-            
-            uploadZone.ondrop = (e) => {
-                e.preventDefault();
-                uploadZone.style.borderColor = '#e2e8f0';
-                uploadZone.style.background = 'linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%)';
-                handleFiles(e.dataTransfer.files);
-            };
-            
-            fileInput.onchange = (e) => handleFiles(e.target.files);
-
-            function handleFiles(files) {
-                Array.from(files).forEach(file => {
-                    if (file.type.startsWith('image/')) {
-                        uploadedImages.push(file);
-                    }
-                });
-                updateFileList();
-            }
-
-            function updateFileList() {
-                fileList.innerHTML = '';
-                uploadedImages.forEach((file, index) => {
-                    const div = document.createElement('div');
-                    div.className = 'file-item';
-                    div.innerHTML = `
-                        <div style="display: flex; align-items: center; gap: 0.75rem;">
-                            <span class="material-icons">image</span>
-                            <span>${file.name} (${(file.size / 1024 / 1024).toFixed(1)} MB)</span>
-                        </div>
-                        <button type="button" onclick="removeImage(${index})">
-                            <span class="material-icons">delete</span>
-                        </button>
-                    `;
-                    fileList.appendChild(div);
-                });
-            }
-
-            window.removeImage = function (index) {
-                uploadedImages.splice(index, 1);
-                updateFileList();
-            }
-
-            // Fonction de partage sur les réseaux
-            async function shareToSocialNetworks(annonce, networks) {
-                const results = {};
-                const annonceUrl = `https://my-strapi-project-production-d4d2.up.railway.app/annonce.html?id=${annonce.id}`;
-                
-                const message = encodeURIComponent(
-                    `🏠 ${annonce.Titre}\n` +
-                    `💰 ${annonce.Prix} FCFA\n` +
-                    `📍 ${annonce.Ville}, ${annonce.Quartier}\n` +
-                    `🔗 Voir sur Loji: ${annonceUrl}`
-                );
-
-                if (networks.facebook) {
-                    window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(annonceUrl)}&quote=${message}`, '_blank');
-                    results.facebook = true;
-                }
-                
-                if (networks.instagram) {
-                    window.open(`https://www.instagram.com/create/story/`, '_blank');
-                    results.instagram = true;
-                }
-                
-                if (networks.tiktok) {
-                    window.open(`https://www.tiktok.com/share?text=${message}`, '_blank');
-                    results.tiktok = true;
-                }
-                
-                if (networks.whatsapp) {
-                    window.open(`https://wa.me/?text=${message}`, '_blank');
-                    results.whatsapp = true;
-                }
-                
-                if (networks.twitter) {
-                    window.open(`https://twitter.com/intent/tweet?text=${message}`, '_blank');
-                    results.twitter = true;
-                }
-                
-                return results;
-            }
-
-            // SOUMISSION DU FORMULAIRE
-            const form = document.getElementById('form-depot-rapide');
-            form.addEventListener('submit', async function (e) {
-                e.preventDefault();
-
-                const submitBtn = this.querySelector('button[type="submit"]');
-                const originalText = submitBtn.innerHTML;
-
-                submitBtn.innerHTML = '<span class="material-icons" style="animation: spin 1s infinite;">sync</span> Publication...';
-                submitBtn.disabled = true;
-
-                try {
-                    const user = JSON.parse(localStorage.getItem('user') || '{}');
-                    
-                    // =============================================
-                    // 2. SÉCURISATION DE LA RÉCUPÉRATION DU TOKEN
-                    // Utilisation de la clé 'jwt' comme dans auth.js
-                    // =============================================
-                    const token = localStorage.getItem('jwt');
-
-                    if (!user || !user.id || !token) {
-                        showResult('error', '❌ Vous devez être connecté pour publier une annonce. Veuillez vous connecter.');
-                        submitBtn.innerHTML = originalText;
-                        submitBtn.disabled = false;
-                        return;
-                    }
-
-                    // Upload des images vers Strapi
-                    const uploadedImageIds = [];
-                    
-                    for (let i = 0; i < uploadedImages.length; i++) {
-                        const file = uploadedImages[i];
-                        const uploadFormData = new FormData();
-                        uploadFormData.append('files', file);
-
-                        const uploadResponse = await fetch(`${STRAPI_URL}/api/upload`, {
-                            method: 'POST',
-                            headers: { 'Authorization': `Bearer ${token}` },
-                            body: uploadFormData
-                        });
-
-                        if (uploadResponse.ok) {
-                            const uploadResult = await uploadResponse.json();
-                            if (uploadResult && uploadResult[0] && uploadResult[0].id) {
-                                uploadedImageIds.push(uploadResult[0].id);
-                            }
-                        } else {
-                            console.error('Erreur upload image:', await uploadResponse.text());
-                        }
-                    }
-
-                    // Création de l'annonce dans Strapi
-                    const formData = new FormData(this);
-                    
-                    const annonceData = {
-                        data: {
-                            Titre: formData.get('titre'),
-                            Prix: parseFloat(formData.get('prix')),
-                            Description: formData.get('description') || '',
-                            Typedebien: formData.get('type_bien'),
-                            Ville: formData.get('ville'),
-                            Quartier: formData.get('quartier'),
-                            Surface: formData.get('surface') ? parseInt(formData.get('surface')) : null,
-                            Nombredepieces: formData.get('nb_pieces') ? parseInt(formData.get('nb_pieces')) : null,
-                            Meuble: formData.has('meuble'),
-                            Climatisation: formData.has('climatisation'),
-                            Parking: formData.has('parking'),
-                            Balcon: formData.has('balcon'),
-                            Securite: formData.has('securite'),
-                            Internet: formData.has('internet'),
-                            Nombredechambres: formData.get('nb_chambres') ? parseInt(formData.get('nb_chambres')) : null,
-                            Nombresalledebain: formData.get('nb_salles_bain') ? parseInt(formData.get('nb_salles_bain')) : null,
-                            user: user.id,
-                            Galeriephotos: uploadedImageIds 
-                        }
-                    };
-
-                    const response = await fetch(`${STRAPI_URL}/api/annonces`, {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify(annonceData)
-                    });
-
-                    if (response.ok) {
-                        const result = await response.json();
-                        
-                        // Récupérer les choix de partage
-                        const shareFacebook = formData.get('share_facebook') === 'on';
-                        const shareInstagram = formData.get('share_instagram') === 'on';
-                        const shareTiktok = formData.get('share_tiktok') === 'on';
-                        const shareWhatsapp = formData.get('share_whatsapp') === 'on';
-                        const shareTwitter = formData.get('share_twitter') === 'on';
-                        
-                        // Partager sur les réseaux si demandé
-                        if (shareFacebook || shareInstagram || shareTiktok || shareWhatsapp || shareTwitter) {
-                            showResult('info', '📱 Ouverture des réseaux sociaux...');
-                            
-                            await shareToSocialNetworks(result.data, {
-                                facebook: shareFacebook,
-                                instagram: shareInstagram,
-                                tiktok: shareTiktok,
-                                whatsapp: shareWhatsapp,
-                                twitter: shareTwitter
-                            });
-                        }
-                        
-                        showResult('success', '✅ Annonce publiée avec succès ! Redirection en cours...');
-                        
-                        // Réinitialisation du formulaire
-                        this.reset();
-                        uploadedImages = [];
-                        updateFileList();
-                        
-                        // Redirection vers le tableau de bord
-                        setTimeout(() => {
-                            window.location.href = 'user-dashboard.html';
-                        }, 2000);
-                        
-                    } else {
-                        const errorText = await response.text();
-                        console.error('Erreur API:', errorText);
-                        throw new Error(`Erreur ${response.status}: La publication a échoué`);
-                    }
-
-                } catch (error) {
-                    console.error('❌ Erreur:', error);
-                    showResult('error', '❌ ' + error.message);
-                } finally {
-                    submitBtn.innerHTML = originalText;
-                    submitBtn.disabled = false;
+        // ========== GESTION DES FICHIERS ==========
+        function handleFiles(files) {
+            Array.from(files).forEach(file => {
+                if (file.type.startsWith('image/')) {
+                    uploadedImages.push(file);
                 }
             });
+            updateFileList();
+        }
 
-            function showResult(type, message) {
-                const resultDiv = document.getElementById('resultat');
-                resultDiv.className = `result ${type}`;
-                resultDiv.innerHTML = message;
-                resultDiv.classList.remove('hidden');
-                setTimeout(() => resultDiv.classList.add('hidden'), 5000);
+        function updateFileList() {
+            if (!fileList) return;
+            fileList.innerHTML = uploadedImages.map((file, i) => `
+                <div class="file-item">
+                    <span><span class="material-icons" style="font-size: 14px;">image</span> ${file.name}</span>
+                    <button type="button" onclick="removeImage(${i})"><span class="material-icons" style="font-size: 14px;">delete</span></button>
+                </div>
+            `).join('');
+        }
+
+        window.removeImage = function(i) {
+            uploadedImages.splice(i, 1);
+            updateFileList();
+        };
+
+        // ========== INITIALISATION UPLOAD ZONE ==========
+        if (uploadZone) {
+            uploadZone.onclick = () => fileInput?.click();
+            uploadZone.ondrop = (e) => {
+                e.preventDefault();
+                handleFiles(e.dataTransfer.files);
+            };
+            uploadZone.ondragover = (e) => e.preventDefault();
+        }
+        if (fileInput) {
+            fileInput.onchange = (e) => handleFiles(e.target.files);
+        }
+
+        // ========== VÉRIFICATION DE CONNEXION ==========
+        async function checkAuth() {
+            try {
+                if (!window.api) {
+                    console.error('❌ API non disponible');
+                    return false;
+                }
+                
+                // Vérifier si connecté
+                if (!window.api.isLoggedIn()) {
+                    console.log('❌ Non connecté');
+                    return false;
+                }
+                
+                // Récupérer l'utilisateur
+                const user = window.api.getUser();
+                if (!user) {
+                    console.log('❌ Utilisateur non trouvé');
+                    return false;
+                }
+                
+                currentUser = user;
+                console.log('✅ Utilisateur connecté:', user.email || user.phone);
+                return true;
+                
+            } catch (error) {
+                console.error('❌ Erreur vérification auth:', error);
+                return false;
+            }
+        }
+
+        // ========== SOUMISSION DU FORMULAIRE ==========
+        async function submitForm(e) {
+            e.preventDefault();
+            
+            // Vérifier connexion
+            const isAuth = await checkAuth();
+            if (!isAuth) {
+                alert('❌ Vous devez être connecté pour déposer une annonce');
+                window.location.href = 'connexion.html';
+                return;
             }
 
-            // Fonctions pour le modal social
-            window.showSocialModal = function() {
-                document.getElementById('socialModal').classList.remove('hidden');
-            };
+            // Désactiver le bouton
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="material-icons" style="font-size: 20px; animation: spin 1s infinite;">sync</span> Publication en cours...';
 
-            window.closeSocialModal = function() {
-                document.getElementById('socialModal').classList.add('hidden');
-            };
+            try {
+                // Récupérer les données du formulaire
+                const formData = new FormData(form);
+                
+                const annonceData = {
+                    Titre: formData.get('titre'),
+                    Prix: parseInt(formData.get('prix')),
+                    Description: formData.get('description') || '',
+                    Typedebien: formData.get('type_bien'),
+                    Ville: formData.get('ville'),
+                    Quartier: formData.get('quartier'),
+                    Surface: formData.get('surface') ? parseInt(formData.get('surface')) : null,
+                    Nombredepieces: formData.get('nb_pieces') ? parseInt(formData.get('nb_pieces')) : null,
+                    Meuble: formData.has('meuble'),
+                    Climatisation: formData.has('climatisation'),
+                    Parking: formData.has('parking'),
+                    Balcon: formData.has('balcon'),
+                    Securite: formData.has('securite'),
+                    Internet: formData.has('internet'),
+                    Nombredechambres: formData.get('nb_chambres') ? parseInt(formData.get('nb_chambres')) : null,
+                    Nombresalledebain: formData.get('nb_salles_bain') ? parseInt(formData.get('nb_salles_bain')) : null
+                };
+
+                console.log('📝 Création annonce:', annonceData);
+
+                // Créer l'annonce
+                const result = await window.api.createAnnonce(annonceData);
+                const annonceId = result.data.id;
+                
+                console.log('✅ Annonce créée ID:', annonceId);
+
+                // Uploader les images
+                for (const file of uploadedImages) {
+                    try {
+                        await window.api.uploadImage(file, annonceId);
+                        console.log('📸 Image uploadée:', file.name);
+                    } catch (uploadError) {
+                        console.error('❌ Erreur upload image:', uploadError);
+                    }
+                }
+
+                // Gérer le partage sur les réseaux
+                const networks = {
+                    facebook: formData.get('share_facebook') === 'on',
+                    whatsapp: formData.get('share_whatsapp') === 'on',
+                    twitter: formData.get('share_twitter') === 'on'
+                };
+                
+                const url = `${window.location.origin}/annonce-details-fixed.html?id=${annonceId}`;
+                const msg = encodeURIComponent(`🏠 ${annonceData.Titre}\n💰 ${annonceData.Prix} FCFA\n📍 ${annonceData.Ville}\n🔗 ${url}`);
+                
+                if (networks.facebook) window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`, '_blank');
+                if (networks.whatsapp) window.open(`https://wa.me/?text=${msg}`, '_blank');
+                if (networks.twitter) window.open(`https://twitter.com/intent/tweet?text=${msg}`, '_blank');
+                
+                alert('✅ Annonce publiée avec succès !');
+                window.location.href = 'user-dashboard.html';
+                
+            } catch (error) {
+                console.error('❌ Erreur:', error);
+                alert('❌ Erreur: ' + (error.message || 'Erreur lors de la publication'));
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<span class="material-icons" style="font-size: 20px;">publish</span> Publier l\'annonce';
+            }
+        }
+
+        // ========== MODAL ==========
+        window.showSocialModal = function() { 
+            const modal = document.getElementById('socialModal');
+            if (modal) modal.classList.remove('hidden'); 
+        };
+        
+        window.closeSocialModal = function() { 
+            const modal = document.getElementById('socialModal');
+            if (modal) modal.classList.add('hidden'); 
+        };
+
+        // ========== INITIALISATION ==========
+        document.addEventListener('DOMContentLoaded', async function() {
+            console.log('🚀 Page depot-annonces chargée');
+            
+            // Vérifier la connexion
+            const isAuth = await checkAuth();
+            if (!isAuth) {
+                console.warn('⚠️ Non connecté - redirection dans 3 secondes');
+                setTimeout(() => {
+                    if (!window.api?.isLoggedIn()) {
+                        window.location.href = 'connexion.html';
+                    }
+                }, 3000);
+                return;
+            }
+            
+            // Ajouter l'écouteur d'événement
+            if (form) {
+                form.addEventListener('submit', submitForm);
+            }
         });
     </script>
 </body>

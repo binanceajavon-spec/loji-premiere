@@ -31,14 +31,12 @@
         /* Contenu décalé */
         #annonceContent {
             margin-top: 80px;
-            /* Desktop */
             min-height: calc(100vh - 80px);
         }
 
         @media (max-width: 768px) {
             #annonceContent {
                 margin-top: 7px;
-                /* Mobile */
             }
         }
 
@@ -47,7 +45,7 @@
             z-index: 99999 !important;
         }
 
-        /* ========== STYLES FOOTER (copiés de index.html) ========== */
+        /* ========== STYLES FOOTER ========== */
         .full-width-footer {
             width: 100%;
             background: #1a1a1a;
@@ -238,75 +236,79 @@
         </div>
     </div>
 
-   <!-- ========== FOOTER ========== -->
-<footer class="full-width-footer">
-    <div class="footer-container">
-        <div class="footer-grid">
-            <div class="footer-column">
-                <h3>MAISONS À LOUER Abidjan</h3>
-                <div class="links">
-                    <div>Cocody</div>
-                    <div>Adjame</div>
-                    <div>Marcory</div>
-                    <div>Bingerville</div>
-                    <div>Bassam</div>
-                    <div>Koumassi</div>
-                    <div>attecoube</div>
-                    <div>treichville</div>
-                    <div>Abobo</div>
+    <!-- ========== FOOTER ========== -->
+    <footer class="full-width-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-column">
+                    <h3>MAISONS À LOUER Abidjan</h3>
+                    <div class="links">
+                        <div>Cocody</div>
+                        <div>Adjame</div>
+                        <div>Marcory</div>
+                        <div>Bingerville</div>
+                        <div>Bassam</div>
+                        <div>Koumassi</div>
+                        <div>attecoube</div>
+                        <div>treichville</div>
+                        <div>Abobo</div>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>MAISONS À LOUER Yamoussoukro</h3>
+                    <div class="links">
+                        <div>Daloa</div>
+                        <div>Gagnoa</div>
+                        <div> korhogo</div>
+                        <div>San Pedro</div>
+                        <div>Sassandra</div>
+                        <div>Divo</div>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>QUI SOMMES-NOUS</h3>
+                    <div class="links">
+                        <div>Bloq</div>
+                        <div>Services</div>
+                        <div>Contact</div>
+                    </div>
                 </div>
             </div>
-            <div class="footer-column">
-                <h3>MAISONS À LOUER Yamoussoukro</h3>
-                <div class="links">
-                    <div>Daloa</div>
-                    <div>Gagnoa</div>
-                    <div> korhogo</div>
-                    <div>San Pedro</div>
-                    <div>Sassandra</div>
-                    <div>Divo</div>
+            <div class="footer-social-contact">
+                <div class="social-icons">
+                    <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
+                </div>
+                <div class="contact-info">
+                    <div> loji-ci@gmail.com</div>
+                    <div>+225 01 52 25 38 35 </div>
                 </div>
             </div>
-            <div class="footer-column">
-                <h3>QUI SOMMES-NOUS</h3>
-                <div class="links">
-                    <div>Bloq</div>
-                    <div>Services</div>
-                    <div>Contact</div>
-                </div>
+            <div class="footer-logo">
+                <img src="images/footer.png" alt="Logi">
             </div>
         </div>
-        <div class="footer-social-contact">
-            <div class="social-icons">
-                <a href="#" class="social-icon facebook"><i class="fab fa-facebook-f"></i></a>
-                <a href="#" class="social-icon instagram"><i class="fab fa-instagram"></i></a>
-                <a href="#" class="social-icon tiktok"><i class="fab fa-tiktok"></i></a>
-            </div>
-            <div class="contact-info">
-                <div> loji-ci@gmail.com</div>
-                <div>+225 01 52 25 38 35 </div>
-            </div>
-        </div>
-        <div class="footer-logo">
-            <img src="images/footer.png" alt="Logi">
-        </div>
-    </div>
-</footer>
-<!-- ========== BOUTON WHATSAPP + TOP ========== -->
-    <!-- ========== BOUTON WHATSAPP + TOP ========== -->
-    <a id="whatsapp-button" href="https://wa.me/2250152253835" target="_blank" rel="noopener" style="position: fixed; bottom: 74px; right: 24px; width: 44px; height: 44px; border-radius: 50%; background-color: #25D366; color: #ffffff; display: flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 10px 20px rgba(0, 0, 0, 0.18); z-index: 55; transition: transform 0.2s ease, box-shadow 0.2s ease, background-color 0.2s ease;">
-        <i class="fab fa-whatsapp" style="font-size: 22px;"></i>
-    </a>
+    </footer>
 
-    <button id="top-button" style="position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px; background-color: #286EF1; color: #fff; border: none; border-radius: 50%; cursor: pointer; font-size: 14px; font-weight: bold; box-shadow: 0 10px 15px -3px rgba(40, 110, 241, 0.35); transition: all 0.3s; z-index: 50; display: none;">↑</button>
+    <!-- SCRIPTS DANS LE BON ORDRE -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="api.js"></script>
+    <script src="auth.js"></script>
 
     <!-- SCRIPT DE CHARGEMENT SÉQUENTIEL -->
     <script>
         (function () {
-            console.log('🚀 Démarrage sécurisé');
+            console.log('🚀 Démarrage sécurisé - Version Supabase');
 
-            // Étape 1: Charger navbar
             const loadScript = (src, callback) => {
+                // Vérifier si le script est déjà chargé
+                if (document.querySelector(`script[src="${src}"]`)) {
+                    console.log(`✅ Script déjà chargé: ${src}`);
+                    if (callback) callback();
+                    return;
+                }
+                
                 const script = document.createElement('script');
                 script.src = src;
                 script.onload = callback;
@@ -314,56 +316,75 @@
                 document.head.appendChild(script);
             };
 
-            // Charger navbar d'abord
+            // Attendre que api.js soit prêt
+            const waitForApi = (callback) => {
+                if (window.api && window.api.getAnnonceById) {
+                    callback();
+                } else {
+                    setTimeout(() => waitForApi(callback), 100);
+                }
+            };
+
             loadScript('nav-multifunction.js', function () {
                 console.log('✅ Navbar chargée');
 
-                // Initialiser navbar après un délai
                 setTimeout(() => {
                     if (window.renderNavMultifunction) {
                         window.renderNavMultifunction();
                         console.log('✅ Navbar initialisée');
 
-                        // Attendre que le DOM se stabilise
                         setTimeout(() => {
-                            // Étape 2: Charger app-details-clean
+                            // Charger le script de détails (version Supabase)
                             loadScript('app-details-clean.js', function () {
-                                console.log('✅ App-details propre chargé');
+                                console.log('✅ App-details chargé');
 
-                                // Étape 3: Initialiser les détails
-                                setTimeout(() => {
+                                // Attendre que l'API soit prête
+                                waitForApi(() => {
                                     if (window.initAnnonceDetails) {
                                         window.initAnnonceDetails();
-                                        console.log('✅ Détails annonce initialisés');
+                                        console.log('✅ Détails annonce initialisés avec Supabase');
                                     }
-                                }, 100);
+                                });
                             });
                         }, 200);
                     }
                 }, 150);
             });
-
-            // ========== BOUTON TOP ==========
-            document.addEventListener('DOMContentLoaded', function() {
-                const topButton = document.getElementById('top-button');
-                if (topButton) {
-                    topButton.addEventListener('click', function () {
-                        window.scrollTo({ top: 0, behavior: 'smooth' });
-                    });
-
-                    window.onscroll = function () {
-                        if (document.body.scrollTop > 200 || document.documentElement.scrollTop > 200) {
-                            topButton.style.display = 'block';
-                        } else {
-                            topButton.style.display = 'none';
-                        }
-                    };
-                }
-            });
         })();
     </script>
 
-    <script src="auth.js"></script>
+    <!-- Correction des boutons flottants - s'arrêtent au début du footer -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            setTimeout(function() {
+                const actionButtons = document.querySelector('.flex.justify-between.gap-2, [class*="bg-blue-600"].flex, .fixed-bottom');
+                const footer = document.querySelector('.full-width-footer');
+                
+                if (!actionButtons || !footer) return;
+                
+                function checkScroll() {
+                    if (window.innerWidth <= 768) {
+                        const footerTop = footer.getBoundingClientRect().top;
+                        const windowHeight = window.innerHeight;
+                        
+                        if (footerTop < windowHeight - 100) {
+                            actionButtons.style.position = 'absolute';
+                            actionButtons.style.bottom = 'auto';
+                            actionButtons.style.top = (footerTop - actionButtons.offsetHeight - 10) + 'px';
+                        } else {
+                            actionButtons.style.position = 'fixed';
+                            actionButtons.style.bottom = '0';
+                            actionButtons.style.top = 'auto';
+                        }
+                    }
+                }
+                
+                window.addEventListener('scroll', checkScroll);
+                window.addEventListener('resize', checkScroll);
+                checkScroll();
+            }, 500);
+        });
+    </script>
 </body>
 
 </html>

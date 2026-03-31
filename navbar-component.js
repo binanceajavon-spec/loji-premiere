@@ -1,4 +1,4 @@
-// navbar-component.js - Version finale avec liens corrigés (services 2 et 3)
+// navbar-component.js - Version finale (barre défilement horizontale supprimée)
 console.log('🟢 Navbar Component chargé - Version finale avec services 2 et 3');
 
 class NavbarComponent {
@@ -17,7 +17,6 @@ class NavbarComponent {
         <nav class="nav-links">
             <a href="index.html">Accueil</a>
 
-            <!-- MEGA MENU Service avec tous les liens corrigés -->
             <div class="dropdown-desktop">
                 <a href="#" class="nav-link">
                     Service <i class="fa-solid fa-chevron-down ml-1 text-xs arrow-icon"></i>
@@ -46,7 +45,6 @@ class NavbarComponent {
 
             <a href="#">Blog</a>
           
-            <!-- Menu déroulant Contact -->
             <div class="dropdown">
                 <a href="#" class="dropdown-trigger">Contact <i class="fas fa-chevron-down text-xs ml-1 arrow-icon"></i></a>
                 <div class="dropdown-content">
@@ -77,57 +75,57 @@ class NavbarComponent {
             <span></span><span></span><span></span>
         </button>
 
-        <!-- MENU MOBILE AVEC TOUS LES LIENS CORRIGÉS -->
         <div class="mobile-menu" id="mobileMenu">
-            <nav class="mobile-nav-links">
-                <a href="index.html">Accueil</a>
+            <div class="mobile-menu-inner">
+                <nav class="mobile-nav-links">
+                    <a href="index.html">Accueil</a>
 
-                <div class="mobile-dropdown-container">
-                    <div class="mobile-dropdown-header">
-                        <span>Services</span>
-                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    <div class="mobile-dropdown-container">
+                        <div class="mobile-dropdown-header">
+                            <span>Services</span>
+                            <i class="fas fa-chevron-down arrow-icon"></i>
+                        </div>
+                        <div class="mobile-dropdown-content">
+                            <a href="annonces.html">Location</a>
+                            <a href="annonces.html">Achat</a>
+                            <a href="annonces.html">Vente de terrain</a>
+                            <a href="#">Neuf / Programme</a>
+                            <a href="page-service1.html">Gérer votre bien</a>
+                            <a href="page-service2.html">Déménagement</a>
+                            <a href="#">Estimer mon bien</a>
+                            <a href="page-service3.html">Solution pour agence</a>
+                        </div>
                     </div>
-                    <div class="mobile-dropdown-content">
-                        <a href="annonces.html">Location</a>
-                        <a href="annonces.html">Achat</a>
-                        <a href="annonces.html">Vente de terrain</a>
-                        <a href="#">Neuf / Programme</a>
-                        <a href="page-service1.html">Gérer votre bien</a>
-                        <a href="page-service2.html">Déménagement</a>
-                        <a href="#">Estimer mon bien</a>
-                        <a href="page-service3.html">Solution pour agence</a>
-                    </div>
-                </div>
 
-                <div class="mobile-dropdown-container">
-                    <div class="mobile-dropdown-header">
-                        <span>Contact</span>
-                        <i class="fas fa-chevron-down arrow-icon"></i>
+                    <div class="mobile-dropdown-container">
+                        <div class="mobile-dropdown-header">
+                            <span>Contact</span>
+                            <i class="fas fa-chevron-down arrow-icon"></i>
+                        </div>
+                        <div class="mobile-dropdown-content">
+                            <a href="tel:0748345939">07 48 34 59 39</a>
+                            <a href="tel:0152253835">01 52 25 38 35</a>
+                        </div>
                     </div>
-                    <div class="mobile-dropdown-content">
-                        <a href="tel:0748345939">07 48 34 59 39</a>
-                        <a href="tel:0152253835">01 52 25 38 35</a>
-                    </div>
+                </nav>
+                
+                <div class="mobile-auth-buttons">
+                    ${isLoggedIn ? `
+                        <div class="mobile-user-menu">
+                            <a href="user-dashboard.html" class="mobile-profile-icon">
+                                <i class="fas fa-user-circle"></i>
+                                <span>Mon Profil</span>
+                            </a>
+                            <a href="#" id="mobileLogoutBtn" class="mobile-logout-btn">
+                                <i class="fas fa-sign-out-alt"></i>
+                                <span>Déconnexion</span>
+                            </a>
+                        </div>
+                    ` : `
+                        <a href="inscription.html" class="signup-btn">S'inscrire</a>
+                        <a href="connexion.html" class="login-btn">Connexion</a>
+                    `}
                 </div>
-            </nav>
-            
-            <!-- AUTH MOBILE POUSSÉ EN BAS -->
-            <div class="mobile-auth-buttons">
-                ${isLoggedIn ? `
-                    <div class="mobile-user-menu">
-                        <a href="user-dashboard.html" class="mobile-profile-icon">
-                            <i class="fas fa-user-circle"></i>
-                            <span>Mon Profil</span>
-                        </a>
-                        <a href="#" id="mobileLogoutBtn" class="mobile-logout-btn">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Déconnexion</span>
-                        </a>
-                    </div>
-                ` : `
-                    <a href="inscription.html" class="signup-btn">S'inscrire</a>
-                    <a href="connexion.html" class="login-btn">Connexion</a>
-                `}
             </div>
         </div>
         `;
@@ -155,6 +153,17 @@ class NavbarComponent {
         style.id = styleId;
         style.textContent = `
             /* ========== STYLES NAVBAR ========== */
+            * {
+                margin: 0;
+                padding: 0;
+                box-sizing: border-box;
+            }
+            
+            html, body {
+                overflow-x: hidden;
+                width: 100%;
+            }
+            
             .navbar {
                 position: fixed;
                 top: 0;
@@ -454,6 +463,7 @@ class NavbarComponent {
                 border: none;
                 z-index: 10001;
                 position: relative;
+                cursor: pointer;
             }
             
             .hamburger-menu span {
@@ -476,31 +486,51 @@ class NavbarComponent {
                 transform: translateY(-8px) rotate(-45deg);
             }
             
+            /* Verrou scroll global quand menu ouvert */
+            html.mobile-menu-open,
+            html.mobile-menu-open body {
+                overflow: hidden !important;
+                height: 100% !important;
+                position: relative;
+            }
+            
             .mobile-menu {
                 position: fixed;
-                top: 0;
+                top: 70px;
                 left: 0;
                 width: 100%;
-                height: 100vh;
+                height: calc(100vh - 70px);
                 background: white;
-                padding-top: 95px;
-                padding-left: 5%;
-                padding-right: 5%;
-                padding-bottom: 40px;
                 z-index: 9999;
                 transform: translateX(-100%);
                 transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-                display: flex;
-                flex-direction: column;
+                overflow: hidden;
             }
             
             .mobile-menu.active {
                 transform: translateX(0);
             }
             
-            .mobile-nav-links {
-                flex-grow: 1;
+            .mobile-menu-inner {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                padding: 12px 5% 16px;
                 overflow-y: auto;
+                overflow-x: hidden;
+                -webkit-overflow-scrolling: touch;
+                -ms-overflow-style: none;  /* Masque la scrollbar sur IE et Edge */
+                scrollbar-width: none;  /* Masque la scrollbar sur Firefox */
+            }
+            
+            /* Masque la scrollbar sur les navigateurs WebKit (Chrome, Safari, etc.) */
+            .mobile-menu-inner::-webkit-scrollbar {
+                display: none;
+            }
+            
+            .mobile-nav-links {
+                flex: 1 1 auto;
+                overflow-y: visible;
                 display: flex;
                 flex-direction: column;
             }
@@ -509,24 +539,26 @@ class NavbarComponent {
                 text-decoration: none;
                 color: #333;
                 font-weight: 500;
-                padding: 15px 0;
-                font-size: 1.1rem;
+                padding: 12px 0;
+                font-size: 1.05rem;
                 border-bottom: 1px solid #f0f0f0;
             }
             
             .mobile-dropdown-container {
                 border-bottom: 1px solid #f0f0f0;
+                overflow-x: hidden;
             }
             
             .mobile-dropdown-header {
-                padding: 15px 0;
+                padding: 12px 0;
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
                 cursor: pointer;
                 font-weight: 500;
                 color: #333;
-                font-size: 1.1rem;
+                font-size: 1.05rem;
+                user-select: none;
             }
             
             .mobile-dropdown-content {
@@ -534,29 +566,38 @@ class NavbarComponent {
                 overflow: hidden;
                 transition: max-height 0.3s ease-out;
                 padding-left: 20px;
+                overflow-x: hidden;
             }
             
             .mobile-dropdown-container.active .mobile-dropdown-content {
-                max-height: 500px;
-                padding-bottom: 10px;
+                max-height: 400px;
+                padding-bottom: 12px;
             }
             
             .mobile-dropdown-content a {
                 display: block;
-                padding: 12px 0;
+                padding: 10px 0;
                 color: #333;
                 text-decoration: none;
-                font-size: 1rem;
+                font-size: 0.95rem;
                 transition: color 0.3s ease;
+                white-space: normal;
+                word-wrap: break-word;
+                overflow-wrap: break-word;
             }
             
             .mobile-dropdown-content a:hover {
                 color: #0057FF;
             }
             
+            .mobile-dropdown-container.active .mobile-dropdown-header .arrow-icon {
+                transform: rotate(180deg);
+            }
+            
             .mobile-auth-buttons {
-                margin-top: auto;
-                padding-top: 20px;
+                flex-shrink: 0;
+                margin-top: 12px;
+                padding-top: 12px;
                 border-top: 2px solid #f0f0f0;
             }
             
@@ -565,13 +606,19 @@ class NavbarComponent {
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                padding: 14px 20px;
+                padding: 12px 20px;
                 margin-bottom: 10px;
                 border-radius: 10px;
                 font-weight: 500;
                 text-decoration: none;
                 width: 100%;
                 box-sizing: border-box;
+            }
+            
+            .mobile-user-menu {
+                display: flex;
+                flex-direction: column;
+                gap: 10px;
             }
             
             .mobile-profile-icon {
@@ -581,12 +628,11 @@ class NavbarComponent {
                 gap: 10px;
                 background: #0057FF;
                 color: white;
-                padding: 14px 20px;
+                padding: 12px 20px;
                 border-radius: 10px;
                 text-decoration: none;
                 font-weight: 500;
                 width: 100%;
-                margin-bottom: 10px;
             }
             
             .mobile-logout-btn {
@@ -596,7 +642,7 @@ class NavbarComponent {
                 gap: 10px;
                 background: #000000;
                 color: white;
-                padding: 14px 20px;
+                padding: 12px 20px;
                 border-radius: 10px;
                 text-decoration: none;
                 font-weight: 500;
@@ -616,7 +662,40 @@ class NavbarComponent {
                     height: 70px;
                 }
                 .logo img {
-                    height: 105px;
+                    height: 92px;
+                }
+                .logo {
+                    margin-left: -40px;
+                }
+                body {
+                    overflow-x: hidden;
+                    padding-top: 70px;
+                }
+            }
+            
+            @media (max-width: 380px) {
+                .mobile-menu-inner {
+                    padding: 8px 5% 12px;
+                }
+                .mobile-nav-links > a,
+                .mobile-dropdown-header {
+                    padding: 10px 0;
+                    font-size: 1rem;
+                }
+                .mobile-dropdown-content a {
+                    padding: 8px 0;
+                    font-size: 0.9rem;
+                }
+                .mobile-dropdown-container.active .mobile-dropdown-content {
+                    max-height: 360px;
+                }
+                .mobile-auth-buttons .signup-btn,
+                .mobile-auth-buttons .login-btn,
+                .mobile-profile-icon,
+                .mobile-logout-btn {
+                    padding: 10px 16px;
+                    font-size: 0.85rem;
+                    margin-bottom: 8px;
                 }
             }
         `;
@@ -634,7 +713,9 @@ class NavbarComponent {
                 e.stopPropagation();
                 hamburgerMenu.classList.toggle('active');
                 mobileMenu.classList.toggle('active');
-                document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
+                const isOpen = mobileMenu.classList.contains('active');
+                document.documentElement.classList.toggle('mobile-menu-open', isOpen);
+                document.body.style.overflow = isOpen ? 'hidden' : '';
             });
         }
 
@@ -654,10 +735,11 @@ class NavbarComponent {
         });
 
         // Fermer le menu mobile en cliquant sur un lien
-        document.querySelectorAll('.mobile-nav-links a').forEach(link => {
+        document.querySelectorAll('.mobile-nav-links a, .mobile-dropdown-content a').forEach(link => {
             link.addEventListener('click', () => {
                 hamburgerMenu?.classList.remove('active');
                 mobileMenu?.classList.remove('active');
+                document.documentElement.classList.remove('mobile-menu-open');
                 document.body.style.overflow = '';
             });
         });
@@ -669,6 +751,7 @@ class NavbarComponent {
                 !hamburgerMenu?.contains(e.target)) {
                 hamburgerMenu?.classList.remove('active');
                 mobileMenu?.classList.remove('active');
+                document.documentElement.classList.remove('mobile-menu-open');
                 document.body.style.overflow = '';
             }
         });
@@ -678,6 +761,7 @@ class NavbarComponent {
             if (e.key === 'Escape' && mobileMenu?.classList.contains('active')) {
                 hamburgerMenu?.classList.remove('active');
                 mobileMenu?.classList.remove('active');
+                document.documentElement.classList.remove('mobile-menu-open');
                 document.body.style.overflow = '';
             }
         });
