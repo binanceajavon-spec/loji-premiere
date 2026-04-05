@@ -217,6 +217,36 @@
                 max-width: 80px;
             }
         }
+
+        /* ========== CORRECTION BUG DESCRIPTION QUI DÉPASSE ========== */
+        #annonceDetailContainer {
+            max-width: 100%;
+            overflow-x: hidden;
+        }
+
+        #annonceDetailContainer * {
+            max-width: 100%;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            box-sizing: border-box;
+        }
+
+        #annonceDetailContainer p,
+        #annonceDetailContainer .text-gray-600,
+        #annonceDetailContainer .description-text {
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            white-space: normal !important;
+            word-break: break-word !important;
+            line-height: 1.5 !important;
+        }
+
+        #annonceDetailContainer .bg-gray-50,
+        #annonceDetailContainer .rounded-lg,
+        #annonceDetailContainer .p-6 {
+            overflow: hidden !important;
+        }
     </style>
 </head>
 
