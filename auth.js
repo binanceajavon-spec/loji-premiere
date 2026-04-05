@@ -1,29 +1,4 @@
-// auth.js - Version Supabase corrigée
-
-// CRÉER LE CLIENT SUPABASE IMMÉDIATEMENT
-(function() {
-    'use strict';
-    
-    // Configuration Supabase
-    const SUPABASE_URL = 'https://dcatxwropmhqhkwnnwlo.supabase.co';
-    const SUPABASE_ANON_KEY = 'sb_publishable_RhLMVwykdXcp7qEcCc-3mQ_UEn2wpEQ';
-    
-    // Attendre que le SDK Supabase soit chargé
-    if (window.supabase && typeof window.supabase.createClient === 'function') {
-        window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-        console.log('✅ Client Supabase créé par auth.js');
-        console.log('✅ auth disponible:', !!window.supabaseClient.auth);
-    } else {
-        console.error('❌ Supabase SDK non disponible');
-        // Réessayer dans 100ms
-        setTimeout(function() {
-            if (window.supabase && typeof window.supabase.createClient === 'function') {
-                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Client Supabase créé (retardé)');
-            }
-        }, 100);
-    }
-})();
+// auth.js - Version corrigée (utilise le client existant)
 
 window.auth = {
     isLoggedIn: function () {
@@ -41,20 +16,16 @@ window.auth = {
     register: async function (email, password, name, phone) {
         console.log('📝 Inscription Supabase pour:', email);
         
-        // VÉRIFICATION CRITIQUE : s'assurer que le client existe
+        // ATTENDRE que le client soit disponible (créé par api.js)
+        let retries = 0;
+        while (!window.supabaseClient && retries < 10) {
+            await new Promise(resolve => setTimeout(resolve, 100));
+            retries++;
+        }
+        
         if (!window.supabaseClient) {
-            console.error('❌ supabaseClient non disponible, tentative de recréation...');
-            
-            // Tentative de recréation
-            const SUPABASE_URL = 'https://dcatxwropmhqhkwnnwlo.supabase.co';
-            const SUPABASE_ANON_KEY = 'sb_publishable_RhLMVwykdXcp7qEcCc-3mQ_UEn2wpEQ';
-            
-            if (window.supabase && typeof window.supabase.createClient === 'function') {
-                window.supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-                console.log('✅ Client Supabase recréé avec succès');
-            } else {
-                return { success: false, error: 'Service d\'authentification indisponible. Veuillez rafraîchir la page.' };
-            }
+            console.error('❌ supabaseClient non disponible');
+            return { success: false, error: 'Service indisponible. Veuillez rafraîchir la page.' };
         }
         
         if (!window.supabaseClient.auth) {
@@ -63,7 +34,6 @@ window.auth = {
         }
 
         try {
-            // Utiliser le client supabase
             const { data, error } = await window.supabaseClient.auth.signUp({
                 email: email,
                 password: password,
@@ -78,22 +48,6 @@ window.auth = {
             if (error) throw error;
 
             if (data.user) {
-                // Créer le profil dans la table users (optionnel)
-                if (window.supabaseClient) {
-                    try {
-                        await window.supabaseClient
-                            .from('users')
-                            .upsert({
-                                id: data.user.id,
-                                username: name || email.split('@')[0],
-                                email: email,
-                                phone: phone || ''
-                            });
-                    } catch (profileError) {
-                        console.warn('⚠️ Erreur création profil (non bloquante):', profileError);
-                    }
-                }
-
                 localStorage.setItem('jwt', data.session?.access_token || '');
                 localStorage.setItem('user', JSON.stringify(data.user));
 
@@ -183,5 +137,3 @@ window.auth = {
 };
 
 console.log('✅ Auth.js - Version Supabase chargée');
-console.log('✅ supabaseClient disponible:', !!window.supabaseClient);
-console.log('✅ supabaseClient.auth:', !!window.supabaseClient?.auth);
