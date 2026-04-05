@@ -1,4 +1,4 @@
-// auth.js - Version corrigée (utilise le client existant)
+// auth.js - Version SIMPLIFIÉE (sans création de profil)
 
 window.auth = {
     isLoggedIn: function () {
@@ -16,7 +16,7 @@ window.auth = {
     register: async function (email, password, name, phone) {
         console.log('📝 Inscription Supabase pour:', email);
         
-        // ATTENDRE que le client soit disponible (créé par api.js)
+        // Attendre que le client soit disponible
         let retries = 0;
         while (!window.supabaseClient && retries < 10) {
             await new Promise(resolve => setTimeout(resolve, 100));
@@ -24,13 +24,7 @@ window.auth = {
         }
         
         if (!window.supabaseClient) {
-            console.error('❌ supabaseClient non disponible');
             return { success: false, error: 'Service indisponible. Veuillez rafraîchir la page.' };
-        }
-        
-        if (!window.supabaseClient.auth) {
-            console.error('❌ window.supabaseClient.auth est undefined');
-            return { success: false, error: 'Service d\'authentification indisponible.' };
         }
 
         try {
@@ -48,6 +42,7 @@ window.auth = {
             if (error) throw error;
 
             if (data.user) {
+                // ⚠️ PAS de création de profil dans la table users
                 localStorage.setItem('jwt', data.session?.access_token || '');
                 localStorage.setItem('user', JSON.stringify(data.user));
 
@@ -93,47 +88,17 @@ window.auth = {
     },
 
     updateProfile: async function (userData) {
-        if (!window.api) return { success: false, error: 'API non disponible' };
-        
-        try {
-            const user = window.api.getUser();
-            if (!user) return { success: false, error: 'Non connecté' };
-
-            if (!window.supabaseClient) {
-                return { success: false, error: 'Service indisponible' };
-            }
-
-            const { error } = await window.supabaseClient
-                .from('users')
-                .update(userData)
-                .eq('id', user.id);
-
-            if (error) throw error;
-
-            const updatedUser = { ...user, ...userData };
-            localStorage.setItem('user', JSON.stringify(updatedUser));
-
-            return { success: true, user: updatedUser };
-        } catch (error) {
-            return { success: false, error: error.message };
-        }
+        // Fonctionnalité à venir
+        return { success: false, error: 'Fonctionnalité à venir' };
     },
 
     updatePhone: function (phone) {
-        const user = this.getUser();
-        if (user) {
-            user.phone = phone;
-            localStorage.setItem('user', JSON.stringify(user));
-            if (window.api && user.id && window.supabaseClient) {
-                window.supabaseClient.from('users').update({ phone }).eq('id', user.id);
-            }
-        }
+        localStorage.setItem('userPhone', phone);
     },
 
     getPhone: function () {
-        const user = this.getUser();
-        return user?.phone || localStorage.getItem('userPhone') || '';
+        return localStorage.getItem('userPhone') || '';
     }
 };
 
-console.log('✅ Auth.js - Version Supabase chargée');
+console.log('✅ Auth.js - Version simplifiée chargée');
