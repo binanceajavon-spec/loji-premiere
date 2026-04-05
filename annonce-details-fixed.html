@@ -45,6 +45,14 @@
             z-index: 99999 !important;
         }
 
+        /* ========== CORRECTION UNIQUE : force le retour à la ligne sans changer les tailles ========== */
+        #annonceDetailContainer p {
+            white-space: normal !important;
+            word-wrap: break-word !important;
+            overflow-wrap: break-word !important;
+            word-break: break-word !important;
+        }
+
         /* ========== STYLES FOOTER ========== */
         .full-width-footer {
             width: 100%;
@@ -217,36 +225,6 @@
                 max-width: 80px;
             }
         }
-
-        /* ========== CORRECTION BUG DESCRIPTION QUI DÉPASSE ========== */
-        #annonceDetailContainer {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        #annonceDetailContainer * {
-            max-width: 100%;
-            word-wrap: break-word;
-            overflow-wrap: break-word;
-            white-space: normal;
-            box-sizing: border-box;
-        }
-
-        #annonceDetailContainer p,
-        #annonceDetailContainer .text-gray-600,
-        #annonceDetailContainer .description-text {
-            word-wrap: break-word !important;
-            overflow-wrap: break-word !important;
-            white-space: normal !important;
-            word-break: break-word !important;
-            line-height: 1.5 !important;
-        }
-
-        #annonceDetailContainer .bg-gray-50,
-        #annonceDetailContainer .rounded-lg,
-        #annonceDetailContainer .p-6 {
-            overflow: hidden !important;
-        }
     </style>
 </head>
 
@@ -332,7 +310,6 @@
             console.log('🚀 Démarrage sécurisé - Version Supabase');
 
             const loadScript = (src, callback) => {
-                // Vérifier si le script est déjà chargé
                 if (document.querySelector(`script[src="${src}"]`)) {
                     console.log(`✅ Script déjà chargé: ${src}`);
                     if (callback) callback();
@@ -346,7 +323,6 @@
                 document.head.appendChild(script);
             };
 
-            // Attendre que api.js soit prêt
             const waitForApi = (callback) => {
                 if (window.api && window.api.getAnnonceById) {
                     callback();
@@ -364,11 +340,9 @@
                         console.log('✅ Navbar initialisée');
 
                         setTimeout(() => {
-                            // Charger le script de détails (version Supabase)
                             loadScript('app-details-clean.js', function () {
                                 console.log('✅ App-details chargé');
 
-                                // Attendre que l'API soit prête
                                 waitForApi(() => {
                                     if (window.initAnnonceDetails) {
                                         window.initAnnonceDetails();
@@ -383,7 +357,7 @@
         })();
     </script>
 
-    <!-- Correction des boutons flottants - s'arrêtent au début du footer -->
+    <!-- Correction des boutons flottants -->
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             setTimeout(function() {
