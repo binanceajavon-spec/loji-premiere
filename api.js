@@ -9,8 +9,12 @@
     // Créer le client Supabase
     const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
     
-    // API
+    // EXPOSER LE CLIENT GLOBALEMENT POUR auth.js ET AUTRES
+    window.supabaseClient = supabase;
+    
+    // API principale
     const api = {
+        // ========== ANNONCES ==========
         getAllAnnonces: async function() {
             try {
                 // Récupérer les annonces AVEC leurs photos
@@ -185,6 +189,7 @@
             }
         },
 
+        // ========== AUTHENTIFICATION ==========
         login: async function(email, password) {
             try {
                 const { data, error } = await supabase.auth.signInWithPassword({ 
@@ -197,10 +202,10 @@
                 localStorage.setItem('refresh_token', data.session.refresh_token);
                 localStorage.setItem('user', JSON.stringify(data.user));
                 
-                console.log('✅ Tokens enregistrés avec succès');
+                console.log('✅ Connexion réussie pour:', email);
                 return { success: true, data };
             } catch (error) {
-                console.error('Erreur login:', error);
+                console.error('❌ Erreur login:', error);
                 return { success: false, error: error.message };
             }
         },
@@ -210,11 +215,13 @@
             localStorage.removeItem('jwt');
             localStorage.removeItem('refresh_token');
             localStorage.removeItem('user');
+            console.log('✅ Déconnexion réussie');
             window.location.href = 'connexion.html';
         },
 
         isLoggedIn: function() {
-            return localStorage.getItem('jwt') !== null;
+            const token = localStorage.getItem('jwt');
+            return token !== null;
         },
 
         getUser: function() {
@@ -222,13 +229,20 @@
             return user ? JSON.parse(user) : null;
         },
 
+        // ========== UTILITAIRES ==========
+        getSupabaseClient: function() {
+            return supabase;
+        },
+
         getPhone: function() {
             return localStorage.getItem('userPhone');
         }
     };
 
+    // Exposer l'API globalement
     window.api = api;
     window.API = api;
     
     console.log('✅ API Supabase chargée');
+    console.log('✅ Supabase Client exposé globalement');
 })();
