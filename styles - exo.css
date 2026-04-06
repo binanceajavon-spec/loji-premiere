@@ -744,8 +744,9 @@ body {
     display: inline-flex;
     align-items: center;
     justify-content: center;
-  --dark-blue: #0057FF;
-    background: #6beb52;
+    /* Mise à jour vers le bleu sombre du logo */
+    --dark-blue: #0059FF; 
+    background: var(--dark-blue);
     color: white;
     font-weight: 600;
     padding: 12px 24px;
@@ -753,17 +754,19 @@ body {
     text-decoration: none;
     font-size: 1rem;
     transition: all 0.3s ease;
-    border: 1px solid #6beb52d5;
+    border: 1px solid rgba(0, 89, 255, 0.8);
     cursor: pointer;
     min-width: 120px;
 }
 
 .explorer-btn:hover {
-  --dark-blue: #0057FF;
-    background: #5ad13d;
-    border-color: #4ab02a; 
+    /* Une nuance légèrement plus sombre pour le hover */
+    --dark-blue-hover: #0046CC;
+    background: var(--dark-blue-hover);
+    border-color: #003db3; 
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(16, 185, 129, 0.3);
+    /* Ombre portée bleutée cohérente */
+    box-shadow: 0 8px 20px rgba(0, 89, 255, 0.3);
 }
 
 /* Positionnement DESKTOP - dans le Hero */
@@ -812,16 +815,30 @@ body {
     }
 }
 
+
+
+
+
 /* ========== POLICE MOBILE POUR LE HERO ========== */
+/* ========== TITRE HERO MOBILE - CORRECTION ========== */
+
 @media (max-width: 768px) {
-    /* Police du titre principal */
+    /* Cible le H1 dans le hero */
     .hero-content h1 {
         font-family: 'Montserrat', sans-serif !important;
         font-weight: 800 !important;
-        font-size: 2.2rem !important;  /* Ajuste la taille */
+        font-size: 2.6rem !important;  /* Taille normale pour mobile */
         line-height: 1.2 !important;
         letter-spacing: -0.02em !important;
+        color: white !important;
     }
+    
+    /* Pour le span à l'intérieur du H1 */
+    .hero-content h1 span {
+        font-size: inherit !important;
+        display: inline-block !important;
+    }
+}
     
     /* Police du sous-titre */
     .hero-content p {
@@ -834,8 +851,8 @@ body {
     /* Police pour "Moins d'effort" */
     .hero-content span.text-green-400 {
         font-family: 'Montserrat', sans-serif !important;
-        font-weight: 800 !important;
-        color: #00A3FF !important;      /* Garde ta couleur bleue */
+        font-weight: 900 !important;
+        color:#0059FF  !important;      /* Garde ta couleur bleue */
     }
 }
 
@@ -846,7 +863,7 @@ body {
     }
     
     .hero-content p {
-        font-size: 0.9rem !important;
+        font-size: .9rem !important;
     }
 }
 
@@ -2269,6 +2286,8 @@ body h1[style*="font-size: 3rem"] {
         font-size: clamp(2.5rem, 5vw, 4.5rem);
         text-transform: uppercase;
         letter-spacing: -0.5px;
+
+        
     }
 
 
