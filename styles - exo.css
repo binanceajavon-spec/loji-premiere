@@ -820,25 +820,15 @@ body {
 
 
 /* ========== POLICE MOBILE POUR LE HERO ========== */
-/* ========== TITRE HERO MOBILE - CORRECTION ========== */
-
 @media (max-width: 768px) {
-    /* Cible le H1 dans le hero */
+    /* Police du titre principal */
     .hero-content h1 {
         font-family: 'Montserrat', sans-serif !important;
-        font-weight: 800 !important;
-        font-size: 2.6rem !important;  /* Taille normale pour mobile */
+        font-weight: 1500 !important;
+        font-size: 7.2rem !important;  /* Ajuste la taille */
         line-height: 1.2 !important;
         letter-spacing: -0.02em !important;
-        color: white !important;
     }
-    
-    /* Pour le span à l'intérieur du H1 */
-    .hero-content h1 span {
-        font-size: inherit !important;
-        display: inline-block !important;
-    }
-}
     
     /* Police du sous-titre */
     .hero-content p {
