@@ -639,163 +639,229 @@
                 </div>
             </div>
         </section>
-               <!-- ========== VALUES SECTION ========== -->
-        <style>
-            /* Container fixe pour la colonne de gauche */
-            .values-left-col {
-                display: flex;
-                flex-direction: column;
-                align-items: flex-start;
-                width: 100%;
-            }
             
-            /* Titre avec taille fixe et responsive */
-            .values-title {
-                font-family: 'Montserrat', sans-serif;
-                font-weight: 800;
-                line-height: 1.2;
-                letter-spacing: -0.02em;
-                color: #000000;
-                margin-bottom: 0;
-                width: 100%;
-            }
+
+        <!-- ========== VALUES SECTION ========== -->
+<style>
+    /* Container fixe pour la colonne de gauche */
+    .values-left-col {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        width: 100%;
+    }
+    
+    /* Titre avec taille fixe et responsive */
+    .values-title {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        color: #000000;
+        margin-bottom: 0;
+        width: 100%;
+    }
+    
+    /* Mobile */
+    .values-title {
+        font-size: 1.5rem;
+    }
+    
+    /* Tablette */
+    @media (min-width: 768px) {
+        .values-title {
+            font-size: 2.4rem;
+        }
+    }
+    
+    /* Desktop */
+    @media (min-width: 1024px) {
+        .values-title {
+            font-size: 2rem;
+        }
+    }
+    
+    /* Fixe la largeur des colonnes */
+    .values-grid {
+        display: grid;
+        grid-template-columns: repeat(12, 1fr);
+        gap: 3rem;
+    }
+    
+    .values-col-left {
+        grid-column: span 5;
+    }
+    
+    .values-col-right {
+        grid-column: span 7;
+        padding-left: 2rem;
+    }
+    
+    @media (max-width: 1024px) {
+        .values-grid {
+            gap: 2rem;
+        }
+        .values-col-right {
+            padding-left: 1rem;
+        }
+    }
+    
+    @media (max-width: 768px) {
+        .values-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+        .values-col-left {
+            grid-column: span 1;
+        }
+        .values-col-right {
+            grid-column: span 1;
+            padding-left: 0;
+        }
+    }
+
+    /* ===== STYLES POUR LES ICÔNES ===== */
+    .icon-circle {
+        width: 56px;
+        height: 56px;
+        border-radius: 16px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+        /* Dégradé bleu pour le fond */
+        background: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%);
+        box-shadow: 0 4px 12px rgba(0, 87, 255, 0.25);
+        flex-shrink: 0; /* Empêche le rétrécissement */
+    }
+    
+    .icon-circle .material-icons {
+        font-size: 28px;
+        color: white !important;  /* Icône blanche */
+        transition: all 0.3s ease;
+    }
+    
+    /* SUR MOBILE : on garde la même taille que desktop */
+    @media (max-width: 768px) {
+        .icon-circle {
+            width: 56px !important;
+            height: 56px !important;
+            min-width: 56px;  /* Force la largeur minimum */
+            min-height: 56px; /* Force la hauteur minimum */
+        }
+        .icon-circle .material-icons {
+            font-size: 28px !important;  /* Taille normale sur mobile aussi */
+        }
+        /* Ajustement de l'espacement sur mobile */
+        .value-item {
+            gap: 16px !important;
+        }
+    }
+    
+    /* Effet au survol du groupe */
+    .value-item:hover .icon-circle {
+        transform: scale(1.1);
+        background: white;
+        box-shadow: 0 8px 20px rgba(0, 87, 255, 0.35);
+        border: 1px solid #00A3FF;
+    }
+    
+    .value-item:hover .icon-circle .material-icons {
+        color: #0057FF !important;  /* Icône bleue au survol */
+    }
+    
+    /* Animation douce pour le texte aussi */
+    .value-item:hover h3 {
+        color: #0057FF;
+        transition: color 0.3s ease;
+    }
+</style>
+
+<section class="values-section py-12 md:py-20 relative overflow-hidden">
+    <!-- Background Dotted Pattern -->
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 left-0 w-full h-full opacity-20" style="background-image: radial-gradient(circle, #0057FF 1.5px, transparent 1.5px); background-size: 28px 28px; background-repeat: repeat;"></div>
+    </div>
+    
+    <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
+        <div class="values-grid">
             
-            /* Mobile */
-            .values-title {
-                font-size: 1.5rem;
-            }
-            
-            /* Tablette */
-            @media (min-width: 768px) {
-                .values-title {
-                    font-size: 2.4rem;
-                }
-            }
-            
-            /* Desktop */
-            @media (min-width: 1024px) {
-                .values-title {
-                    font-size: 0.8rem;
-                }
-            }
-            
-            /* Grande desktop */
-            @media (min-width: 1280px) {
-                .values-title {
-                    font-size: 2rem;
-                }
-            }
-            
-            /* Fixe la largeur des colonnes */
-            .values-grid {
-                display: grid;
-                grid-template-columns: repeat(12, 1fr);
-                gap: 3rem;
-            }
-            
-            .values-col-left {
-                grid-column: span 5;
-            }
-            
-            .values-col-right {
-                grid-column: span 7;
-                padding-left: 2rem;
-            }
-            
-            @media (max-width: 1024px) {
-                .values-grid {
-                    gap: 2rem;
-                }
-                .values-col-right {
-                    padding-left: 1rem;
-                }
-            }
-            
-            @media (max-width: 768px) {
-                .values-grid {
-                    grid-template-columns: 1fr;
-                    gap: 2rem;
-                }
-                .values-col-left {
-                    grid-column: span 1;
-                }
-                .values-col-right {
-                    grid-column: span 1;
-                    padding-left: 0;
-                }
-            }
-        </style>
-        
-        <section class="values-section py-12 md:py-20 relative overflow-hidden">
-            <!-- Background Dotted Pattern -->
-            <div class="absolute inset-0 pointer-events-none">
-                <div class="absolute top-0 left-0 w-full h-full opacity-20" style="background-image: radial-gradient(circle, #0057FF 1.5px, transparent 1.5px); background-size: 28px 28px; background-repeat: repeat;"></div>
+            <!-- Left Column: Vision & headline -->
+            <div class="values-col-left">
+                <div class="values-left-col">
+                    <div class="flex items-center gap-3 mb-6">
+                        <span class="w-2 h-2 rounded-sm" style="background: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%);"></span>
+                        <span class="text-gray-500 text-sm uppercase tracking-widest font-semibold">Notre Vision</span>
+                    </div>
+                    <h1 class="values-title">
+                        Les valeurs qui guident notre engagement
+                    </h1>
+                </div>
             </div>
             
-            <div class="max-w-7xl mx-auto px-6 md:px-8 relative z-10">
-                <div class="values-grid">
+            <!-- Right Column: Three vertical feature cards -->
+            <div class="values-col-right">
+                <div class="flex flex-col space-y-12">
                     
-                    <!-- Left Column: Vision & headline -->
-                    <div class="values-col-left">
-                        <div class="values-left-col">
-                            <div class="flex items-center gap-3 mb-6">
-                                <span class="w-2 h-2 rounded-sm" style="background: linear-gradient(135deg, #00A3FF 0%, #0057FF 100%);"></span>
-                                <span class="text-gray-500 text-sm uppercase tracking-widest font-semibold">Notre Vision</span>
-                            </div>
-                            <h1 class="values-title">
-                                Les valeurs qui guident notre engagement
-                            </h1>
+                    <!-- Item 1: Logement de Rêve -->
+                    <div class="value-item flex items-start gap-6">
+                        <div class="icon-circle">
+                            <span class="material-icons">home</span>
+                        </div>
+                        <div class="flex flex-col pt-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2 transition-colors duration-300">Logement de Rêve</h3>
+                            <p class="text-gray-600 text-lg leading-relaxed max-w-md">
+                                Découvrez votre espace de vie idéal avec nos annonces immobilières premium.
+                            </p>
                         </div>
                     </div>
                     
-                    <!-- Right Column: Three vertical feature cards -->
-                    <div class="values-col-right">
-                        <div class="flex flex-col space-y-12">
-                            
-                            <!-- Item 1: Logement de Rêve -->
-                            <div class="flex items-start gap-6 group">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
-                                    <span class="material-icons text-3xl" style="color: #00A3FF;">home</span>
-                                </div>
-                                <div class="flex flex-col pt-1">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Logement de Rêve</h3>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-md">
-                                        Découvrez votre espace de vie idéal avec nos annonces immobilières premium.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <!-- Item 2: Investissement Intelligent -->
-                            <div class="flex items-start gap-6 group">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
-                                    <span class="material-icons text-3xl" style="color: #00A3FF;">shield</span>
-                                </div>
-                                <div class="flex flex-col pt-1">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Investissement Intelligent</h3>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-md">
-                                        Sécurisez des opportunités immobilières à haute valeur ajoutée, prêtes pour l'avenir.
-                                    </p>
-                                </div>
-                            </div>
-                            
-                            <!-- Item 3: Art de Vivre -->
-                            <div class="flex items-start gap-6 group">
-                                <div class="flex-shrink-0 w-14 h-14 rounded-xl flex items-center justify-center transition-transform duration-300 group-hover:scale-110 shadow-sm" style="background-color: white; border: 1px solid #e5e7eb;">
-                                    <span class="material-icons text-3xl" style="color: #00A3FF;">trending_up</span>
-                                </div>
-                                <div class="flex flex-col pt-1">
-                                    <h3 class="text-xl font-bold text-gray-900 mb-2">Art de Vivre</h3>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-md">
-                                        Explorez des propriétés exclusives et sophistiquées adaptées à votre style de vie parfait.
-                                    </p>
-                                </div>
-                            </div>
+                    <!-- Item 2: Investissement Intelligent -->
+                    <div class="value-item flex items-start gap-6">
+                        <div class="icon-circle">
+                            <span class="material-icons">verified</span>
+                        </div>
+                        <div class="flex flex-col pt-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2 transition-colors duration-300">Investissement Intelligent</h3>
+                            <p class="text-gray-600 text-lg leading-relaxed max-w-md">
+                                Sécurisez des opportunités immobilières à haute valeur ajoutée, prêtes pour l'avenir.
+                            </p>
+                        </div>
+                    </div>
+                    
+                    <!-- Item 3: Art de Vivre -->
+                    <div class="value-item flex items-start gap-6">
+                        <div class="icon-circle">
+                            <span class="material-icons">stars</span>
+                        </div>
+                        <div class="flex flex-col pt-1">
+                            <h3 class="text-xl font-bold text-gray-900 mb-2 transition-colors duration-300">Art de Vivre</h3>
+                            <p class="text-gray-600 text-lg leading-relaxed max-w-md">
+                                Explorez des propriétés exclusives et sophistiquées adaptées à votre style de vie parfait.
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
+    </div>
+</section>
+      
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
         <!-- Ligne de démarcation entre la partie description et le carrousel -->
         <hr class="border-t border-gray-200" style="border-color: #e5e7eb; margin: 2rem auto; max-width: 80%; border-top-width: 1px;">
 
@@ -1084,7 +1150,7 @@
                 </div>
                 <h3 class="text-xl font-bold text-on-surface mb-3 tracking-tight">Annonces Vérifiées</h3>
                 <p class="text-on-surface-variant leading-relaxed">
-                    Toutes les annonces publiées sur Logi sont rigoureusement vérifiées par notre équipe pour vous garantir des biens authentiques et sans surprise.
+                    Toutes les annonces publiées sur Loji sont rigoureusement vérifiées par notre équipe pour vous garantir des biens authentiques et sans surprise.
                 </p>
             </article>
             
@@ -1543,9 +1609,395 @@
 
 
 
+<script>
+// ========== RECHERCHE AVEC REDIRECTION VERS ANNONCES.HTML ==========
+function initSearchRedirect() {
+    // Barre de recherche principale (celle dans la hero section)
+    const mainSearchInput = document.querySelector('.search-input');
+    const filterToggleBtn = document.getElementById('filterToggle');
+    
+    // Barres de recherche qui seront injectées par navbar-component.js
+    // On attend qu'elles existent avec un MutationObserver
+    
+    // Fonction de redirection
+    function redirectToAnnonces(searchTerm) {
+        if (searchTerm && searchTerm.trim() !== '') {
+            // Encoder le terme pour l'URL
+            const encodedTerm = encodeURIComponent(searchTerm.trim());
+            // Rediriger vers annonces.html avec le paramètre search
+            window.location.href = `annonces.html?search=${encodedTerm}`;
+        } else {
+            // Si pas de terme, juste aller aux annonces
+            window.location.href = 'annonces.html';
+        }
+    }
+    
+    // Écouter la recherche sur l'input principal (touche Entrée)
+    if (mainSearchInput) {
+        mainSearchInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                redirectToAnnonces(mainSearchInput.value);
+            }
+        });
+    }
+    
+    // Attendre que la navbar soit chargée (car elle injecte desktopSearchInput et mobileSearchInput)
+    const waitForNavbar = setInterval(() => {
+        const desktopInput = document.getElementById('desktopSearchInput');
+        const mobileInput = document.getElementById('mobileSearchInput');
+        const desktopBtn = document.getElementById('desktopSearchButton');
+        const mobileBtn = document.getElementById('mobileSearchBtn');
+        
+        if (desktopInput || mobileInput) {
+            clearInterval(waitForNavbar);
+            
+            // Desktop search
+            if (desktopInput) {
+                desktopInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        redirectToAnnonces(desktopInput.value);
+                    }
+                });
+            }
+            if (desktopBtn) {
+                desktopBtn.addEventListener('click', () => {
+                    redirectToAnnonces(desktopInput?.value || '');
+                });
+            }
+            
+            // Mobile search
+            if (mobileInput) {
+                mobileInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') {
+                        e.preventDefault();
+                        redirectToAnnonces(mobileInput.value);
+                    }
+                });
+            }
+            if (mobileBtn) {
+                mobileBtn.addEventListener('click', () => {
+                    redirectToAnnonces(mobileInput?.value || '');
+                });
+            }
+        }
+    }, 100);
+}
+
+// Démarrer la recherche quand la page est chargée
+document.addEventListener('DOMContentLoaded', () => {
+    initSearchRedirect();
+});
+</script>
+
+
+
+
+
+
+
+<script>
+// ========== CARROUSELS DYNAMIQUES AVEC DONNÉES SUPABASE ==========
+
+// Variables pour stocker les annonces
+let topAnnonces = [];
+let bottomAnnonces = [];
+
+// Initialiser les carrousels avec les annonces de la base
+async function initCarrouselsAvecAnnonces() {
+    try {
+        console.log("🔄 Chargement des annonces pour les carrousels...");
+        
+        // Vérifier que l'API est disponible
+        if (!window.api) {
+            console.log("⏳ Attente du chargement de l'API...");
+            setTimeout(initCarrouselsAvecAnnonces, 500);
+            return;
+        }
+        
+        // Récupérer toutes les annonces
+        const response = await window.api.getAllAnnonces();
+        const toutesAnnonces = response.data || [];
+        
+        if (toutesAnnonces.length === 0) {
+            console.log("⚠️ Aucune annonce disponible pour les carrousels");
+            return;
+        }
+        
+        console.log(`📊 ${toutesAnnonces.length} annonces récupérées`);
+        
+        // Filtrer pour le premier carrousel (Logements populaires · Abidjan)
+        const communesAbidjan = ['cocody', 'plateau', 'marcory', 'treichville', 'adjame', 
+                                 'koumassi', 'port-bouët', 'yopougon', 'abobo', 'anyama', 
+                                 'attécoubé', 'bietry', 'blokauss', 'deux-plateaux', 'riviera',
+                                 'angré', 'cocody angré', 'riviéra', 'marcory', 'treichville'];
+        
+        topAnnonces = toutesAnnonces
+            .filter(annonce => {
+                const ville = (annonce.ville || annonce.Ville || '').toLowerCase();
+                const quartier = (annonce.quartier || annonce.Quartier || '').toLowerCase();
+                return communesAbidjan.some(commune => ville.includes(commune) || quartier.includes(commune)) 
+                    || ville.includes('abidjan');
+            })
+            .slice(0, 8);
+        
+        // Si pas assez d'annonces pour Abidjan, compléter avec d'autres
+        if (topAnnonces.length < 4) {
+            const autres = toutesAnnonces.filter(a => !topAnnonces.includes(a)).slice(0, 8 - topAnnonces.length);
+            topAnnonces = [...topAnnonces, ...autres];
+        }
+        
+        // Filtrer pour le deuxième carrousel (Logements disponibles · San-Pedro)
+        bottomAnnonces = toutesAnnonces
+            .filter(annonce => {
+                const ville = (annonce.ville || annonce.Ville || '').toLowerCase();
+                return ville.includes('san-pedro') || ville.includes('san pedro');
+            })
+            .slice(0, 8);
+        
+        // Si pas assez d'annonces pour San-Pedro, prendre d'autres annonces
+        if (bottomAnnonces.length < 4) {
+            const autres = toutesAnnonces
+                .filter(a => !topAnnonces.includes(a) && !bottomAnnonces.includes(a))
+                .slice(0, 8 - bottomAnnonces.length);
+            bottomAnnonces = [...bottomAnnonces, ...autres];
+        }
+        
+        console.log(`✅ Carrousels: ${topAnnonces.length} annonces top, ${bottomAnnonces.length} annonces bottom`);
+        
+        // Remplir les carrousels
+        remplirCarrouselTop();
+        remplirCarrouselBottom();
+        
+        // Restaurer les favoris
+        restaurerFavorisCarrousel();
+        
+    } catch (error) {
+        console.error("❌ Erreur lors du chargement des carrousels:", error);
+    }
+}
+
+// Remplir le premier carrousel (Top - Abidjan)
+function remplirCarrouselTop() {
+    const container = document.getElementById('topScrollContainer');
+    if (!container) return;
+    
+    const scrollContent = container.querySelector('.scroll-content');
+    if (!scrollContent) return;
+    
+    if (topAnnonces.length === 0) {
+        scrollContent.innerHTML = '<div class="text-center text-gray-500 py-8">Aucune annonce disponible pour Abidjan</div>';
+        return;
+    }
+    
+    scrollContent.innerHTML = topAnnonces.map(annonce => {
+        const id = annonce.id;
+        const titre = annonce.titre || annonce.Titre || 'Sans titre';
+        const typedebien = annonce.typedebien || annonce.Typedebien || 'Logement';
+        const ville = annonce.ville || annonce.Ville || '';
+        const quartier = annonce.quartier || annonce.Quartier || '';
+        const prix = annonce.prix || annonce.Prix;
+        const prixAffiche = prix ? `${prix.toLocaleString()} FCFA` : 'Prix sur demande';
+        
+        // Récupérer la première image
+        let imageUrl = 'https://placehold.co/600x400/e2e8f0/1e293b?text=Loji';
+        if (annonce.photos && Array.isArray(annonce.photos) && annonce.photos.length > 0) {
+            imageUrl = annonce.photos[0].url;
+        } else if (annonce.Galeriephotos?.data && annonce.Galeriephotos.data.length > 0) {
+            imageUrl = annonce.Galeriephotos.data[0].attributes?.url || annonce.Galeriephotos.data[0].url;
+        }
+        
+        // Localisation pour l'affichage
+        const localisation = quartier ? `${quartier}` : ville.split(',')[0] || 'Abidjan';
+        const note = (4.5 + Math.random() * 0.5).toFixed(2);
+        
+        return `
+            <div class="property-card space-y-2 cursor-pointer" onclick="window.location.href='annonce-details-fixed.html?id=${id}'">
+                <div class="relative">
+                    <img alt="${escapeHtml(titre)}" class="w-full h-48 object-cover rounded-lg"
+                        src="${imageUrl}" 
+                        onerror="this.src='https://placehold.co/600x400/e2e8f0/1e293b?text=Loji'" />
+                    <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors" onclick="event.stopPropagation(); toggleFavoriCarrousel(${id}, this)">
+                        <span class="material-icons">favorite_border</span>
+                    </button>
+                    <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded shadow">
+                        Coup de coeur
+                    </div>
+                </div>
+                <h3 class="font-semibold">${escapeHtml(typedebien)} · ${escapeHtml(localisation)}</h3>
+                <p class="text-sm text-gray-600">Location · Particulier</p>
+                <p class="text-sm"><span class="font-semibold">${escapeHtml(prixAffiche)}</span> par mois · ★ ${note}</p>
+            </div>
+        `;
+    }).join('');
+}
+
+// Remplir le deuxième carrousel (Bottom - San-Pedro)
+function remplirCarrouselBottom() {
+    const container = document.getElementById('bottomScrollContainer');
+    if (!container) return;
+    
+    const scrollContent = container.querySelector('.scroll-content');
+    if (!scrollContent) return;
+    
+    if (bottomAnnonces.length === 0) {
+        scrollContent.innerHTML = '<div class="text-center text-gray-500 py-8">Aucune annonce disponible pour San-Pedro</div>';
+        return;
+    }
+    
+    scrollContent.innerHTML = bottomAnnonces.map(annonce => {
+        const id = annonce.id;
+        const titre = annonce.titre || annonce.Titre || 'Sans titre';
+        const typedebien = annonce.typedebien || annonce.Typedebien || 'Logement';
+        const ville = annonce.ville || annonce.Ville || '';
+        const quartier = annonce.quartier || annonce.Quartier || '';
+        const prix = annonce.prix || annonce.Prix;
+        const prixAffiche = prix ? `${prix.toLocaleString()} FCFA` : 'Prix sur demande';
+        
+        // Récupérer la première image
+        let imageUrl = 'https://placehold.co/600x400/e2e8f0/1e293b?text=Loji';
+        if (annonce.photos && Array.isArray(annonce.photos) && annonce.photos.length > 0) {
+            imageUrl = annonce.photos[0].url;
+        } else if (annonce.Galeriephotos?.data && annonce.Galeriephotos.data.length > 0) {
+            imageUrl = annonce.Galeriephotos.data[0].attributes?.url || annonce.Galeriephotos.data[0].url;
+        }
+        
+        const localisation = quartier ? `${quartier}` : ville.split(',')[0] || 'San-Pedro';
+        const note = (4.4 + Math.random() * 0.6).toFixed(2);
+        
+        return `
+            <div class="property-card space-y-2 cursor-pointer" onclick="window.location.href='annonce-details-fixed.html?id=${id}'">
+                <div class="relative">
+                    <img alt="${escapeHtml(titre)}" class="w-full h-48 object-cover rounded-lg"
+                        src="${imageUrl}" 
+                        onerror="this.src='https://placehold.co/600x400/e2e8f0/1e293b?text=Loji'" />
+                    <button class="absolute top-3 right-3 text-white hover:text-red-500 transition-colors" onclick="event.stopPropagation(); toggleFavoriCarrousel(${id}, this)">
+                        <span class="material-icons">favorite_border</span>
+                    </button>
+                    <div class="absolute top-3 left-3 bg-white text-gray-800 text-xs font-bold px-2 py-1 rounded shadow">
+                        Disponible
+                    </div>
+                </div>
+                <h3 class="font-semibold">${escapeHtml(typedebien)} · ${escapeHtml(localisation)}</h3>
+                <p class="text-sm text-gray-600">À partir du mois prochain · Particulier</p>
+                <p class="text-sm"><span class="font-semibold">${escapeHtml(prixAffiche)}</span> par mois · ★ ${note}</p>
+            </div>
+        `;
+    }).join('');
+}
+
+// Gestion des favoris dans les carrousels
+window.toggleFavoriCarrousel = function(id, btn) {
+    btn.classList.toggle('saved');
+    const icon = btn.querySelector('.material-icons');
+    if (icon) {
+        if (btn.classList.contains('saved')) {
+            icon.textContent = 'favorite';
+            icon.style.color = '#ef4444';
+        } else {
+            icon.textContent = 'favorite_border';
+            icon.style.color = 'white';
+        }
+    }
+    
+    // Sauvegarder dans localStorage
+    let favoris = JSON.parse(localStorage.getItem('favoris_carrousel') || '[]');
+    if (btn.classList.contains('saved')) {
+        if (!favoris.includes(id)) favoris.push(id);
+    } else {
+        favoris = favoris.filter(fid => fid !== id);
+    }
+    localStorage.setItem('favoris_carrousel', JSON.stringify(favoris));
+};
+
+// Restaurer l'état des favoris
+function restaurerFavorisCarrousel() {
+    const favoris = JSON.parse(localStorage.getItem('favoris_carrousel') || '[]');
+    document.querySelectorAll('.property-card .relative button').forEach(btn => {
+        const parent = btn.closest('.property-card');
+        if (parent && parent.getAttribute('onclick')) {
+            const match = parent.getAttribute('onclick').match(/id=(\d+)/);
+            if (match && favoris.includes(parseInt(match[1]))) {
+                btn.classList.add('saved');
+                const icon = btn.querySelector('.material-icons');
+                if (icon) {
+                    icon.textContent = 'favorite';
+                    icon.style.color = '#ef4444';
+                }
+            }
+        }
+    });
+}
+
+// Réinitialiser les écouteurs des carrousels pour le défilement
+function reinitCarrouselListeners() {
+    const scrollStep = 320;
+    
+    // Carrousel du haut
+    const topContainer = document.getElementById('topScrollContainer');
+    const prevTop = document.getElementById('prevTop');
+    const nextTop = document.getElementById('nextTop');
+    
+    if (topContainer && prevTop && nextTop) {
+        const newPrevTop = prevTop.cloneNode(true);
+        const newNextTop = nextTop.cloneNode(true);
+        prevTop.parentNode?.replaceChild(newPrevTop, prevTop);
+        nextTop.parentNode?.replaceChild(newNextTop, nextTop);
+        
+        newPrevTop.addEventListener('click', () => {
+            topContainer.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+        });
+        newNextTop.addEventListener('click', () => {
+            topContainer.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        });
+    }
+    
+    // Carrousel du bas
+    const bottomContainer = document.getElementById('bottomScrollContainer');
+    const prevBottom = document.getElementById('prevBottom');
+    const nextBottom = document.getElementById('nextBottom');
+    
+    if (bottomContainer && prevBottom && nextBottom) {
+        const newPrevBottom = prevBottom.cloneNode(true);
+        const newNextBottom = nextBottom.cloneNode(true);
+        prevBottom.parentNode?.replaceChild(newPrevBottom, prevBottom);
+        nextBottom.parentNode?.replaceChild(newNextBottom, nextBottom);
+        
+        newPrevBottom.addEventListener('click', () => {
+            bottomContainer.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+        });
+        newNextBottom.addEventListener('click', () => {
+            bottomContainer.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        });
+    }
+}
+
+// Fonction escapeHtml
+function escapeHtml(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#39;');
+}
+
+// Démarrer l'initialisation au chargement de la page
+document.addEventListener('DOMContentLoaded', function() {
+    // Attendre un peu que l'API soit chargée
+    setTimeout(() => {
+        initCarrouselsAvecAnnonces();
+        setTimeout(reinitCarrouselListeners, 500);
+    }, 500);
+});
+</script>
+
 
 
 </body>
+
 
 
 
